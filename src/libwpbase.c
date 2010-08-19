@@ -6,6 +6,7 @@
 #include <syslog.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 #include "libwpbase.h"
 
 #define EXIT_STATUS_DEFAULT -1
@@ -14,6 +15,8 @@ static bool wp_syslog_status = false;
 static FILE *wp_error_of = NULL;
 
 static void error_do (bool errnoflag, int level, const char *fmt, va_list ap);
+static void output_message (int level, const char *msg);
+
 
 void wp_message (const char *fmt, ...)
 {
@@ -51,6 +54,8 @@ void wp_critical (const char *fmt, ...)
 	va_start (ap, fmt);
 	error_do (false, LOG_ERR, fmt, ap);
 	va_end (ap);
+
+	output_message (LOG_ERR, "terminated");
 	
 	exit (EXIT_STATUS_DEFAULT);
 }
@@ -92,6 +97,8 @@ void wp_sys_critical (const char *fmt, ...)
 	error_do (true, LOG_ERR, fmt, ap);
 	va_end (ap);
 	
+	output_message (LOG_ERR, "terminated");
+
 	exit (EXIT_STATUS_DEFAULT);
 }
 
@@ -121,6 +128,19 @@ FILE *wp_get_output_file (void)
 	return wp_error_of;
 }
 
+static void output_message (int level, const char *msg)
+{
+	if (wp_syslog_status) 
+	{
+		syslog (level, msg);
+	}
+	else 
+	{
+		fflush (stdout);
+		fputs (msg, ((wp_error_of == NULL) ? stderr : wp_error_of));
+		fflush (stderr);
+	}
+}
 
 static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
 {
@@ -137,16 +157,7 @@ static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
 		snprintf (buf + n, (WP_BUF_SIZE - n), ": %s", strerror (errno_save));
 	strcat (buf, "\n");
 
-	if (wp_syslog_status) 
-	{
-		syslog (level, buf);
-	}
-	else 
-	{
-		fflush (stdout);
-		fputs (buf, ((wp_error_of == NULL) ? stderr : wp_error_of));
-		fflush (stderr);
-	}
+	output_message (level, buf);
 
 	return;
 }
