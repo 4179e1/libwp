@@ -1,4 +1,4 @@
-AM_CFLAGS = -Wall
+AM_CFLAGS = -Wall -std=c99
 
 ACLOCAL_AMFLAGS = -I m4
 
