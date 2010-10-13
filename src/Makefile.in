@@ -85,7 +85,7 @@ libwpstdc_la_LIBADD =
 am_libwpstdc_la_OBJECTS = libwpstdc.lo
 libwpstdc_la_OBJECTS = $(am_libwpstdc_la_OBJECTS)
 libwpunix_la_LIBADD =
-am_libwpunix_la_OBJECTS = libwpunix.lo
+am_libwpunix_la_OBJECTS = libwpunix.lo libwpunix_rio.lo
 libwpunix_la_OBJECTS = $(am_libwpunix_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -117,7 +117,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-CC = @CC@
+CC = clang
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
@@ -227,7 +227,7 @@ WP_LIBS = libwpbase.la libwpstdc.la libwpunix.la libwpsocket.la libwppthread.la
 lib_LTLIBRARIES = $(WP_LIBS)
 libwpbase_la_SOURCES = libwpbase.c libwpbase.h
 libwpstdc_la_SOURCES = libwpstdc.c libwpstdc.h
-libwpunix_la_SOURCES = libwpunix.c libwpunix.h
+libwpunix_la_SOURCES = libwpunix.c libwpunix.h libwpunix_rio.c
 libwpsocket_la_SOURCES = libwpsocket.c libwpsocket.h
 libwppthread_la_SOURCES = libwppthread.c libwppthread.h
 include_HEADERS = libwp.h libwpbase.h libwppthread.h libwpsocket.h libwpstdc.h libwpunix.h
@@ -336,6 +336,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpsocket.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpstdc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpunix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpunix_rio.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

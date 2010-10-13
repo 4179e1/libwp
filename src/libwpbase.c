@@ -6,17 +6,38 @@
 #include <syslog.h>
 #include <errno.h>
 #include <unistd.h>
-#include <string.h>
 #include "libwpbase.h"
 
 #define EXIT_STATUS_DEFAULT -1
 
-static bool wp_syslog_status = false;
+static const char *error_name[] =
+{
+	"EMERGENCE",
+	"ALERT",
+	"CRITICAL",
+	"ERROR",
+	"WARNING",
+	"NOTICE",
+	"MESSAGE",
+	"DEBUG",
+};
+
+static const char *wp_name = "WP";
 static FILE *wp_error_of = NULL;
+static bool wp_syslog_status = false;
+static int wp_exit_level = LOG_CRIT;
 
 static void error_do (bool errnoflag, int level, const char *fmt, va_list ap);
-static void output_message (int level, const char *msg);
 
+void wp_debug (const char *fmt, ...)
+{
+#ifndef NDEBUG
+	va_list ap;
+	va_start (ap, fmt);
+	error_do (false, LOG_DEBUG, fmt, ap);
+	va_end (ap);
+#endif /* NDEBUG */
+}
 
 void wp_message (const char *fmt, ...)
 {
@@ -52,12 +73,18 @@ void wp_critical (const char *fmt, ...)
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (false, LOG_ERR, fmt, ap);
+	error_do (false, LOG_CRIT, fmt, ap);
 	va_end (ap);
+}
 
-	output_message (LOG_ERR, "terminated");
-	
-	exit (EXIT_STATUS_DEFAULT);
+void wp_sys_debug (const char *fmt, ...)
+{
+#ifndef NDEBUG
+	va_list ap;
+	va_start (ap, fmt);
+	error_do (true, LOG_DEBUG, fmt, ap);
+	va_end (ap);
+#endif /* NDEBUG */
 }
 
 void wp_sys_message (const char *fmt, ...)
@@ -94,12 +121,8 @@ void wp_sys_critical (const char *fmt, ...)
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (true, LOG_ERR, fmt, ap);
+	error_do (true, LOG_CRIT, fmt, ap);
 	va_end (ap);
-	
-	output_message (LOG_ERR, "terminated");
-
-	exit (EXIT_STATUS_DEFAULT);
 }
 
 void wp_syslog_on (void) 
@@ -128,18 +151,31 @@ FILE *wp_get_output_file (void)
 	return wp_error_of;
 }
 
-static void output_message (int level, const char *msg)
+void wp_set_name (const char *name)
 {
-	if (wp_syslog_status) 
+	wp_name = name;
+}
+
+int wp_set_exit_level (int level)
+{
+	if (level < WP_LOG_CRITICAL)
 	{
-		syslog (level, msg);
+		level = WP_LOG_CRITICAL;
 	}
-	else 
+
+	if (level > WP_LOG_MESSAGE)
 	{
-		fflush (stdout);
-		fputs (msg, ((wp_error_of == NULL) ? stderr : wp_error_of));
-		fflush (stderr);
+		level = WP_LOG_MESSAGE;
 	}
+
+	wp_exit_level = level;
+
+	return level;
+}
+
+int wp_get_exit_level (void)
+{
+	return wp_exit_level;
 }
 
 static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
@@ -150,14 +186,46 @@ static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
 
 	errno_save = errno;
 
-	vsnprintf (buf, WP_BUF_SIZE, fmt, ap);
-
+	if (wp_syslog_status)
+	{
+		snprintf (buf, WP_BUF_SIZE, "<%s> ", error_name[level]);
+	}
+	else
+	{
+		snprintf (buf, WP_BUF_SIZE, "<%s-%s> ", wp_name ? wp_name : "LIBWP", error_name[level]);
+	}
 	n = strlen (buf);
+	
+	vsnprintf ((buf + n), (WP_BUF_SIZE - n), fmt, ap);
+
 	if (errnoflag)
-		snprintf (buf + n, (WP_BUF_SIZE - n), ": %s", strerror (errno_save));
+	{
+		n = strlen (buf);
+		snprintf ((buf + n), (WP_BUF_SIZE - n), ": %s", strerror (errno_save));
+	}
+
+	if (level <= wp_exit_level)
+	{
+		strncat (buf, " <will exit now>", WP_BUF_SIZE - strlen (buf));
+	}
+
 	strcat (buf, "\n");
 
-	output_message (level, buf);
+	if (wp_syslog_status) 
+	{
+		syslog (level, "%s", buf);
+	}
+	else 
+	{
+		fflush (stdout);
+		fputs (buf, ((wp_error_of == NULL) ? stderr : wp_error_of));
+		fflush (stderr);
+	}
+
+	if (level <= wp_exit_level)
+	{
+		exit (EXIT_STATUS_DEFAULT);
+	}
 
 	return;
 }

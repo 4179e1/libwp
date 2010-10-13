@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include "libwpstdc.h"
 #include "libwpbase.h"
 
@@ -385,19 +383,3 @@ int wp_unsetenv (const char *name)
 	return n;
 }
 
-char *wp_strdup (const char *str)
-{
-	char *new_str;
-	size_t size = strlen (str);
-
-	new_str = (char *)wp_malloc (size);
-	if (new_str == NULL)
-	{
-		wp_error ("wp_strdup() error");
-		return NULL;
-	}
-
-	memcpy (new_str, str, size);
-
-	return new_str;
-}

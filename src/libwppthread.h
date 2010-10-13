@@ -3,6 +3,7 @@
 
 #include <pthread.h>
 #include <signal.h>
+#include <semaphore.h>
 
 int wp_pthread_create (pthread_t *tidp, const pthread_attr_t *attr, void *(*start_rtn) (void *), void *arg);
 int wp_pthread_join (pthread_t thread, void **rval_ptr);
@@ -77,5 +78,15 @@ int wp_pthread_setcanceltype (int type, int *oldtype);
 int wp_phtread_sigmask (int how, const sigset_t *set, sigset_t *oset);
 int wp_pthread_kill (pthread_t thread, int signo);
 int wp_pthread_atfork (void (*prepare) (void), void (*parent) (void), void (*child) (void));
+
+/* semaphore */
+int wp_sem_init (sem_t *sem, int pshared, unsigned int value);
+int wp_sem_destroy (sem_t *s);
+int wp_sem_wait (sem_t *s);
+int wp_sem_trywait (sem_t *s);
+int wp_sem_post (sem_t *s);
+
+#define P(S) (wp_sem_wait(S))
+#define V(S) (wp_sem_post(S))
 
 #endif /* _WPPTHREAD_H */

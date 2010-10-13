@@ -1,5 +1,10 @@
+#include <string.h>
+#include <errno.h>
 #include "libwpsocket.h"
 #include "libwpbase.h"
+#include "libwpunix.h"
+
+#define LISTENQ 1024
 
 int wp_socket (int domain, int type, int protocol)
 {
@@ -159,7 +164,7 @@ int wp_connect (int sockfd, const struct sockaddr *addr, socklen_t len)
 {
 	int n;
 	if ((n = connect (sockfd, addr, len)) == -1)
-		wp_warning ("connect() error");
+		wp_warning ("connect() error %s", strerror (errno));
 	return n;
 }
 
@@ -249,4 +254,104 @@ int wp_sockatmark (int sockfd)
 	if ((n = sockatmark (sockfd)) == -1)
 		wp_warning ("sockatmark() error");
 	return n;
+}
+
+struct hostent *wp_gethostbyname (const char *name)
+{
+	struct hostent *p;
+
+	if ((p = gethostbyname (name)) == NULL)
+	{
+		wp_warning ("%s() error: %d", __func__, h_errno);
+	}
+	return p;
+}
+
+int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout)
+{
+	int n;
+	if ((n = select (nfds, readfds, writefds, errorfds, timeout)) == -1)
+	{
+		wp_sys_func_warning();
+	}
+	return n;
+}
+
+struct hostent *wp_gethostbyaddr (const char *addr, int len, int type)
+{
+	struct hostent *p;
+
+	if ((p = gethostbyaddr (addr, len, type)) == NULL)
+	{
+		wp_warning ("%s() error: %d", __func__, h_errno);
+	}
+	return p;
+}
+
+int wp_open_clientfd (char *ip, int port)
+{
+	int clientfd;
+	struct hostent *hp;
+	struct sockaddr_in servaddr;
+
+	memset (&servaddr, 0, sizeof (servaddr));
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_port = htons (port);
+	if (inet_pton (AF_INET, ip, &servaddr.sin_addr) <= 0)
+	{
+		wp_message ("Address is not a dotted decimal, will check if it is a hostname");
+
+		if ((hp = wp_gethostbyname (ip)) == NULL)
+		{
+			wp_warning ("%s: not a valid address", __func__);
+			return -2;
+		}
+		memcpy (&(servaddr.sin_addr.s_addr), hp->h_addr, hp->h_length);
+	}
+
+	if ((clientfd = wp_socket (AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+		return -2;
+	}
+
+	if (wp_connect (clientfd, (struct sockaddr*)&servaddr, sizeof (servaddr)) < 0)
+	{
+		wp_close (clientfd);
+		return -3;
+	}
+
+	return clientfd;
+}
+
+int wp_open_listenfd (int port)
+{
+	int listenfd, optval = 1;
+	struct sockaddr_in servaddr;
+
+	if ((listenfd = wp_socket (AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+		return -1;
+	}
+
+	if (wp_setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval, sizeof (int)) < 0)
+	{
+		return -1;
+	}
+
+	memset (&servaddr, 0, sizeof (servaddr));
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+	servaddr.sin_port = htons ((unsigned short)port);
+
+	if (wp_bind (listenfd, (struct sockaddr*)&servaddr, sizeof (servaddr)) < 0)
+	{
+		return -1;
+	}
+
+	if (wp_listen (listenfd, LISTENQ) < 0)
+	{
+		return -1;
+	}
+
+	return listenfd;
 }
