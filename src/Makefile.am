@@ -2,8 +2,6 @@ AM_CFLAGS = -Wall
 
 ACLOCAL_AMFLAGS = -I m4
 
-CC = clang
-
 WP_LIBS = libwpbase.la libwpstdc.la libwpunix.la libwpsocket.la libwppthread.la
 
 lib_LTLIBRARIES = $(WP_LIBS)
