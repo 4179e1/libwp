@@ -182,3 +182,7 @@ ssize_t wp_rio_readnb (Rio *rp, void *usrbuf, size_t n)
 	return (n - nleft);
 }
 
+ssize_t wp_rio_writen (Rio *rio, void *ptr, size_t n)
+{
+	return wp_writen (rio->wp_rio_fd, ptr, n);
+}

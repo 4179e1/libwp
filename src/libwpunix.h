@@ -217,6 +217,6 @@ void wp_rio_free (Rio* rp);
 
 ssize_t wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen);
 ssize_t wp_rio_readnb (Rio *rp, void *usrbuf, size_t n);
-
+ssize_t wp_rio_writen (Rio *rp, void *ptr, size_t n);
 
 #endif /* _WPUNIX_H */
