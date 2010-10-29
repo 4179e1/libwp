@@ -182,7 +182,7 @@ static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
 {
 	int errno_save;
 	int n;
-	char buf[WP_BUF_SIZE];
+	char buf[WP_BUF_SIZE + 1];
 
 	errno_save = errno;
 
@@ -209,14 +209,16 @@ static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
 		strncat (buf, " <will exit now>", WP_BUF_SIZE - strlen (buf));
 	}
 
-	strcat (buf, "\n");
-
 	if (wp_syslog_status) 
 	{
 		syslog (level, "%s", buf);
 	}
 	else 
 	{
+		if (buf[strlen(buf) - 1] != '\n')
+		{
+			strcat (buf, "\n");
+		}
 		fflush (stdout);
 		fputs (buf, ((wp_error_of == NULL) ? stderr : wp_error_of));
 		fflush (stderr);
