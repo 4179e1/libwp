@@ -1,4 +1,5 @@
 #include <string.h>
+#include <errno.h>
 #include "libwppthread.h"
 #include "libwpbase.h"
 
@@ -157,7 +158,7 @@ int wp_pthread_cond_wait (pthread_cond_t *cond, pthread_mutex_t *mutex)
 int wp_pthread_cond_timedwait (pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *timeout)
 {
 	int n;
-	if ((n = pthread_cond_timedwait (cond, mutex, timeout)) != 0)
+	if (((n = pthread_cond_timedwait (cond, mutex, timeout)) != 0) && (n != ETIMEDOUT))
 		wp_pthread_warning(n);
 	return n;
 }

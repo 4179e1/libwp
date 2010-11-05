@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #include "libwpstdc.h"
 #include "libwpbase.h"
 
@@ -65,7 +67,7 @@ FILE *wp_fopen (const char *path, const char *type)
 {
 	FILE *file;
 	if ((file = fopen (path, type)) == NULL)
-		wp_func_warning();
+		wp_warning ("%s(%s) error: %s", __func__, path, strerror (errno));
 	return file;
 }
 
