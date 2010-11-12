@@ -186,3 +186,9 @@ ssize_t wp_rio_writen (Rio *rio, void *ptr, size_t n)
 {
 	return wp_writen (rio->wp_rio_fd, ptr, n);
 }
+
+int wp_rio_getfd (Rio *rio)
+{
+	assert (rio != NULL);
+	return rio->wp_rio_fd;
+}
