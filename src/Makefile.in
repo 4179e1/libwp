@@ -72,21 +72,10 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libwpbase_la_LIBADD =
-am_libwpbase_la_OBJECTS = libwpbase.lo
-libwpbase_la_OBJECTS = $(am_libwpbase_la_OBJECTS)
-libwppthread_la_LIBADD =
-am_libwppthread_la_OBJECTS = libwppthread.lo
-libwppthread_la_OBJECTS = $(am_libwppthread_la_OBJECTS)
-libwpsocket_la_LIBADD =
-am_libwpsocket_la_OBJECTS = libwpsocket.lo
-libwpsocket_la_OBJECTS = $(am_libwpsocket_la_OBJECTS)
-libwpstdc_la_LIBADD =
-am_libwpstdc_la_OBJECTS = libwpstdc.lo
-libwpstdc_la_OBJECTS = $(am_libwpstdc_la_OBJECTS)
-libwpunix_la_LIBADD =
-am_libwpunix_la_OBJECTS = libwpunix.lo libwpunix_rio.lo
-libwpunix_la_OBJECTS = $(am_libwpunix_la_OBJECTS)
+libwp_la_LIBADD =
+am_libwp_la_OBJECTS = wpbase.lo wppthread.lo wpsocket.lo wpstdc.lo \
+	wpunix.lo wpunix_rio.lo
+libwp_la_OBJECTS = $(am_libwp_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -100,12 +89,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libwpbase_la_SOURCES) $(libwppthread_la_SOURCES) \
-	$(libwpsocket_la_SOURCES) $(libwpstdc_la_SOURCES) \
-	$(libwpunix_la_SOURCES)
-DIST_SOURCES = $(libwpbase_la_SOURCES) $(libwppthread_la_SOURCES) \
-	$(libwpsocket_la_SOURCES) $(libwpstdc_la_SOURCES) \
-	$(libwpunix_la_SOURCES)
+SOURCES = $(libwp_la_SOURCES)
+DIST_SOURCES = $(libwp_la_SOURCES)
 HEADERS = $(include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -223,14 +208,9 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -Wall
 ACLOCAL_AMFLAGS = -I m4
-WP_LIBS = libwpbase.la libwpstdc.la libwpunix.la libwpsocket.la libwppthread.la
-lib_LTLIBRARIES = $(WP_LIBS)
-libwpbase_la_SOURCES = libwpbase.c libwpbase.h
-libwpstdc_la_SOURCES = libwpstdc.c libwpstdc.h
-libwpunix_la_SOURCES = libwpunix.c libwpunix.h libwpunix_rio.c
-libwpsocket_la_SOURCES = libwpsocket.c libwpsocket.h
-libwppthread_la_SOURCES = libwppthread.c libwppthread.h
-include_HEADERS = libwp.h libwpbase.h libwppthread.h libwpsocket.h libwpstdc.h libwpunix.h
+lib_LTLIBRARIES = libwp.la
+libwp_la_SOURCES = wpbase.c wppthread.c wpsocket.c wpstdc.c wpunix.c wpunix_rio.c libwp.h wpbase.h wppthread.h wpsocket.h wpstdc.h wpunix.h
+include_HEADERS = libwp.h wpbase.h wppthread.h wpsocket.h wpstdc.h wpunix.h
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -314,16 +294,8 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libwpbase.la: $(libwpbase_la_OBJECTS) $(libwpbase_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwpbase_la_OBJECTS) $(libwpbase_la_LIBADD) $(LIBS)
-libwppthread.la: $(libwppthread_la_OBJECTS) $(libwppthread_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwppthread_la_OBJECTS) $(libwppthread_la_LIBADD) $(LIBS)
-libwpsocket.la: $(libwpsocket_la_OBJECTS) $(libwpsocket_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwpsocket_la_OBJECTS) $(libwpsocket_la_LIBADD) $(LIBS)
-libwpstdc.la: $(libwpstdc_la_OBJECTS) $(libwpstdc_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwpstdc_la_OBJECTS) $(libwpstdc_la_LIBADD) $(LIBS)
-libwpunix.la: $(libwpunix_la_OBJECTS) $(libwpunix_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwpunix_la_OBJECTS) $(libwpunix_la_LIBADD) $(LIBS)
+libwp.la: $(libwp_la_OBJECTS) $(libwp_la_DEPENDENCIES) 
+	$(LINK) -rpath $(libdir) $(libwp_la_OBJECTS) $(libwp_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -331,12 +303,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpbase.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwppthread.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpsocket.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpstdc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpunix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwpunix_rio.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpbase.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wppthread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpsocket.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpstdc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpunix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpunix_rio.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

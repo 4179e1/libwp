@@ -6,7 +6,7 @@
 #include <syslog.h>
 #include <errno.h>
 #include <unistd.h>
-#include "libwpbase.h"
+#include "wpbase.h"
 
 #define EXIT_STATUS_DEFAULT -1
 
@@ -31,12 +31,10 @@ static void error_do (bool errnoflag, int level, const char *fmt, va_list ap);
 
 void wp_debug (const char *fmt, ...)
 {
-#ifndef NDEBUG
 	va_list ap;
 	va_start (ap, fmt);
 	error_do (false, LOG_DEBUG, fmt, ap);
 	va_end (ap);
-#endif /* NDEBUG */
 }
 
 void wp_message (const char *fmt, ...)

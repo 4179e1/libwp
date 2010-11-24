@@ -1,7 +1,7 @@
 #include <string.h>
 #include <errno.h>
-#include "libwppthread.h"
-#include "libwpbase.h"
+#include "wppthread.h"
+#include "wpbase.h"
 
 int wp_pthread_create (pthread_t *tidp, const pthread_attr_t *attr, void *(*start_rtn) (void *), void *arg)
 {
@@ -393,7 +393,7 @@ int wp_pthread_once (pthread_once_t *initflag, void (*initfn)(void))
 	return n;
 }
 
-void *wp_pthread_getspecific (pthread_key_t key)
+void *wp_pthread_getspecific (pthread_key_t key) /*@null@*/
 {
 	void *p;
 	if ((p = pthread_getspecific (key)) == NULL)

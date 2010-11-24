@@ -29,7 +29,11 @@
 #define WP_LOG_DEBUG	7
 
 /* error process */
+#ifndef NDEBUG
 void wp_debug (const char *fmt, ...);
+#else
+#define wp_debug(...) ((void)0)
+#endif /* NDEBUG */
 void wp_message (const char *fmt, ...);
 void wp_warning (const char *fmt, ...);
 void wp_error (const char *fmt, ...);

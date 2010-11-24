@@ -6,9 +6,9 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <assert.h>
-#include "libwpunix.h"
-#include "libwpbase.h"
-#include "libwpstdc.h"
+#include "wpunix.h"
+#include "wpbase.h"
+#include "wpstdc.h"
 
 int wp_chdir (const char *pathname)
 {

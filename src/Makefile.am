@@ -2,14 +2,8 @@ AM_CFLAGS = -Wall
 
 ACLOCAL_AMFLAGS = -I m4
 
-WP_LIBS = libwpbase.la libwpstdc.la libwpunix.la libwpsocket.la libwppthread.la
+lib_LTLIBRARIES = libwp.la
 
-lib_LTLIBRARIES = $(WP_LIBS)
+libwp_la_SOURCES = wpbase.c wppthread.c wpsocket.c wpstdc.c wpunix.c wpunix_rio.c libwp.h wpbase.h wppthread.h wpsocket.h wpstdc.h wpunix.h
 
-libwpbase_la_SOURCES = libwpbase.c libwpbase.h
-libwpstdc_la_SOURCES = libwpstdc.c libwpstdc.h
-libwpunix_la_SOURCES = libwpunix.c libwpunix.h libwpunix_rio.c
-libwpsocket_la_SOURCES = libwpsocket.c libwpsocket.h
-libwppthread_la_SOURCES = libwppthread.c libwppthread.h
-
-include_HEADERS = libwp.h libwpbase.h libwppthread.h libwpsocket.h libwpstdc.h libwpunix.h
+include_HEADERS = libwp.h wpbase.h wppthread.h wpsocket.h wpstdc.h wpunix.h

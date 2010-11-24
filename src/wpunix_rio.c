@@ -3,9 +3,9 @@
 #include <assert.h>
 #include <errno.h>
 #include <unistd.h>
-#include "libwpunix.h"
-#include "libwpbase.h"
-#include "libwpstdc.h"
+#include "wpunix.h"
+#include "wpbase.h"
+#include "wpstdc.h"
 
 #define RIO_BUFSIZE 8192
 
