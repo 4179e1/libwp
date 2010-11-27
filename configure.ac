@@ -6,6 +6,7 @@ AC_INIT([libwp],[0.0.1],[4179e1@gmail.com])
 AC_CONFIG_SRCDIR([src/wpbase.c])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([gnu -Wall -Werror])
 LT_INIT
 
