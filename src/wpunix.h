@@ -207,10 +207,22 @@ void wp_timer_start (WpTimer *t);
 double wp_timer_elapse (WpTimer *t);
 
 /* rio */
-ssize_t wp_readn (int fd, void *ptr, size_t n);
-ssize_t wp_writen (int fd, void *ptr, size_t n);
+ssize_t _wp_readn (int fd, void *ptr, size_t n);
+ssize_t _wp_writen (int fd, void *ptr, size_t n);
 
 typedef struct _rio Rio;
+
+Rio *_wp_rio_new (int fd);
+void _wp_rio_free (Rio* rp);
+
+ssize_t _wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen);
+ssize_t _wp_rio_readnb (Rio *rp, void *usrbuf, size_t n);
+ssize_t _wp_rio_writen (Rio *rp, void *ptr, size_t n);
+#define _wp_rio_readline _wp_rio_readlineb
+#define _wp_rio_readnb _wp_rio_readnb
+
+ssize_t wp_readn (int fd, void *ptr, size_t n);
+ssize_t wp_writen (int fd, void *ptr, size_t n);
 
 Rio *wp_rio_new (int fd);
 void wp_rio_free (Rio* rp);
@@ -218,6 +230,8 @@ void wp_rio_free (Rio* rp);
 ssize_t wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen);
 ssize_t wp_rio_readnb (Rio *rp, void *usrbuf, size_t n);
 ssize_t wp_rio_writen (Rio *rp, void *ptr, size_t n);
+#define wp_rio_readline wp_rio_readlineb
+#define wp_rio_readnb wp_rio_readnb
 
 int wp_rio_getfd (Rio *rp);
 

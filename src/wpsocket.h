@@ -48,11 +48,15 @@ int wp_setsockopt (int sockfd, int level, int option, const void *val, socklen_t
 int wp_getsockopt (int sockfd, int level, int option, void *val, socklen_t *lenp);
 int wp_sockatmark (int sockfd);
 
+#if 0
 struct hostent *wp_gethostbyname (const char *name);
+#endif
 struct hostent *wp_gethostbyaddr (const char *addr, int len, int type);
 
 int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
 
+int _wp_open_clientfd (char *address, int port);
+int _wp_open_listenfd (int port);
 int wp_open_clientfd (char *address, int port);
 int wp_open_listenfd (int port);
 #endif /* _WPSOCKET_H */

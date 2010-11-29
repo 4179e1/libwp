@@ -19,7 +19,7 @@ struct _rio
 
 static ssize_t wp_rio_read (Rio *rp, char *usrbuf, size_t n);
 
-ssize_t wp_readn (int fd, void *ptr, size_t n)
+ssize_t _wp_readn (int fd, void *ptr, size_t n)
 {
 	size_t nleft = n;
 	ssize_t nread;
@@ -49,7 +49,7 @@ ssize_t wp_readn (int fd, void *ptr, size_t n)
 	return (n - nleft);
 }
 
-ssize_t wp_writen (int fd, void *ptr, size_t n)
+ssize_t _wp_writen (int fd, void *ptr, size_t n)
 {
 	size_t nleft = n;
 	size_t nwritten;
@@ -75,7 +75,7 @@ ssize_t wp_writen (int fd, void *ptr, size_t n)
 }
 
 
-Rio *wp_rio_new (int fd)
+Rio *_wp_rio_new (int fd)
 {
 	Rio *rp = wp_malloc (sizeof (Rio));
 	if (rp == NULL)
@@ -90,7 +90,6 @@ Rio *wp_rio_new (int fd)
 
 void wp_rio_free (Rio* rp)
 {
-	assert (rp != NULL);
 	free (rp);
 }
 
@@ -129,7 +128,7 @@ static ssize_t wp_rio_read (Rio *rp, char *usrbuf, size_t n)
 	return cnt;
 }
 
-ssize_t wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen)
+ssize_t _wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen)
 {
 	int n, rc;
 	char c;
@@ -158,7 +157,7 @@ ssize_t wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen)
 	return n;
 }
 
-ssize_t wp_rio_readnb (Rio *rp, void *usrbuf, size_t n)
+ssize_t _wp_rio_readnb (Rio *rp, void *usrbuf, size_t n)
 {
 	size_t nleft = n;
 	ssize_t nread;
@@ -182,7 +181,7 @@ ssize_t wp_rio_readnb (Rio *rp, void *usrbuf, size_t n)
 	return (n - nleft);
 }
 
-ssize_t wp_rio_writen (Rio *rio, void *ptr, size_t n)
+ssize_t _wp_rio_writen (Rio *rio, void *ptr, size_t n)
 {
 	return wp_writen (rio->wp_rio_fd, ptr, n);
 }
@@ -191,4 +190,52 @@ int wp_rio_getfd (Rio *rio)
 {
 	assert (rio != NULL);
 	return rio->wp_rio_fd;
+}
+
+ssize_t wp_readn (int fd, void *ptr, size_t n)
+{
+	ssize_t z;
+	if ((z = _wp_readn (fd, ptr, n)) < 0)
+		wp_sys_func_warning ();
+	return z;
+}
+
+ssize_t wp_writen (int fd, void *ptr, size_t n)
+{
+	ssize_t z;
+	if ((z = _wp_writen (fd, ptr, n)) < 0)
+		wp_sys_func_warning ();
+	return z;
+}
+
+Rio *wp_rio_new (int fd)
+{
+	Rio *r;
+	if ((r = _wp_rio_new (fd)) == NULL)
+		wp_sys_func_warning ();
+	return r;
+}
+
+ssize_t wp_rio_readlineb (Rio *rp, void *usrbuf, size_t maxlen)
+{
+	ssize_t z;
+	if ((z = _wp_rio_readlineb (rp, usrbuf, maxlen)) < 0)
+		wp_sys_func_warning ();
+	return z;
+}
+
+ssize_t wp_rio_readnb (Rio *rp, void *usrbuf, size_t n)
+{
+	ssize_t z;
+	if ((z = _wp_rio_readnb (rp, usrbuf, n)) < 0)
+		wp_sys_func_warning ();
+	return z;
+}
+
+ssize_t wp_rio_writen (Rio *rp, void *ptr, size_t n)
+{
+	ssize_t z;
+	if ((z = _wp_rio_writen (rp, ptr, n)) < 0)
+		wp_sys_func_warning ();
+	return z;
 }
