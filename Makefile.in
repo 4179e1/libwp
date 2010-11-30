@@ -219,7 +219,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src
-EXTRA_DIST = libwp.spec.in build-aux/config.rpath
+EXTRA_DIST = libwp.spec.in
 all: all-recursive
 
 .SUFFIXES:

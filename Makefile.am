@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src
 
-EXTRA_DIST = libwp.spec.in build-aux/config.rpath
+EXTRA_DIST = libwp.spec.in
 
 rpm: dist
 	mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
