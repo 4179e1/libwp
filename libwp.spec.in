@@ -1,0 +1,79 @@
+#
+# spec file for package [spectemplate]
+#
+# Copyright (c) 2010 SUSE LINUX Products GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via http://bugs.opensuse.org/
+#
+# norootforbuild
+
+Name:           @PACKAGE@
+Version:        @VERSION@
+Release:        @RELEASE@
+Summary:        The wrapper library for Linux
+
+Group:          Development/Libraries
+License:        GPL
+URL:            http://dev.poetpalace.org
+Source0:        %{name}-%{version}.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
+BuildRequires:  automake >= 1.10
+#Requires:       
+# BuildArch:      noarch
+
+%description
+libwp is library that warps commmon functions in standard C, Linux system, POSIX, and BSD socket.
+
+%package devel
+Group:          Development/Libraries
+Summary:        The wrapper library for Linux
+Requires:		@PACKAGE@ = @VERSION@
+
+%description devel
+libwp is library that warps commmon functions in standard C, Linux system, POSIX, and BSD socket
+
+%post -p /sbin/ldconfig
+
+%prep
+%setup -q
+./configure --prefix=%{_prefix}
+
+%build
+make %{?_smp_mflags}
+
+%install
+make install-strip DESTDIR=%{buildroot}
+
+%postun -p /sbin/ldconfig
+
+%clean
+rm -rf %{buildroot}
+
+%files
+%defattr(-,root,root,-)
+#%doc README
+%{_prefix}/lib/libwp.so.0
+%{_prefix}/lib/libwp.so.0.0.0
+%{_prefix}/lib/libwp.la
+
+%files devel
+%defattr(-,root,root,-)
+#%doc README
+%{_prefix}/include/*
+%{_prefix}/lib/libwp.a
+%{_prefix}/lib/libwp.so
+
+
+%changelog
+*Sun Nov 28 2010 Lyre <lyre@poetpalace.org> 0.0.1
+–Initial Release
