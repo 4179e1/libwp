@@ -10513,7 +10513,7 @@ CC="$lt_save_CC"
 
 
 
-RELEASE="1"
+RELEASE="1.1"
 
 
 # Checks for programs.
@@ -12628,7 +12628,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files libwp.spec Makefile src/Makefile"
+ac_config_files="$ac_config_files libwp.spec libwp.pc wppthread.pc Makefile src/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -13603,6 +13603,8 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "libwp.spec") CONFIG_FILES="$CONFIG_FILES libwp.spec" ;;
+    "libwp.pc") CONFIG_FILES="$CONFIG_FILES libwp.pc" ;;
+    "wppthread.pc") CONFIG_FILES="$CONFIG_FILES wppthread.pc" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
 

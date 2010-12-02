@@ -10,7 +10,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([gnu -Wall -Werror])
 LT_INIT
 
-RELEASE="1"
+RELEASE="1.1"
 AC_SUBST(RELEASE)
 
 # Checks for programs.
@@ -45,5 +45,5 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strerror uname utime])
 
-AC_CONFIG_FILES([libwp.spec Makefile src/Makefile])
+AC_CONFIG_FILES([libwp.spec libwp.pc wppthread.pc Makefile src/Makefile])
 AC_OUTPUT

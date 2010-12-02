@@ -1,7 +1,10 @@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src
 
-EXTRA_DIST = libwp.spec.in
+instdir = ${libdir}/pkgconfig
+inst_DATA = libwp.pc wppthread.pc
+
+EXTRA_DIST = libwp.spec.in libwp.pc.in wppthread.pc.in
 
 rpm: dist
 	mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}

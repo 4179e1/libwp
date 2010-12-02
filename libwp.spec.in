@@ -62,16 +62,21 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 #%doc README
-%{_prefix}/lib/libwp.so.0
-%{_prefix}/lib/libwp.so.0.0.0
-%{_prefix}/lib/libwp.la
+%{_libdir}/libwp.so.0
+%{_libdir}/libwp.so.0.0.0
+%{_libdir}/libwppthread.so.0
+%{_libdir}/libwppthread.so.0.0.0
 
 %files devel
 %defattr(-,root,root,-)
 #%doc README
-%{_prefix}/include/*
-%{_prefix}/lib/libwp.a
-%{_prefix}/lib/libwp.so
+%{_includedir}/*.h
+%{_libdir}/libwp.a
+%{_libdir}/libwp.so
+%{_libdir}/libwppthread.a
+%{_libdir}/libwppthread.so
+%{_libdir}/pkgconfig/libwp.pc
+%{_libdir}/pkgconfig/wppthread.pc
 
 
 %changelog
