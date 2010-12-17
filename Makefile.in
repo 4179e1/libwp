@@ -167,6 +167,7 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
@@ -754,11 +755,11 @@ uninstall-am: uninstall-instDATA
 	uninstall uninstall-am uninstall-instDATA
 
 
-rpm: dist
+rpm: dist-bzip2
 	mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-	cp @PACKAGE@-@VERSION@.tar.gz ~/rpmbuild/SOURCES/
+	cp @PACKAGE@-@VERSION@.tar.bz2 ~/rpmbuild/SOURCES/
 	rpmbuild -ba libwp.spec
-	rm -rf ~/rpmbuild/SOURCES/@PACKAGE@-@VERSION@.tar.gz
+	rm -rf ~/rpmbuild/SOURCES/@PACKAGE@-@VERSION@.tar.bz2
 	rm -rf ~/rpmbuild/BUILD/@PACKAGE@-@VERSION@
 	mv `find ~/rpmbuild/ -name "@PACKAGE@-*@VERSION@-@RELEASE@.*.rpm"` .
 

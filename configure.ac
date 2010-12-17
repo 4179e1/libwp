@@ -2,13 +2,16 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.65)
-AC_INIT([libwp],[0.0.1],[4179e1@gmail.com])
+AC_INIT([libwp],[0.1.0],[4179e1@gmail.com])
 AC_CONFIG_SRCDIR([src/wpbase.c])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([gnu -Wall -Werror])
 LT_INIT
+
+LT_VERSION="0:0:0"
+AC_SUBST(LT_VERSION)
 
 RELEASE="1.1"
 AC_SUBST(RELEASE)

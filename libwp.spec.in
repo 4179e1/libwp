@@ -21,38 +21,48 @@ Version:        @VERSION@
 Release:        @RELEASE@
 Summary:        The wrapper library for Linux
 
-Group:          Development/Libraries
+Group:          Development/Libraries/C and C++
 License:        GPL
 URL:            http://dev.poetpalace.org
-Source0:        %{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
-BuildRequires:  automake >= 1.10
+%if 0%{?suse_version} || 0%{?sles_version}
+BuildRequires:  automake >= 1.10 pkg-config
+%else
+BuildRequires:  automake pkgconfig
+%endif
 #Requires:       
 # BuildArch:      noarch
 
 %description
 libwp is library that warps commmon functions in standard C, Linux system, POSIX, and BSD socket.
 
+Authors:
+	Lyre <lyre@poetpalace.org>
+
 %package devel
-Group:          Development/Libraries
+Group:          Development/Libraries/C and C++
 Summary:        The wrapper library for Linux
-Requires:		@PACKAGE@ = @VERSION@
+Requires:		libwp = @VERSION@
 
 %description devel
 libwp is library that warps commmon functions in standard C, Linux system, POSIX, and BSD socket
+
+%debug_package %{nil}
 
 %post -p /sbin/ldconfig
 
 %prep
 %setup -q
-./configure --prefix=%{_prefix}
+./configure --prefix=%{_prefix} --libdir=%{_libdir}
 
 %build
 make %{?_smp_mflags}
 
 %install
-make install-strip DESTDIR=%{buildroot}
+make install DESTDIR=%{buildroot}
+rm -f %{buildroot}%{_libdir}/*.la
 
 %postun -p /sbin/ldconfig
 
@@ -62,21 +72,15 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 #%doc README
-%{_libdir}/libwp.so.0
-%{_libdir}/libwp.so.0.0.0
-%{_libdir}/libwppthread.so.0
-%{_libdir}/libwppthread.so.0.0.0
+%{_libdir}/*.so.*
 
 %files devel
 %defattr(-,root,root,-)
 #%doc README
 %{_includedir}/*.h
-%{_libdir}/libwp.a
-%{_libdir}/libwp.so
-%{_libdir}/libwppthread.a
-%{_libdir}/libwppthread.so
-%{_libdir}/pkgconfig/libwp.pc
-%{_libdir}/pkgconfig/wppthread.pc
+%{_libdir}/*.a
+%{_libdir}/*.so
+%{_libdir}/pkgconfig/*.pc
 
 
 %changelog

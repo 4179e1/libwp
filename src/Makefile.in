@@ -76,9 +76,15 @@ libwp_la_LIBADD =
 am_libwp_la_OBJECTS = wpbase.lo wpsocket.lo wpstdc.lo wpunix.lo \
 	wpunix_rio.lo
 libwp_la_OBJECTS = $(am_libwp_la_OBJECTS)
+libwp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(libwp_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
 libwppthread_la_LIBADD =
 am_libwppthread_la_OBJECTS = wppthread.lo
 libwppthread_la_OBJECTS = $(am_libwppthread_la_OBJECTS)
+libwppthread_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(libwppthread_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -135,6 +141,7 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
@@ -214,7 +221,9 @@ AM_CFLAGS = -Wall
 ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = libwp.la libwppthread.la
 libwp_la_SOURCES = wpbase.c wpsocket.c wpstdc.c wpunix.c wpunix_rio.c libwp.h wpbase.h wpsocket.h wpstdc.h wpunix.h
+libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
+libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
 include_HEADERS = libwp.h wpbase.h wppthread.h wpsocket.h wpstdc.h wpunix.h
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -300,9 +309,9 @@ clean-libLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libwp.la: $(libwp_la_OBJECTS) $(libwp_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwp_la_OBJECTS) $(libwp_la_LIBADD) $(LIBS)
+	$(libwp_la_LINK) -rpath $(libdir) $(libwp_la_OBJECTS) $(libwp_la_LIBADD) $(LIBS)
 libwppthread.la: $(libwppthread_la_OBJECTS) $(libwppthread_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libwppthread_la_OBJECTS) $(libwppthread_la_LIBADD) $(LIBS)
+	$(libwppthread_la_LINK) -rpath $(libdir) $(libwppthread_la_OBJECTS) $(libwppthread_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
