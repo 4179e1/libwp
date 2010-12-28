@@ -6,7 +6,7 @@
 
 #define LISTENQ 1024
 
-int wp_socket (int domain, int type, int protocol)
+int _wp_socket (int domain, int type, int protocol)
 {
 	int n;
 	if ((n = socket (domain, type, protocol)) == -1)
@@ -14,7 +14,7 @@ int wp_socket (int domain, int type, int protocol)
 	return n;
 }
 
-int wp_shutdown (int sockfd, int how)
+int _wp_shutdown (int sockfd, int how)
 {
 	int n;
 	if ((n = shutdown (sockfd, how)) == -1)
@@ -22,7 +22,7 @@ int wp_shutdown (int sockfd, int how)
 	return n;
 }
 
-const char *wp_inet_ntop (int domain, const void *addr, char *str, socklen_t size)
+const char *_wp_inet_ntop (int domain, const void *addr, char *str, socklen_t size)
 {
 	const char *p;
 	if ((p = inet_ntop (domain, addr, str, size)) == NULL)
@@ -30,7 +30,7 @@ const char *wp_inet_ntop (int domain, const void *addr, char *str, socklen_t siz
 	return p;
 }
 
-int wp_inet_pton (int domain, const char *str, void *addr)
+int _wp_inet_pton (int domain, const char *str, void *addr)
 {
 	int n;
 	if ((n = inet_pton (domain, str, addr)) == -1)
@@ -40,7 +40,7 @@ int wp_inet_pton (int domain, const char *str, void *addr)
 	return n;
 }
 
-struct hostent *wp_gethostent (void)
+struct hostent *_wp_gethostent (void)
 {
 	struct hostent *p;
 	if ((p = gethostent ()) == NULL)
@@ -48,7 +48,7 @@ struct hostent *wp_gethostent (void)
 	return p;
 }
 
-struct netent *wp_getnetbyaddr (uint32_t net, int type)
+struct netent *_wp_getnetbyaddr (uint32_t net, int type)
 {
 	struct netent *p;
 	if ((p = getnetbyaddr (net, type)) == NULL)
@@ -56,7 +56,7 @@ struct netent *wp_getnetbyaddr (uint32_t net, int type)
 	return p;
 }
 
-struct netent *wp_getnetbyname (const char *name)
+struct netent *_wp_getnetbyname (const char *name)
 {
 	struct netent *p;
 	if ((p = getnetbyname (name)) == NULL)
@@ -64,7 +64,7 @@ struct netent *wp_getnetbyname (const char *name)
 	return p;
 }
 
-struct netent *wp_getnetent (void)
+struct netent *_wp_getnetent (void)
 {
 	struct netent *p;
 	if ((p = getnetent ()) == NULL)
@@ -72,7 +72,7 @@ struct netent *wp_getnetent (void)
 	return p;
 }
 
-struct protoent *wp_getprotobyname (const char *name)
+struct protoent *_wp_getprotobyname (const char *name)
 {
 	struct protoent *p;
 	if ((p = getprotobyname (name)) == NULL)
@@ -80,7 +80,7 @@ struct protoent *wp_getprotobyname (const char *name)
 	return p;
 }
 
-struct protoent *wp_getprotobynumber (int proto)
+struct protoent *_wp_getprotobynumber (int proto)
 {
 	struct protoent *p;
 	if ((p = getprotobynumber (proto)) == NULL)
@@ -88,7 +88,7 @@ struct protoent *wp_getprotobynumber (int proto)
 	return p;
 }
 
-struct protoent *wp_getprotoent (void)
+struct protoent *_wp_getprotoent (void)
 {
 	struct protoent *p;
 	if ((p = getprotoent ()) == NULL)
@@ -96,7 +96,7 @@ struct protoent *wp_getprotoent (void)
 	return p;
 }
 
-struct servent *wp_getservbyname (const char *name, const char *proto)
+struct servent *_wp_getservbyname (const char *name, const char *proto)
 {
 	struct servent *p;
 	if ((p = getservbyname (name, proto)) == NULL)
@@ -104,7 +104,7 @@ struct servent *wp_getservbyname (const char *name, const char *proto)
 	return p;
 }
 
-struct servent *wp_getservbyport (int prot, const char *proto)
+struct servent *_wp_getservbyport (int prot, const char *proto)
 {
 	struct servent *p;
 	if ((p = getservbyport (prot, proto)) == NULL)
@@ -112,7 +112,7 @@ struct servent *wp_getservbyport (int prot, const char *proto)
 	return p;
 }
 
-struct servent *wp_getservent (void)
+struct servent *_wp_getservent (void)
 {
 	struct servent *p;
 	if ((p = getservent ()) == NULL)
@@ -120,7 +120,7 @@ struct servent *wp_getservent (void)
 	return p;
 }
 
-int wp_getaddrinfo (const char *host, const char *service, const struct addrinfo *hint, struct addrinfo **res)
+int _wp_getaddrinfo (const char *host, const char *service, const struct addrinfo *hint, struct addrinfo **res)
 {
 	int n;
 	if ((n = getaddrinfo (host, service, hint, res)) != 0)
@@ -128,7 +128,7 @@ int wp_getaddrinfo (const char *host, const char *service, const struct addrinfo
 	return n;
 }
 
-int wp_getnameinfo (const struct sockaddr *addr, socklen_t alen, char *host, socklen_t hostlen, char *service, socklen_t servlen, unsigned int flags)
+int _wp_getnameinfo (const struct sockaddr *addr, socklen_t alen, char *host, socklen_t hostlen, char *service, socklen_t servlen, unsigned int flags)
 {
 	int n;
 	if ((n = getnameinfo (addr, alen, host, hostlen, service, servlen, flags)) != 0)
@@ -136,7 +136,7 @@ int wp_getnameinfo (const struct sockaddr *addr, socklen_t alen, char *host, soc
 	return n;
 }
 
-int wp_bind (int sockfd, const struct sockaddr *addr, socklen_t len)
+int _wp_bind (int sockfd, const struct sockaddr *addr, socklen_t len)
 {
 	int n;
 	if ((n = bind (sockfd, addr, len)) == -1)
@@ -144,7 +144,7 @@ int wp_bind (int sockfd, const struct sockaddr *addr, socklen_t len)
 	return n;
 }
 
-int wp_getsockname (int sockfd, struct sockaddr *addr, socklen_t *alenp)
+int _wp_getsockname (int sockfd, struct sockaddr *addr, socklen_t *alenp)
 {
 	int n;
 	if ((n = getsockname (sockfd, addr, alenp)) == -1)
@@ -152,7 +152,7 @@ int wp_getsockname (int sockfd, struct sockaddr *addr, socklen_t *alenp)
 	return n;
 }
 
-int wp_getpeername (int sockfd, struct sockaddr *addr, socklen_t *alenp)
+int _wp_getpeername (int sockfd, struct sockaddr *addr, socklen_t *alenp)
 {
 	int n;
 	if ((n = getpeername (sockfd, addr, alenp)) == -1)
@@ -160,7 +160,7 @@ int wp_getpeername (int sockfd, struct sockaddr *addr, socklen_t *alenp)
 	return n;
 }
 
-int wp_connect (int sockfd, const struct sockaddr *addr, socklen_t len)
+int _wp_connect (int sockfd, const struct sockaddr *addr, socklen_t len)
 {
 	int n;
 	if ((n = connect (sockfd, addr, len)) == -1)
@@ -168,7 +168,7 @@ int wp_connect (int sockfd, const struct sockaddr *addr, socklen_t len)
 	return n;
 }
 
-int wp_listen (int sockfd, int backlog)
+int _wp_listen (int sockfd, int backlog)
 {
 	int n;
 	if ((n = listen (sockfd, backlog)) == -1)
@@ -176,7 +176,7 @@ int wp_listen (int sockfd, int backlog)
 	return n;
 }
 
-int wp_accept (int sockfd, struct sockaddr *addr, socklen_t *len)
+int _wp_accept (int sockfd, struct sockaddr *addr, socklen_t *len)
 {
 	int n;
 	if ((n = accept (sockfd, addr, len)) == -1)
@@ -184,7 +184,7 @@ int wp_accept (int sockfd, struct sockaddr *addr, socklen_t *len)
 	return n;
 }
 
-ssize_t wp_send (int sockfd, const void *buf, size_t nbytes, int flags)
+ssize_t _wp_send (int sockfd, const void *buf, size_t nbytes, int flags)
 {
 	ssize_t n;
 	if ((n = send (sockfd, buf, nbytes, flags)) == -1)
@@ -192,7 +192,7 @@ ssize_t wp_send (int sockfd, const void *buf, size_t nbytes, int flags)
 	return n;
 }
 
-ssize_t wp_sendto (int sockfd, const void *buf, size_t nbytes, int flags, const struct sockaddr *destaddr, socklen_t destlen)
+ssize_t _wp_sendto (int sockfd, const void *buf, size_t nbytes, int flags, const struct sockaddr *destaddr, socklen_t destlen)
 {
 	ssize_t n;
 	if ((n = sendto (sockfd, buf, nbytes, flags, destaddr, destlen)) == -1)
@@ -200,7 +200,7 @@ ssize_t wp_sendto (int sockfd, const void *buf, size_t nbytes, int flags, const 
 	return n;
 }
 
-ssize_t wp_sendmsg (int sockfd, const struct msghdr *msg, int flags)
+ssize_t _wp_sendmsg (int sockfd, const struct msghdr *msg, int flags)
 {
 	ssize_t n;
 	if ((n = sendmsg (sockfd, msg, flags)) == -1)
@@ -208,7 +208,7 @@ ssize_t wp_sendmsg (int sockfd, const struct msghdr *msg, int flags)
 	return n;
 }
 
-ssize_t wp_recv (int sockfd, void *buf, size_t nbytes, int flags)
+ssize_t _wp_recv (int sockfd, void *buf, size_t nbytes, int flags)
 {
 	ssize_t n;
 	if ((n = recv (sockfd, buf, nbytes, flags)) == -1)
@@ -216,7 +216,7 @@ ssize_t wp_recv (int sockfd, void *buf, size_t nbytes, int flags)
 	return n;
 }
 
-ssize_t wp_recvfrom (int sockfd, void *buf, size_t len, int flags, struct sockaddr *addr, socklen_t *addrlen)
+ssize_t _wp_recvfrom (int sockfd, void *buf, size_t len, int flags, struct sockaddr *addr, socklen_t *addrlen)
 {
 	ssize_t n;
 	if ((n = recvfrom (sockfd, buf, len, flags, addr, addrlen)) == -1)
@@ -224,7 +224,7 @@ ssize_t wp_recvfrom (int sockfd, void *buf, size_t len, int flags, struct sockad
 	return n;
 }
 
-ssize_t wp_recvmsg (int sockfd, struct msghdr *msg, int flags)
+ssize_t _wp_recvmsg (int sockfd, struct msghdr *msg, int flags)
 {
 	ssize_t n;
 	if ((n = recvmsg (sockfd, msg, flags)) == -1)
@@ -232,7 +232,7 @@ ssize_t wp_recvmsg (int sockfd, struct msghdr *msg, int flags)
 	return n;
 }
 
-int wp_setsockopt (int sockfd, int level, int option, const void *val, socklen_t len)
+int _wp_setsockopt (int sockfd, int level, int option, const void *val, socklen_t len)
 {
 	int n;
 	if ((n = setsockopt (sockfd, level, option, val, len)) == -1)
@@ -240,7 +240,7 @@ int wp_setsockopt (int sockfd, int level, int option, const void *val, socklen_t
 	return n;
 }
 
-int wp_getsockopt (int sockfd, int level, int option, void *val, socklen_t *lenp)
+int _wp_getsockopt (int sockfd, int level, int option, void *val, socklen_t *lenp)
 {
 	int n;
 	if ((n = getsockopt (sockfd, level, option, val, lenp)) == -1)
@@ -248,7 +248,7 @@ int wp_getsockopt (int sockfd, int level, int option, void *val, socklen_t *lenp
 	return n;
 }
 
-int wp_sockatmark (int sockfd)
+int _wp_sockatmark (int sockfd)
 {
 	int n;
 	if ((n = sockatmark (sockfd)) == -1)
@@ -257,7 +257,7 @@ int wp_sockatmark (int sockfd)
 }
 
 #if 0
-struct hostent *wp_gethostbyname (const char *name)
+struct hostent *_wp_gethostbyname (const char *name)
 {
 	struct hostent *p;
 
@@ -269,7 +269,7 @@ struct hostent *wp_gethostbyname (const char *name)
 }
 #endif
 
-int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout)
+int _wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout)
 {
 	int n;
 	if ((n = select (nfds, readfds, writefds, errorfds, timeout)) == -1)
@@ -279,7 +279,7 @@ int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, st
 	return n;
 }
 
-struct hostent *wp_gethostbyaddr (const char *addr, int len, int type)
+struct hostent *_wp_gethostbyaddr (const char *addr, int len, int type)
 {
 	struct hostent *p;
 
@@ -290,7 +290,7 @@ struct hostent *wp_gethostbyaddr (const char *addr, int len, int type)
 	return p;
 }
 
-int _wp_open_clientfd (char *ip, int port)
+int __wp_open_clientfd (char *ip, int port)
 {
 	int clientfd;
 	struct sockaddr_in servaddr;
@@ -322,31 +322,31 @@ int _wp_open_clientfd (char *ip, int port)
 		freeaddrinfo (res);
 	}
 
-	if ((clientfd = wp_socket (AF_INET, SOCK_STREAM, 0)) < 0)
+	if ((clientfd = socket (AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		return -2;
 	}
 
-	if (wp_connect (clientfd, (struct sockaddr*)&servaddr, sizeof (servaddr)) < 0)
+	if (connect (clientfd, (struct sockaddr*)&servaddr, sizeof (servaddr)) < 0)
 	{
-		wp_close (clientfd);
+		close (clientfd);
 		return -3;
 	}
 
 	return clientfd;
 }
 
-int _wp_open_listenfd (int port)
+int __wp_open_listenfd (int port)
 {
 	int listenfd, optval = 1;
 	struct sockaddr_in servaddr;
 
-	if ((listenfd = wp_socket (AF_INET, SOCK_STREAM, 0)) < 0)
+	if ((listenfd = socket (AF_INET, SOCK_STREAM, 0)) < 0)
 	{
 		return -1;
 	}
 
-	if (wp_setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval, sizeof (int)) < 0)
+	if (setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval, sizeof (int)) < 0)
 	{
 		return -2;
 	}
@@ -356,12 +356,12 @@ int _wp_open_listenfd (int port)
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	servaddr.sin_port = htons ((unsigned short)port);
 
-	if (wp_bind (listenfd, (struct sockaddr*)&servaddr, sizeof (servaddr)) < 0)
+	if (bind (listenfd, (struct sockaddr*)&servaddr, sizeof (servaddr)) < 0)
 	{
 		return -3;
 	}
 
-	if (wp_listen (listenfd, LISTENQ) < 0)
+	if (listen (listenfd, LISTENQ) < 0)
 	{
 		return -4;
 	}
@@ -369,18 +369,18 @@ int _wp_open_listenfd (int port)
 	return listenfd;
 }
 
-int wp_open_clientfd (char *address, int port)
+int _wp_open_clientfd (char *address, int port)
 {
 	int n;
-	if ((n = _wp_open_clientfd (address, port)) < 0)
+	if ((n = __wp_open_clientfd (address, port)) < 0)
 		wp_sys_func_warning ();
 	return n;
 }
 
-int wp_open_listenfd (int port)
+int _wp_open_listenfd (int port)
 {
 	int n;
-	if ((n = _wp_open_listenfd (port)) < 0)
+	if ((n = __wp_open_listenfd (port)) < 0)
 		wp_sys_func_warning ();
 	return n;
 }
