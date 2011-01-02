@@ -38,9 +38,10 @@ subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/libwp.pc.in \
 	$(srcdir)/libwp.spec.in $(srcdir)/wppthread.pc.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	build-aux/config.guess build-aux/config.sub build-aux/depcomp \
-	build-aux/install-sh build-aux/ltmain.sh build-aux/missing
+	$(srcdir)/wpunix.pc.in $(top_srcdir)/configure AUTHORS COPYING \
+	ChangeLog INSTALL NEWS build-aux/config.guess \
+	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
+	build-aux/ltmain.sh build-aux/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -52,7 +53,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = libwp.spec libwp.pc wppthread.pc
+CONFIG_CLEAN_FILES = libwp.spec libwp.pc wppthread.pc wpunix.pc
 CONFIG_CLEAN_VPATH_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -290,6 +291,8 @@ libwp.spec: $(top_builddir)/config.status $(srcdir)/libwp.spec.in
 libwp.pc: $(top_builddir)/config.status $(srcdir)/libwp.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 wppthread.pc: $(top_builddir)/config.status $(srcdir)/wppthread.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+wpunix.pc: $(top_builddir)/config.status $(srcdir)/wpunix.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
