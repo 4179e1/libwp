@@ -48,9 +48,6 @@ int _wp_setsockopt (int sockfd, int level, int option, const void *val, socklen_
 int _wp_getsockopt (int sockfd, int level, int option, void *val, socklen_t *lenp);
 int _wp_sockatmark (int sockfd);
 
-#if 0
-struct hostent *_wp_gethostbyname (const char *name);
-#endif
 struct hostent *_wp_gethostbyaddr (const char *addr, int len, int type);
 
 int _wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
@@ -59,4 +56,79 @@ int __wp_open_clientfd (char *address, int port);
 int __wp_open_listenfd (int port);
 int _wp_open_clientfd (char *address, int port);
 int _wp_open_listenfd (int port);
+
+#ifdef DISABLE_WP
+#define wp_socket socket
+#define wp_shutdown shutdown
+#define wp_inet_ntop inet_ntop
+#define wp_inet_pton inet_pton
+#define wp_gethostent gethostent
+#define wp_getnetbyaddr getnetbyaddr
+#define wp_getnetbyname getnetbyname
+#define wp_getnetent getnetent
+#define wp_getprotobyname getprotobyname
+#define wp_getprotobynumber getprotobynumber
+#define wp_getprotoent getprotoent
+#define wp_getservbyname getservbyname
+#define wp_getservbyport getservbyport
+#define wp_getservent getservent
+#define wp_getaddrinfo getaddrinfo
+#define wp_getnameinfo getnameinfo
+#define wp_bind bind
+#define wp_getsockname getsockname
+#define wp_getpeername getpeername
+#define wp_connect connect
+#define wp_listen listen
+#define wp_accept accept
+#define wp_send send
+#define wp_sendto sendto
+#define wp_sendmsg sendmsg
+#define wp_recv recv
+#define wp_recvfrom recvfrom
+#define wp_recvmsg recvmsg
+#define wp_setsockopt setsockopt
+#define wp_getsockopt getsockopt
+#define wp_sockatmark sockatmark
+#define wp_gethostbyaddr gethostbyaddr
+#define wp_select select
+#define wp_open_clientfd __wp_open_clientfd
+#define wp_open_listenfd __wp_open_listenfd
+#else
+#define wp_socket _wp_socket
+#define wp_shutdown _wp_shutdown
+#define wp_inet_ntop _wp_inet_ntop
+#define wp_inet_pton _wp_inet_pton
+#define wp_gethostent _wp_gethostent
+#define wp_getnetbyaddr _wp_getnetbyaddr
+#define wp_getnetbyname _wp_getnetbyname
+#define wp_getnetent _wp_getnetent
+#define wp_getprotobyname _wp_getprotobyname
+#define wp_getprotobynumber _wp_getprotobynumber
+#define wp_getprotoent _wp_getprotoent
+#define wp_getservbyname _wp_getservbyname
+#define wp_getservbyport _wp_getservbyport
+#define wp_getservent _wp_getservent
+#define wp_getaddrinfo _wp_getaddrinfo
+#define wp_getnameinfo _wp_getnameinfo
+#define wp_bind _wp_bind
+#define wp_getsockname _wp_getsockname
+#define wp_getpeername _wp_getpeername
+#define wp_connect _wp_connect
+#define wp_listen _wp_listen
+#define wp_accept _wp_accept
+#define wp_send _wp_send
+#define wp_sendto _wp_sendto
+#define wp_sendmsg _wp_sendmsg
+#define wp_recv _wp_recv
+#define wp_recvfrom _wp_recvfrom
+#define wp_recvmsg _wp_recvmsg
+#define wp_setsockopt _wp_setsockopt
+#define wp_getsockopt _wp_getsockopt
+#define wp_sockatmark _wp_sockatmark
+#define wp_gethostbyaddr _wp_gethostbyaddr
+#define wp_select _wp_select
+#define wp_open_clientfd _wp_open_clientfd
+#define wp_open_listenfd _wp_open_listenfd
+#endif /* DISABLE_WP */
+
 #endif /* _WPSOCKET_H */

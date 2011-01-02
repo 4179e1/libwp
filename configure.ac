@@ -48,5 +48,5 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strerror uname utime])
 
-AC_CONFIG_FILES([libwp.spec libwp.pc wppthread.pc wpunix.pc Makefile src/Makefile])
+AC_CONFIG_FILES([libwp.spec libwp.pc wppthread.pc Makefile src/Makefile])
 AC_OUTPUT
