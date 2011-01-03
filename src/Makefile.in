@@ -73,7 +73,9 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libwp_la_LIBADD =
-am_libwp_la_OBJECTS = wpbase.lo wpsocket.lo wpstdc.lo
+am_libwp_la_OBJECTS = wpbase.lo wpsocket.lo wpstdc.lo _wpbintree.lo \
+	wpbintree.lo wplist.lo wplistnode.lo wpqueue.lo wprbtree.lo \
+	wpstack.lo wptreenode.lo
 libwp_la_OBJECTS = $(am_libwp_la_OBJECTS)
 libwp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(libwp_la_LDFLAGS) \
@@ -226,14 +228,47 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -Wall
 ACLOCAL_AMFLAGS = -I m4
-lib_LTLIBRARIES = libwp.la libwppthread.la libwpunix.la
-libwp_la_SOURCES = wpbase.c wpsocket.c wpstdc.c libwp.h wpbase.h wpsocket.h wpstdc.h
+lib_LTLIBRARIES = libwp.la \
+				  libwppthread.la \
+				  libwpunix.la
+
+libwp_la_SOURCES = wpbase.c \
+				   wpsocket.c \
+				   wpstdc.c \
+				   libwp.h \
+				   wpbase.h \
+				   wpsocket.h \
+				   wpstdc.h \
+				   _wpbintree.c \
+				   wpbintree.c \
+				   _wpbintree.h \
+				   wpbintree.h \
+				   wplist.c \
+				   wplist.h \
+				   wplistnode.c \
+				   wplistnode.h \
+				   wpqueue.c \
+				   wpqueue.h \
+				   wprbtree.c \
+				   wprbtree.h \
+				   wpstack.c \
+				   wpstack.h \
+				   wptreenode.c \
+				   wptreenode.h
+
 libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
 libwpunix_la_SOURCES = wpunix.c wpunix_rio.c wpunix.h wpunix_rio.h
 libwpunix_la_LDFLAGS = -version-info @LT_VERSION@
-include_HEADERS = libwp.h wpbase.h wppthread.h wpsocket.h wpstdc.h wpunix.h
+include_HEADERS = libwp.h \
+				  wpbase.h \
+				  wppthread.h \
+				  wpsocket.h \
+				  wpstdc.h \
+				  wpunix.h \
+				  wpds.h
+
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -330,10 +365,18 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_wpbintree.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpbase.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpbintree.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wplist.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wplistnode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wppthread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpqueue.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wprbtree.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpsocket.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpstack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpstdc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wptreenode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpunix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpunix_rio.Plo@am__quote@
 
@@ -587,6 +630,14 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES
 	tags uninstall uninstall-am uninstall-includeHEADERS \
 	uninstall-libLTLIBRARIES
 
+				  _wpbintree.h \
+				  wpbintree.h \
+				  wplist.h \
+				  wplistnode.h \
+				  wpqueue.h \
+				  wprbtree.h \
+				  wpstack.h \
+				  wptreenode.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

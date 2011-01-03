@@ -6,6 +6,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
+
 /*****************
  * error
  ****************/
@@ -73,5 +78,30 @@ char *wp_path_alloc(int *sizep);
  * openmax
  **********************************************/
 long open_max (void);
+
+
+/**
+ * @brief Macro to calculate array's length.
+ * @param array It MUST be a array, passing a pointer won't work as you expact.
+ * @return Size of the array.
+ */
+#define WP_ARRAY_SIZE(array) (sizeof(array)/sizeof(array[0]))
+
+#define WP_MAX(a, b) ((a > b) ? a : b)
+#define WP_MIN(a, b) ((a < b) ? a : b)
+
+#define WP_IS_ODD(n) ((n % 2) != 0)
+#define WP_IS_EVEN(n) ((n % 2) == 0)
+
+#define WP_INT_SENT_MAX 0x7fffffff
+#define WP_INT_SENT_MIN 0x80000000
+
+typedef bool (*wp_foreach_func_t) (void *elem, void *data);
+typedef void (*wp_write_func_t) (const void *elem, FILE *file, void *data);
+typedef int (*wp_compare_func_t) (const void *elem1, const void *elem2);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _WPBASE_H */
