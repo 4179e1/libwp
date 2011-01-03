@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include "wpstdc.h"
-#include "wpbase.h"
+#include <wpstdc.h>
+#include <wpbase.h>
 
 int _wp_fclose (FILE *fp)
 {

@@ -2,8 +2,8 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include "wpunix_rio.h"
-#include "wpbase.h"
+#include <wpunix_rio.h>
+#include <wpbase.h>
 
 #define RIO_BUFSIZE 8192
 

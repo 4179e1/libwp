@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "wplistnode.h"
-#include "wpbase.h"
+#include <wplistnode.h>
+#include <wpbase.h>
 
 struct _wp_list_node
 {

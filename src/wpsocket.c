@@ -1,8 +1,7 @@
 #include <string.h>
 #include <errno.h>
-#include "wpsocket.h"
-#include "wpbase.h"
-#include "wpunix.h"
+#include <wpsocket.h>
+#include <wpbase.h>
 
 #define LISTENQ 1024
 

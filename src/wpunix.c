@@ -5,10 +5,8 @@
 #include <utime.h>
 #include <sys/wait.h>
 #include <sys/time.h>
-#include <assert.h>
-#include "wpunix.h"
-#include "wpbase.h"
-#include "wpstdc.h"
+#include <wpunix.h>
+#include <wpbase.h>
 
 int _wp_chdir (const char *pathname)
 {

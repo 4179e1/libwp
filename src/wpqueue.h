@@ -12,7 +12,7 @@
 #ifndef _QUEUE_H
 #define _QUEUE_H
 #include <stdbool.h>
-#include "wpbase.h"
+#include <wptypes.h>
 
 #ifdef __cplusplus
 extern "C"

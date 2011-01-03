@@ -1,8 +1,8 @@
-#include <assert.h>
 #include <stdlib.h>
-#include "_wpbintree.h"
-#include "wpbintree.h"
-#include "wptreenode.h"
+#include <_wpbintree.h>
+#include <wpbintree.h>
+#include <wptreenode.h>
+#include <wpmacros.h>
 
 struct _wp_bintree
 {
@@ -15,7 +15,7 @@ wp_bin_tree_t *wp_bin_tree_new (wp_compare_func_t cmp_f)
 {
 	wp_bin_tree_t *t;
 
-	assert (cmp_f != NULL);
+	wp_return_val_if_fail (cmp_f != NULL, NULL);
 
 	t = (wp_bin_tree_t *)malloc (sizeof (wp_bin_tree_t));
 	if (t == NULL)
@@ -38,7 +38,7 @@ wp_bin_tree_t *wp_bin_tree_new (wp_compare_func_t cmp_f)
 
 void wp_bin_tree_free (wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_if_fail (t != NULL);
 
 	wp_bin_tree_flush (t);
 	free (t->sent);
@@ -47,7 +47,7 @@ void wp_bin_tree_free (wp_bin_tree_t *t)
 
 void wp_bin_tree_flush (wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_if_fail (t != NULL);
 
 	_wp_bin_tree_flush (wp_tree_node_get_right (t->sent), NULL);
 	wp_tree_node_set_right (t->sent, NULL);
@@ -56,40 +56,40 @@ void wp_bin_tree_flush (wp_bin_tree_t *t)
 
 bool wp_bin_tree_is_empty (const wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, true);
 	return (t->card == 0);
 }
 
 int wp_bin_tree_get_card (const wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, -1);
 	return t->card;
 }
 
 int wp_bin_tree_get_height (const wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, -1);
 
 	return _wp_bin_tree_height (wp_tree_node_get_right (t->sent), NULL);
 }
 
 void *wp_bin_tree_get_root (const wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, NULL);
 
 	return wp_tree_node_get_content (wp_tree_node_get_right (t->sent));
 }
 
 void *wp_bin_tree_get_minimum (const wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, NULL);
 
 	return wp_tree_node_get_content (_wp_bin_tree_minimum (wp_tree_node_get_right (t->sent), NULL));
 }
 
 void *wp_bin_tree_get_maximum (const wp_bin_tree_t *t)
 {
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, NULL);
 
 	return wp_tree_node_get_content (_wp_bin_tree_maximum (wp_tree_node_get_right (t->sent), NULL));
 }
@@ -100,7 +100,7 @@ void wp_bin_tree_insert (wp_bin_tree_t *t, void *data)
 	wp_tree_node_t *x;
 	wp_tree_node_t *tmp;
 
-	assert (t != NULL);
+	wp_return_if_fail (t != NULL);
 
 	tmp = wp_tree_node_new_full (data, NULL, NULL, NULL);
 	if (tmp == NULL)
@@ -148,7 +148,7 @@ void wp_bin_tree_insert (wp_bin_tree_t *t, void *data)
 void *wp_bin_tree_search (const wp_bin_tree_t *t, void *data)
 {
 	wp_tree_node_t *tmp;
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, NULL);
 
 	tmp = _wp_bin_tree_search (wp_tree_node_get_right (t->sent), NULL, t->cmp_f, data);
 
@@ -167,7 +167,7 @@ void *wp_bin_tree_delete (wp_bin_tree_t *t, void *data)
 	wp_tree_node_t *z;	/* the node contain data */
 	wp_tree_node_t *py;	/* parent of y */
 
-	assert (t != NULL);
+	wp_return_val_if_fail (t != NULL, NULL);
 
 	z = _wp_bin_tree_search (wp_tree_node_get_right (t->sent), NULL, t->cmp_f, data);
 	if (z == NULL)
@@ -229,33 +229,32 @@ void *wp_bin_tree_delete (wp_bin_tree_t *t, void *data)
 
 void wp_bin_tree_map_prefix (const wp_bin_tree_t *t, FILE *file, wp_write_func_t f, void *data)
 {
-	assert (t != NULL);
-	assert (f != NULL);
-	assert (file != NULL);
+	wp_return_if_fail (t != NULL);
+	wp_return_if_fail (f != NULL);
+	wp_return_if_fail (file != NULL);
 	_wp_bin_tree_map_prefix (wp_tree_node_get_right (t->sent), NULL, file, f, data);
 }
 
 void wp_bin_tree_map_infix (const wp_bin_tree_t *t, FILE *file, wp_write_func_t f, void *data)
 {
-	assert (t != NULL);
-	assert (f != NULL);
-	assert (file != NULL);
+	wp_return_if_fail (t != NULL);
+	wp_return_if_fail (f != NULL);
+	wp_return_if_fail (file != NULL);
 	_wp_bin_tree_map_infix (wp_tree_node_get_right (t->sent), NULL, file, f, data);
 }
 	
 void wp_bin_tree_map_postfix (const wp_bin_tree_t *t, FILE *file, wp_write_func_t f, void *data)
 {
-	assert (t != NULL);
-	assert (f != NULL);
-	assert (file != NULL);
+	wp_return_if_fail (t != NULL);
+	wp_return_if_fail (f != NULL);
+	wp_return_if_fail (file != NULL);
 	_wp_bin_tree_map_postfix (wp_tree_node_get_right (t->sent), NULL, file, f, data);
 }
 
-
 void wp_bin_tree_dump (const wp_bin_tree_t *t, FILE *file, wp_write_func_t f, void *data)
 {
-	assert (t != NULL);
-	assert (file != NULL);
+	wp_return_if_fail (t != NULL);
+	wp_return_if_fail (file != NULL);
 	fprintf (file, "<BIN_TREE REF=\"%p\" CARD=\"%d\" SENT=\"%p\">", (void *)t, t->card, (void *)(t->sent));
 
 	_wp_bin_tree_dump (wp_tree_node_get_right (t->sent), NULL, file, f, data, BIN_TREE);
@@ -265,7 +264,7 @@ void wp_bin_tree_dump (const wp_bin_tree_t *t, FILE *file, wp_write_func_t f, vo
 
 void wp_bin_tree_foreach (wp_bin_tree_t *t, wp_foreach_func_t f, void *data)
 {
-	assert (t != NULL);
-	assert (f != NULL);
+	wp_return_if_fail (t != NULL);
+	wp_return_if_fail (f != NULL);
 	_wp_bin_tree_foreach (wp_tree_node_get_right (t->sent), NULL, f, data);
 }

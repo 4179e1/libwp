@@ -1,7 +1,7 @@
 #include <string.h>
 #include <errno.h>
-#include "wppthread.h"
-#include "wpbase.h"
+#include <wppthread.h>
+#include <wpbase.h>
 
 int _wp_pthread_create (pthread_t *tidp, const pthread_attr_t *attr, void *(*start_rtn) (void *), void *arg)
 {

@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "wphash.h"
-#include "wpmacros.h"
+#include <wphash.h>
+#include <wpmacros.h>
 
 #define HASH_TABLE_MIN_SHIFT 3 /* 1 << 3 == 8 buckets */
 

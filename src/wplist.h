@@ -7,7 +7,7 @@ extern "C"
 #endif /* __cplusplus */
 
 #include <stdio.h>
-#include "wpbase.h"
+#include <wptypes.h>
 
 typedef struct _wp_list wp_list_t;
 

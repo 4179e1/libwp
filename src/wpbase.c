@@ -6,7 +6,7 @@
 #include <syslog.h>
 #include <errno.h>
 #include <unistd.h>
-#include "wpbase.h"
+#include <wpbase.h>
 
 #define EXIT_STATUS_DEFAULT -1
 

@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include <assert.h>
-#include "_wpbintree.h"
-#include "wpbase.h"
+#include <_wpbintree.h>
+#include <wpmacros.h>
 
 #define USE_JUMP_TABLE
 
@@ -23,14 +22,14 @@ wp_tree_node_t *_wp_bin_tree_new (void)
 
 void _wp_bin_tree_free (wp_tree_node_t *n, wp_tree_node_t *sent)
 {
-	assert (n != NULL);
+	wp_return_if_fail (n != NULL);
 	_wp_bin_tree_flush (n, sent);
 }
 
 void _wp_bin_tree_insert_left (wp_tree_node_t *p, wp_tree_node_t *l)
 {
-	assert (p != NULL);
-	assert (l != NULL);
+	wp_return_if_fail (p != NULL);
+	wp_return_if_fail (l != NULL);
 	
 	wp_tree_node_set_left (p, l);
 	wp_tree_node_set_parent (l, p);
@@ -38,8 +37,8 @@ void _wp_bin_tree_insert_left (wp_tree_node_t *p, wp_tree_node_t *l)
 
 void _wp_bin_tree_insert_right (wp_tree_node_t *p, wp_tree_node_t *r)
 {
-	assert (p != NULL);
-	assert (r != NULL);
+	wp_return_if_fail (p != NULL);
+	wp_return_if_fail (r != NULL);
 
 	wp_tree_node_set_right (p, r);
 	wp_tree_node_set_parent (r, p);

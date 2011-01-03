@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "wptreenode.h"
+#include <wptreenode.h>
 
 #define RB_TREE_MASK 0x1
 

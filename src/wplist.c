@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "wplist.h"
-#include "wplistnode.h"
+#include <wplist.h>
+#include <wplistnode.h>
 
 static wp_list_node_t *wp_list_search_node (wp_list_t *l, const void *data, wp_compare_func_t cmp_f);
 static wp_list_node_t *wp_list_search_node_by_position (wp_list_t *l, int pos);

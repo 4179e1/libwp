@@ -2,7 +2,6 @@
 #define _RBTREE_H
 
 #include <stdio.h>
-#include "wpbase.h"
 
 #ifdef __cplusplus
 extern "C"

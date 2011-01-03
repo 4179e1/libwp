@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "wpstack.h"
+#include <wpstack.h>
 
 struct _wp_stack
 {

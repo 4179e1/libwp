@@ -2,8 +2,7 @@
 #define __WP_BINTREE_H
 
 #include <stdio.h>
-#include "wptreenode.h"
-#include "wpbase.h"
+#include <wptreenode.h>
 
 #ifdef __cplusplus
 extern "C"

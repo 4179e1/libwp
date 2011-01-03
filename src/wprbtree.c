@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <stdlib.h>
-#include "wptreenode.h"
-#include "_wpbintree.h"
-#include "wprbtree.h"
+#include <wptreenode.h>
+#include <_wpbintree.h>
+#include <wprbtree.h>
 
 #define TREE_ROOT(T) (wp_tree_node_get_right (T->sent))
 

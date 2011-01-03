@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "wpqueue.h"
-#include "wpbase.h"
+#include <wpqueue.h>
 
 /**
  *           q->head      q->tail 

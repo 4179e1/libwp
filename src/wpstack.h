@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "wpbase.h"
+#include <wptypes.h>
 
 #ifdef __cplusplus
 extern "C"

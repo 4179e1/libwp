@@ -2,7 +2,7 @@
 #define _LISTNODE_H
 
 #include <stdio.h>
-#include "wpbase.h"
+#include <wptypes.h>
 
 #ifdef __cplusplus
 extern "C"
