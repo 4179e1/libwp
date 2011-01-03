@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <errno.h>
 #include <unistd.h>
 #include "wpunix_rio.h"
@@ -16,12 +15,17 @@ struct _rio
 	char wp_rio_buf[RIO_BUFSIZE];
 };
 
-static ssize_t _wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n);
+static ssize_t __wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n);
 
 ssize_t __wp_readn (int fd, void *ptr, size_t n)
 {
 	size_t nleft = n;
 	ssize_t nread;
+
+	if (ptr == NULL)
+	{
+		return -1;
+	}
 
 	while (nleft >0)
 	{
@@ -53,6 +57,11 @@ ssize_t __wp_writen (int fd, void *ptr, size_t n)
 	size_t nleft = n;
 	size_t nwritten;
 
+	if (ptr == NULL)
+	{
+		return -1;
+	}
+
 	while (nleft > 0)
 	{
 		if ((nwritten = write (fd, ptr, nleft)) < 0)
@@ -76,7 +85,7 @@ ssize_t __wp_writen (int fd, void *ptr, size_t n)
 
 wp_rio_t *__wp_rio_new (int fd)
 {
-	wp_rio_t *rp = _wp_malloc (sizeof (wp_rio_t));
+	wp_rio_t *rp = malloc (sizeof (wp_rio_t));
 	if (rp == NULL)
 		return NULL;
 
@@ -89,16 +98,20 @@ wp_rio_t *__wp_rio_new (int fd)
 
 void _wp_rio_free (wp_rio_t* rp)
 {
+	if (rp == NULL)
+	{
+		return;
+	}
 	free (rp);
 }
 
-static ssize_t _wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n)
+static ssize_t __wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n)
 {
 	int cnt;
 
 	while (rp->wp_rio_cnt <= 0)
 	{
-		rp->wp_rio_cnt = _wp_read (rp->wp_rio_fd, rp->wp_rio_buf, sizeof (rp->wp_rio_buf));
+		rp->wp_rio_cnt = read (rp->wp_rio_fd, rp->wp_rio_buf, sizeof (rp->wp_rio_buf));
 		if (rp->wp_rio_cnt < 0)
 		{
 			if (errno != EINTR)
@@ -133,9 +146,14 @@ ssize_t __wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen)
 	char c;
 	char *bufp = usrbuf;
 
+	if ((rp == NULL) || (usrbuf == NULL))
+	{
+		return -1;
+	}
+
 	for (n = 1; n < maxlen; n++)
 	{
-		if ((rc = _wp_rio_read (rp, &c, 1)) == 1)
+		if ((rc = __wp_rio_read (rp, &c, 1)) == 1)
 		{
 			*bufp++ = c;
 			if (c == '\n')
@@ -161,10 +179,15 @@ ssize_t __wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n)
 	size_t nleft = n;
 	ssize_t nread;
 	char *bufp = usrbuf;
+	
+	if ((rp == NULL) || (usrbuf == NULL))
+	{
+		return -1;
+	}
 
 	while (nleft > 0)
 	{
-		if ((nread = _wp_rio_read (rp, bufp, nleft)) < 0)
+		if ((nread = __wp_rio_read (rp, bufp, nleft)) < 0)
 		{
 			if (errno == EINTR)
 				nread = 0;
@@ -182,12 +205,15 @@ ssize_t __wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n)
 
 ssize_t __wp_rio_writen (wp_rio_t *rio, void *ptr, size_t n)
 {
-	return _wp_writen (rio->wp_rio_fd, ptr, n);
+	return __wp_writen (rio->wp_rio_fd, ptr, n);
 }
 
-int _wp_rio_getfd (wp_rio_t *rio)
+int __wp_rio_getfd (wp_rio_t *rio)
 {
-	assert (rio != NULL);
+	if (rio == NULL)
+	{
+		return -1;
+	}
 	return rio->wp_rio_fd;
 }
 
@@ -237,4 +263,12 @@ ssize_t _wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n)
 	if ((z = __wp_rio_writen (rp, ptr, n)) < 0)
 		wp_sys_func_warning ();
 	return z;
+}
+
+int _wp_rio_getfd (wp_rio_t *rio)
+{
+	int fd;
+	if ((fd = __wp_rio_getfd (rio)) < 0)
+		wp_sys_func_warning ();
+	return fd;
 }

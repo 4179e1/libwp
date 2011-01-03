@@ -4,7 +4,6 @@ ACLOCAL_AMFLAGS = -I m4
 
 lib_LTLIBRARIES = libwp.la \
 				  libwppthread.la \
-				  libwpunix.la
 
 libwp_la_SOURCES = wpbase.c \
 				   wpsocket.c \
@@ -32,8 +31,6 @@ libwp_la_SOURCES = wpbase.c \
 libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
-libwpunix_la_SOURCES = wpunix.c wpunix_rio.c wpunix.h wpunix_rio.h
-libwpunix_la_LDFLAGS = -version-info @LT_VERSION@
 
 include_HEADERS = libwp.h \
 				  wpbase.h \

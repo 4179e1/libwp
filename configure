@@ -12632,7 +12632,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files libwp.spec libwp.pc wppthread.pc wpunix.pc Makefile src/Makefile"
+ac_config_files="$ac_config_files libwp.spec libwp.pc wppthread.pc Makefile src/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -13609,7 +13609,6 @@ do
     "libwp.spec") CONFIG_FILES="$CONFIG_FILES libwp.spec" ;;
     "libwp.pc") CONFIG_FILES="$CONFIG_FILES libwp.pc" ;;
     "wppthread.pc") CONFIG_FILES="$CONFIG_FILES wppthread.pc" ;;
-    "wpunix.pc") CONFIG_FILES="$CONFIG_FILES wpunix.pc" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
 
