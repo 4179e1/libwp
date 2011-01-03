@@ -3,7 +3,7 @@ AM_CFLAGS = -Wall
 ACLOCAL_AMFLAGS = -I m4
 
 lib_LTLIBRARIES = libwp.la \
-				  libwppthread.la \
+				  libwppthread.la
 
 libwp_la_SOURCES = wpbase.c \
 				   wpsocket.c \
