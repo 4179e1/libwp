@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
+#include <wpmacros.h>
 #include <wpqueue.h>
 
 /**
@@ -52,52 +52,52 @@ wp_queue_t *wp_queue_new(int size)
 
 void wp_queue_free (wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	free (q->data);
 	free (q);
 }
 
 void wp_queue_flush (wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	q->head = 0;
 	q->tail = 0;
 	q->card = 0;
 }
 
-bool wp_queue_is_empty (const wp_queue_t *q)
+int wp_queue_is_empty (const wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, -1);
 	return (q->card == 0);
 }
 
 int wp_queue_get_size (const wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, -1);
 	return q->size;
 }
 
 int wp_queue_get_card (const wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, -1);
 	return q->card;
 }
 
 int wp_queue_get_growing_factor (const wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, -1);
 	return q->growing_factor;
 }
 
 void wp_queue_set_growing_factor (wp_queue_t *q, int value)
 {
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	q->growing_factor = value;
 }
 
 void wp_queue_push_head (wp_queue_t *q, void *data)
 {
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	(q->card)++;
 	if ((q->card) == (q->size))
 	{
@@ -126,7 +126,7 @@ void wp_queue_push_head (wp_queue_t *q, void *data)
 
 void wp_queue_push_tail (wp_queue_t *q, void *data)
 {
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	(q->card++);
 	if ((q->card) == (q->size))
 	{
@@ -155,13 +155,13 @@ void wp_queue_push_tail (wp_queue_t *q, void *data)
 
 void *wp_queue_head (const wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, NULL);
 	return q->data[q->head];
 }
 
 void *wp_queue_tail (const wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, NULL);
 	return q->data[next (q->tail, q->size)];
 }
 
@@ -169,7 +169,7 @@ void *wp_queue_pop_head (wp_queue_t *q)
 {
 	void *tmp;
 
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, NULL);
 	tmp = q->data[q->head];
 	q->head = next (q->head, q->size);
 	(q->card)--;
@@ -178,7 +178,7 @@ void *wp_queue_pop_head (wp_queue_t *q)
 
 void *wp_queue_pop_tail (wp_queue_t *q)
 {
-	assert (q != NULL);
+	wp_return_val_if_fail (q != NULL, NULL);
 	q->tail = prev (q->tail, q->size);
 	(q->card)--;
 	return q->data[q->tail];
@@ -187,7 +187,7 @@ void *wp_queue_pop_tail (wp_queue_t *q)
 void wp_queue_dump (const wp_queue_t *q, FILE *file, wp_write_func_t f, void *data)
 {
 	int i, cur;
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	fprintf (file, "<QUEUE HEAD=\"%d\" TAIL=\"%d\" CARD=\"%d\" SIZE=\"%d\" GROWING_FACTOR=\"%d\">", q->head, q->tail, q->card, q->size, q->growing_factor);
 	for (i = 0, cur = q->head; i < q->card; i++, cur = next (cur, q->size))
 	{
@@ -205,7 +205,7 @@ void wp_queue_foreach (const wp_queue_t *q, wp_foreach_func_t f, void *data)
 {
 	int i, cur;
 
-	assert (q != NULL);
+	wp_return_if_fail (q != NULL);
 	for (i = 0, cur = q->head; i < q->card; i++, cur = next (cur, q->size))
 	{
 		if (f(q->data[cur], data) == false)

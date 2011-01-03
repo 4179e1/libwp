@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <assert.h>
+#include <wpmacros.h>
 #include <wplistnode.h>
 #include <wpbase.h>
 
@@ -45,52 +45,52 @@ void wp_list_node_free (wp_list_node_t *n)
 
 void wp_list_node_set_content (wp_list_node_t *node, void *data)
 {
-	assert (node != NULL);
+	wp_return_if_fail (node != NULL);
 	node->data = data;
 }
 
 void wp_list_node_set_next (wp_list_node_t *node, wp_list_node_t *next)
 {
-	assert (node != NULL);
+	wp_return_if_fail (node != NULL);
 	node->next = next;
 }
 
 void wp_list_node_set_prev (wp_list_node_t *node, wp_list_node_t *prev)
 {
-	assert (node != NULL);
+	wp_return_if_fail (node != NULL);
 	node->prev = prev;
 }
 
 void *wp_list_node_get_content (const wp_list_node_t *node)
 {
-	assert (node != NULL);
+	wp_return_val_if_fail (node != NULL, NULL);
 	return node->data;
 }
 
 wp_list_node_t *wp_list_node_get_next (const wp_list_node_t *node)
 {
-	assert (node != NULL);
+	wp_return_val_if_fail (node != NULL, NULL);
 	return node->next;
 }
 
 wp_list_node_t *wp_list_node_get_prev (const wp_list_node_t *node)
 {
-	assert (node != NULL);
+	wp_return_val_if_fail (node != NULL, NULL);
 	return node->prev;
 }
 
 void wp_list_node_link (wp_list_node_t *prev, wp_list_node_t *next)
 {
-	assert (prev != NULL);
-	assert (next != NULL);
+	wp_return_if_fail (prev != NULL);
+	wp_return_if_fail (next != NULL);
 	prev->next = next;
 	next->prev = prev;
 }
 
 void wp_list_node_unlink (wp_list_node_t *prev, wp_list_node_t *next)
 {
-	assert (prev != NULL);
-	assert (prev != NULL);
+	wp_return_if_fail (prev != NULL);
+	wp_return_if_fail (prev != NULL);
 	prev->next = NULL;
 	next->prev = NULL;
 }
@@ -99,8 +99,8 @@ void wp_list_node_insert_before (wp_list_node_t *n, wp_list_node_t *prev)
 {
 	wp_list_node_t *tmp;
 
-	assert (n != NULL);
-	assert (prev != NULL);
+	wp_return_if_fail (n != NULL);
+	wp_return_if_fail (prev != NULL);
 
 	tmp = n->prev;
 	wp_list_node_link (prev, n);
@@ -116,8 +116,8 @@ void wp_list_node_insert_after (wp_list_node_t *n, wp_list_node_t *next)
 {
 	wp_list_node_t *tmp;
 	
-	assert (n != NULL);
-	assert (next != NULL);
+	wp_return_if_fail (n != NULL);
+	wp_return_if_fail (next != NULL);
 
 	tmp = n->next;
 	wp_list_node_link (n, next);
@@ -131,8 +131,8 @@ void wp_list_node_insert_after (wp_list_node_t *n, wp_list_node_t *next)
 
 void wp_list_node_dump (const wp_list_node_t *node, FILE *file, wp_write_func_t f, void *data)
 {
-	assert (node != NULL);
-	assert (file != NULL);
+	wp_return_if_fail (node != NULL);
+	wp_return_if_fail (file != NULL);
 
 	fprintf (file, "<LIST_NODE REF=\"%p\" CONTENT=\"%p\" PREV=\"%p\" NEXT=\"%p\">", (void *)node, (void *)node->data, (void *)node->prev, (void *)node->next);
 	if (f)

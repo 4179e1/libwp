@@ -1,4 +1,4 @@
-#include <assert.h>
+#include <wpmacros.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -160,7 +160,7 @@ wp_hash_table_resize (wp_hash_table_t *hash_table)
 	wp_hash_table_set_shift_from_size (hash_table, hash_table->nnodes * 2);
 
 	new_nodes = calloc (hash_table->size, sizeof (wp_hash_node_t));
-	assert (new_nodes != NULL);
+	wp_return_if_fail (new_nodes != NULL);
 
 	for (i = 0; i < old_size; i++)
 	{

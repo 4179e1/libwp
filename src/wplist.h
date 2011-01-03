@@ -17,7 +17,7 @@ wp_list_t *wp_list_new (void);
 void wp_list_free (wp_list_t *l);
 void wp_list_flush (wp_list_t *l);
 
-bool wp_list_is_empty (wp_list_t *l);
+int wp_list_is_empty (wp_list_t *l);
 int wp_list_get_card (wp_list_t *l);
 
 void wp_list_insert_head (wp_list_t *l, void *data);
@@ -45,8 +45,8 @@ void wp_list_foreach (wp_list_t *l, wp_foreach_func_t f, void *data);
 wp_list_cursor_t *wp_list_cursor_new (wp_list_t *l);
 void wp_list_cursor_free (wp_list_cursor_t *lc);
 
-bool wp_list_cursor_is_head (const wp_list_cursor_t *lc);
-bool wp_list_cursor_is_tail (const wp_list_cursor_t *lc);
+int wp_list_cursor_is_head (const wp_list_cursor_t *lc);
+int wp_list_cursor_is_tail (const wp_list_cursor_t *lc);
 
 void wp_list_cursor_move_to_head (wp_list_cursor_t *lc);
 void wp_list_cursor_move_to_tail (wp_list_cursor_t *lc);

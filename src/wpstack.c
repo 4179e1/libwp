@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <assert.h>
+#include <wpmacros.h>
 #include <wpstack.h>
 
 struct _wp_stack
@@ -13,7 +13,7 @@ struct _wp_stack
 wp_stack_t *stack_new (int size)
 {
 	wp_stack_t *s;
-	assert (size > 0);
+	wp_return_val_if_fail (size > 0, NULL);
 
 	s = (wp_stack_t *)malloc (sizeof (wp_stack_t));
 	if (s == NULL)
@@ -37,50 +37,50 @@ wp_stack_t *stack_new (int size)
 
 void stack_free (wp_stack_t *s)
 {
-	assert (s != NULL);
+	wp_return_if_fail (s != NULL);
 	free (s->data);
 	free (s);
 }
 
 void stack_flush (wp_stack_t *s)
 {
-	assert (s != NULL);
+	wp_return_if_fail (s != NULL);
 	s->card = 0;
 }
 
-bool stack_is_empty (const wp_stack_t *s)
+int stack_is_empty (const wp_stack_t *s)
 {
-	assert (s != NULL);
+	wp_return_val_if_fail (s != NULL, -1);
 	return (s->card == 0);
 }
 
 int stack_get_size (const wp_stack_t *s)
 {
-	assert (s != NULL);
+	wp_return_val_if_fail (s != NULL, -1);
 	return s->size;
 }
 
 int stack_get_card (const wp_stack_t *s)
 {
-	assert (s != NULL);
+	wp_return_val_if_fail (s != NULL, -1);
 	return s->card;
 }
 
 int stack_get_growing_factor (const wp_stack_t *s)
 {
-	assert (s != NULL);
+	wp_return_val_if_fail (s != NULL, -1);
 	return s->growing_factor;
 }
 
 void stack_set_growing_factor (wp_stack_t *s, int value)
 {
-	assert (s != NULL);
+	wp_return_if_fail (s != NULL);
 	s->growing_factor = value;
 }
 
 void stack_push (wp_stack_t *s, void *data)
 {
-	assert (s != NULL);
+	wp_return_if_fail (s != NULL);
 
 	(s->card++);
 	if ((s->card) == (s->size))

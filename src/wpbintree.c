@@ -54,9 +54,9 @@ void wp_bin_tree_flush (wp_bin_tree_t *t)
 	t->card = 0;
 }
 
-bool wp_bin_tree_is_empty (const wp_bin_tree_t *t)
+int wp_bin_tree_is_empty (const wp_bin_tree_t *t)
 {
-	wp_return_val_if_fail (t != NULL, true);
+	wp_return_val_if_fail (t != NULL, -1);
 	return (t->card == 0);
 }
 

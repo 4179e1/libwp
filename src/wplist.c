@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <assert.h>
+#include <wpmacros.h>
 #include <wplist.h>
 #include <wplistnode.h>
 
@@ -58,7 +58,7 @@ wp_list_t *wp_list_new (void)
 
 void wp_list_free (wp_list_t *l)
 {
-	assert (l != NULL);
+	wp_return_if_fail (l != NULL);
 	wp_list_flush (l);
 	free (l->sent);
 	free (l->end);
@@ -70,7 +70,7 @@ void wp_list_flush (wp_list_t *l)
 	wp_list_node_t *tmp;
 	wp_list_node_t *save;
 
-	assert (l != NULL);
+	wp_return_if_fail (l != NULL);
 
 	tmp = wp_list_node_get_next (l->sent); 
 	while (tmp != l->end)
@@ -84,15 +84,15 @@ void wp_list_flush (wp_list_t *l)
 	l->card = 0;
 }
 
-bool wp_list_is_empty (wp_list_t *l)
+int wp_list_is_empty (wp_list_t *l)
 {
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, -1);
 	return (l->card == 0);
 }
 
 int wp_list_get_card (wp_list_t *l)
 {
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, -1);
 	return l->card;
 }
 
@@ -100,7 +100,7 @@ void wp_list_insert_head (wp_list_t *l, void *data)
 {
 	wp_list_node_t *node;
 
-	assert (l != NULL);
+	wp_return_if_fail (l != NULL);
 
 	node = wp_list_node_new ();
 	if (node == NULL)
@@ -119,7 +119,7 @@ void wp_list_insert_tail (wp_list_t *l, void *data)
 {
 	wp_list_node_t *node;
 
-	assert (l != NULL);
+	wp_return_if_fail (l != NULL);
 
 	node = wp_list_node_new ();
 	if (node == NULL)
@@ -136,13 +136,13 @@ void wp_list_insert_tail (wp_list_t *l, void *data)
 
 void *wp_list_head (wp_list_t *l)
 {
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
 	return wp_list_node_get_content (wp_list_node_get_next (l->sent));
 }
 
 void *wp_list_tail (wp_list_t *l)
 {
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
 	return wp_list_node_get_content (wp_list_node_get_prev (l->end));
 }
 
@@ -152,7 +152,7 @@ void *wp_list_delete_head (wp_list_t *l)
 	wp_list_node_t *tmp;
 	void *data;
 
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
 
 	head = wp_list_node_get_next (l->sent);
 	tmp = wp_list_node_get_next (head);
@@ -171,7 +171,7 @@ void *wp_list_delete_tail (wp_list_t *l)
 	wp_list_node_t *tmp;
 	void *data;
 
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
 
 	tail = wp_list_node_get_prev (l->end);
 	tmp = wp_list_node_get_prev (tail);
@@ -189,8 +189,8 @@ void *wp_list_delete (wp_list_t *l, const void *data, wp_compare_func_t cmp_f)
 	wp_list_node_t *tmp;
 	void *rt;
 
-	assert (l != NULL);
-	assert (cmp_f != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
+	wp_return_val_if_fail (cmp_f != NULL, NULL);
 	
 	for (tmp = wp_list_node_get_next (l->sent); tmp != l->end; tmp = wp_list_node_get_next (tmp))
 	{
@@ -213,8 +213,8 @@ void *wp_list_search (wp_list_t *l, const void *data, wp_compare_func_t cmp_f)
 {
 	wp_list_node_t *tmp;
 
-	assert (l != NULL);
-	assert (cmp_f != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
+	wp_return_val_if_fail (cmp_f != NULL, NULL);
 
 	tmp = wp_list_search_node (l, data, cmp_f);
 	if (tmp == NULL)
@@ -230,7 +230,7 @@ void *wp_list_search_by_position (wp_list_t *l, int pos)
 {
 	wp_list_node_t *node;
 
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
 
 	node = wp_list_search_node_by_position (l, pos);
 	if (node == NULL)
@@ -246,8 +246,8 @@ void *wp_list_search_max (wp_list_t *l, wp_compare_func_t cmp_f)
 	wp_list_node_t *max;
 	wp_list_node_t *tmp;
 
-	assert (l != NULL);
-	assert (cmp_f != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
+	wp_return_val_if_fail (cmp_f != NULL, NULL);
 
 	max = wp_list_node_get_next (l->sent);
 	for (tmp = wp_list_node_get_next (max); tmp != l->end; tmp = wp_list_node_get_next (tmp))
@@ -271,8 +271,8 @@ void *wp_list_search_min (wp_list_t *l, wp_compare_func_t cmp_f)
 	wp_list_node_t *min;
 	wp_list_node_t *tmp;
 
-	assert (l != NULL);
-	assert (cmp_f != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
+	wp_return_val_if_fail (cmp_f != NULL, NULL);
 
 	if (l->card == 0)
 	{
@@ -299,8 +299,8 @@ void *wp_list_search_min (wp_list_t *l, wp_compare_func_t cmp_f)
 
 void wp_list_sort (wp_list_t *l, wp_compare_func_t cmp_f)
 {
-	assert (l != NULL);
-	assert (cmp_f != NULL);
+	wp_return_if_fail (l != NULL);
+	wp_return_if_fail (cmp_f != NULL);
 
 	wp_list_node_link (l->sent, wp_list_merge_sort (l, wp_list_node_get_next (l->sent), l->end, cmp_f));
 }
@@ -308,8 +308,8 @@ void wp_list_sort (wp_list_t *l, wp_compare_func_t cmp_f)
 void wp_list_dump (wp_list_t *l, FILE *file, wp_write_func_t f, void *data)
 {
 	wp_list_node_t *node;
-	assert (l != NULL);
-	assert (file != NULL);
+	wp_return_if_fail (l != NULL);
+	wp_return_if_fail (file != NULL);
 
 	fprintf (file, "<LIST REF=\"%p\" CARD=\"%d\" SENT=\"%p\" END=\"%p\">", (void *)l, l->card, (void *)l->sent, (void *)l->end);
 	for (node = wp_list_node_get_next (l->sent); node != l->end; node = wp_list_node_get_next (node))
@@ -322,8 +322,8 @@ void wp_list_dump (wp_list_t *l, FILE *file, wp_write_func_t f, void *data)
 void wp_list_foreach (wp_list_t *l, wp_foreach_func_t f, void *data)
 {
 	wp_list_node_t *node;
-	assert (l != NULL);
-	assert (f != NULL);
+	wp_return_if_fail (l != NULL);
+	wp_return_if_fail (f != NULL);
 
 	for (node = wp_list_node_get_next (l->sent); node != l->end; node = wp_list_node_get_next (node))
 	{
@@ -339,7 +339,7 @@ wp_list_cursor_t *wp_list_cursor_new (wp_list_t *l)
 {
 	wp_list_cursor_t *lc;
 
-	assert (l != NULL);
+	wp_return_val_if_fail (l != NULL, NULL);
 
 	lc = (wp_list_cursor_t *)malloc (sizeof (wp_list_cursor_t));
 	if (lc == NULL)
@@ -355,14 +355,14 @@ wp_list_cursor_t *wp_list_cursor_new (wp_list_t *l)
 
 void wp_list_cursor_free (wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	free (lc);
 }
 
-bool wp_list_cursor_is_head (const wp_list_cursor_t *lc)
+int wp_list_cursor_is_head (const wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, -1);
 
 	if (wp_list_is_empty (lc->l))
 	{
@@ -372,9 +372,9 @@ bool wp_list_cursor_is_head (const wp_list_cursor_t *lc)
 	return (lc->n == wp_list_node_get_next (lc->l->sent));
 }
 
-bool wp_list_cursor_is_tail (const wp_list_cursor_t *lc)
+int wp_list_cursor_is_tail (const wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, -1);
 	if (wp_list_is_empty (lc->l))
 	{
 		return false;
@@ -385,28 +385,28 @@ bool wp_list_cursor_is_tail (const wp_list_cursor_t *lc)
 			
 void wp_list_cursor_move_to_head (wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	lc->n = wp_list_node_get_next (lc->l->sent);
 }
 
 void wp_list_cursor_move_to_tail (wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	lc->n = wp_list_node_get_prev (lc->l->end);
 }
 
 void wp_list_cursor_step_forward (wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	lc->n = wp_list_node_get_next (lc->n);
 }
 
 void wp_list_cursor_step_backward (wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	lc->n = wp_list_node_get_prev (lc->n);
 }
@@ -415,7 +415,7 @@ void *wp_list_cursor_move_to_value (wp_list_cursor_t *lc, void *value, wp_compar
 {
 	wp_list_node_t *n;
 
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, NULL);
 
 	n = wp_list_search_node (lc->l, value, cmp_f);
 
@@ -432,7 +432,7 @@ void *wp_list_cursor_move_to_position (wp_list_cursor_t *lc, int pos)
 {
 	wp_list_node_t *n;
 
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, NULL);
 
 	n = wp_list_search_node_by_position (lc->l, pos);
 
@@ -447,7 +447,7 @@ void *wp_list_cursor_move_to_position (wp_list_cursor_t *lc, int pos)
 
 void wp_list_cursor_set_content (wp_list_cursor_t *lc, void *data)
 {
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{
@@ -459,7 +459,7 @@ void wp_list_cursor_set_content (wp_list_cursor_t *lc, void *data)
 
 void *wp_list_cursor_get_content (wp_list_cursor_t *lc)
 {
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{
@@ -473,7 +473,7 @@ void wp_list_cursor_insert_before (wp_list_cursor_t *lc, void *data)
 {
 	wp_list_node_t *tmp;
 
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{
@@ -494,7 +494,7 @@ void wp_list_cursor_insert_after (wp_list_cursor_t *lc, void *data)
 {
 	wp_list_node_t *tmp;
 
-	assert (lc != NULL);
+	wp_return_if_fail (lc != NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{
@@ -517,7 +517,7 @@ void *wp_list_cursor_remove (wp_list_cursor_t *lc)
 	wp_list_node_t *n;
 	void *data;
 
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{
@@ -547,7 +547,7 @@ void *wp_list_cursor_remove_before (wp_list_cursor_t *lc)
 	wp_list_node_t *p;
 	void *data;
 
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{
@@ -575,7 +575,7 @@ void *wp_list_cursor_remove_after (wp_list_cursor_t *lc)
 	wp_list_node_t *n;
 	void *data;
 	
-	assert (lc != NULL);
+	wp_return_val_if_fail (lc != NULL, NULL);
 
 	if ((lc->n == lc->l->sent) || (lc->n == lc->l->end))
 	{

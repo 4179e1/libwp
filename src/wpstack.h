@@ -16,7 +16,7 @@ wp_stack_t *stack_new (int size);
 void stack_free (wp_stack_t *s);
 void stack_flush (wp_stack_t *s);
 
-bool stack_is_empty (const wp_stack_t *s);
+int stack_is_empty (const wp_stack_t *s);
 int stack_get_size (const wp_stack_t *s);
 int stack_get_card (const wp_stack_t *s);
 int stack_get_growing_factor (const wp_stack_t *s);

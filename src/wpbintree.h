@@ -15,7 +15,7 @@ wp_bin_tree_t *wp_bin_tree_new (wp_compare_func_t cmp_f);
 void wp_bin_tree_free (wp_bin_tree_t *t);
 void wp_bin_tree_flush (wp_bin_tree_t *t);
 
-bool wp_bin_tree_is_empty (const wp_bin_tree_t *t);
+int wp_bin_tree_is_empty (const wp_bin_tree_t *t);
 int wp_bin_tree_get_card (const wp_bin_tree_t *t);
 int wp_bin_tree_get_height (const wp_bin_tree_t *t);
 

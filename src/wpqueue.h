@@ -25,7 +25,7 @@ wp_queue_t *wp_queue_new(int size);
 void wp_queue_free (wp_queue_t *q);
 void wp_queue_flush (wp_queue_t *q);
 
-bool wp_queue_is_empty (const wp_queue_t *q);
+int wp_queue_is_empty (const wp_queue_t *q);
 int wp_queue_get_size (const wp_queue_t *q);
 int wp_queue_get_card (const wp_queue_t *q);
 int wp_queue_get_growing_factor (const wp_queue_t *q);

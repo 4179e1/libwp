@@ -14,7 +14,7 @@ wp_rb_tree_t *wp_rb_tree_new (wp_compare_func_t cmp_f);
 void wp_rb_tree_free (wp_rb_tree_t *t);
 void wp_rb_tree_flush (wp_rb_tree_t *t);
 
-bool wp_rb_tree_is_empty (const wp_rb_tree_t *t);
+int wp_rb_tree_is_empty (const wp_rb_tree_t *t);
 int wp_rb_tree_get_card (const wp_rb_tree_t *t);
 int wp_rb_tree_get_height (const wp_rb_tree_t *t);
 
