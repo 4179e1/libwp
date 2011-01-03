@@ -27,7 +27,11 @@ libwp_la_SOURCES = wpbase.c \
 				   wpstack.c \
 				   wpstack.h \
 				   wptreenode.c \
-				   wptreenode.h
+				   wptreenode.h \
+				   wphash.c \
+				   wphash.h \
+				   wpmacros.h \
+				   wptypes.h
 libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
@@ -46,4 +50,7 @@ include_HEADERS = libwp.h \
 				  wpqueue.h \
 				  wprbtree.h \
 				  wpstack.h \
-				  wptreenode.h
+				  wptreenode.h \
+				  wphash.h \
+				  womacros.h \
+				  wptypes.h

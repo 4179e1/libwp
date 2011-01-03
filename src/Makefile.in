@@ -75,7 +75,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libwp_la_LIBADD =
 am_libwp_la_OBJECTS = wpbase.lo wpsocket.lo wpstdc.lo _wpbintree.lo \
 	wpbintree.lo wplist.lo wplistnode.lo wpqueue.lo wprbtree.lo \
-	wpstack.lo wptreenode.lo
+	wpstack.lo wptreenode.lo wphash.lo
 libwp_la_OBJECTS = $(am_libwp_la_OBJECTS)
 libwp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(libwp_la_LDFLAGS) \
@@ -245,7 +245,11 @@ libwp_la_SOURCES = wpbase.c \
 				   wpstack.c \
 				   wpstack.h \
 				   wptreenode.c \
-				   wptreenode.h
+				   wptreenode.h \
+				   wphash.c \
+				   wphash.h \
+				   wpmacros.h \
+				   wptypes.h
 
 libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
@@ -355,6 +359,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_wpbintree.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpbase.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpbintree.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wphash.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wplist.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wplistnode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wppthread.Plo@am__quote@
@@ -622,7 +627,10 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES
 				  wpqueue.h \
 				  wprbtree.h \
 				  wpstack.h \
-				  wptreenode.h
+				  wptreenode.h \
+				  wphash.h \
+				  womacros.h \
+				  wptypes.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
