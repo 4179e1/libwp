@@ -36,7 +36,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = src
-DIST_COMMON = $(include_HEADERS) $(srcdir)/Makefile.am \
+DIST_COMMON = $(libwp_include_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -70,12 +70,14 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
-LTLIBRARIES = $(lib_LTLIBRARIES)
+am__installdirs = "$(DESTDIR)$(libwpdir)" \
+	"$(DESTDIR)$(libwp_includedir)"
+LTLIBRARIES = $(libwp_LTLIBRARIES)
 libwp_la_LIBADD =
-am_libwp_la_OBJECTS = wpbase.lo wpsocket.lo wpstdc.lo _wpbintree.lo \
-	wpbintree.lo wplist.lo wplistnode.lo wpqueue.lo wprbtree.lo \
-	wpstack.lo wptreenode.lo wphash.lo
+am_libwp_la_OBJECTS = wpbase.lo wpsocket.lo wpstdc.lo wpunix.lo \
+	wpunix_rio.lo _wpbintree.lo wpbintree.lo wplist.lo \
+	wplistnode.lo wpqueue.lo wprbtree.lo wpstack.lo wptreenode.lo \
+	wphash.lo
 libwp_la_OBJECTS = $(am_libwp_la_OBJECTS)
 libwp_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(libwp_la_LDFLAGS) \
@@ -101,7 +103,7 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libwp_la_SOURCES) $(libwppthread_la_SOURCES)
 DIST_SOURCES = $(libwp_la_SOURCES) $(libwppthread_la_SOURCES)
-HEADERS = $(include_HEADERS)
+HEADERS = $(libwp_include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -220,7 +222,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -Wall
 ACLOCAL_AMFLAGS = -I m4
-lib_LTLIBRARIES = libwp.la \
+libwpdir = ${libdir}/libwp
+libwp_LTLIBRARIES = libwp.la \
 				  libwppthread.la
 
 libwp_la_SOURCES = wpbase.c \
@@ -230,6 +233,10 @@ libwp_la_SOURCES = wpbase.c \
 				   wpbase.h \
 				   wpsocket.h \
 				   wpstdc.h \
+				   wpunix.c \
+				   wpunix.h \
+				   wpunix_rio.c \
+				   wpunix_rio.h \
 				   _wpbintree.c \
 				   wpbintree.c \
 				   _wpbintree.h \
@@ -254,13 +261,26 @@ libwp_la_SOURCES = wpbase.c \
 libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
-include_HEADERS = libwp.h \
+libwp_includedir = $(includedir)/libwp
+libwp_include_HEADERS = libwp.h \
 				  wpbase.h \
 				  wppthread.h \
 				  wpsocket.h \
 				  wpstdc.h \
 				  wpunix.h \
-				  wpds.h
+				  wpunix_rio.h \
+				  wpds.h \
+				  _wpbintree.h \
+				  wpbintree.h \
+				  wplist.h \
+				  wplistnode.h \
+				  wpqueue.h \
+				  wprbtree.h \
+				  wpstack.h \
+				  wptreenode.h \
+				  wphash.h \
+				  wpmacros.h \
+				  wptypes.h
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -314,41 +334,41 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+install-libwpLTLIBRARIES: $(libwp_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	test -z "$(libwpdir)" || $(MKDIR_P) "$(DESTDIR)$(libwpdir)"
+	@list='$(libwp_LTLIBRARIES)'; test -n "$(libwpdir)" || list=; \
 	list2=; for p in $$list; do \
 	  if test -f $$p; then \
 	    list2="$$list2 $$p"; \
 	  else :; fi; \
 	done; \
 	test -z "$$list2" || { \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libwpdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libwpdir)"; \
 	}
 
-uninstall-libLTLIBRARIES:
+uninstall-libwpLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	@list='$(libwp_LTLIBRARIES)'; test -n "$(libwpdir)" || list=; \
 	for p in $$list; do \
 	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libwpdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libwpdir)/$$f"; \
 	done
 
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+clean-libwpLTLIBRARIES:
+	-test -z "$(libwp_LTLIBRARIES)" || rm -f $(libwp_LTLIBRARIES)
+	@list='$(libwp_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test "$$dir" != "$$p" || dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
 libwp.la: $(libwp_la_OBJECTS) $(libwp_la_DEPENDENCIES) 
-	$(libwp_la_LINK) -rpath $(libdir) $(libwp_la_OBJECTS) $(libwp_la_LIBADD) $(LIBS)
+	$(libwp_la_LINK) -rpath $(libwpdir) $(libwp_la_OBJECTS) $(libwp_la_LIBADD) $(LIBS)
 libwppthread.la: $(libwppthread_la_OBJECTS) $(libwppthread_la_DEPENDENCIES) 
-	$(libwppthread_la_LINK) -rpath $(libdir) $(libwppthread_la_OBJECTS) $(libwppthread_la_LIBADD) $(LIBS)
+	$(libwppthread_la_LINK) -rpath $(libwpdir) $(libwppthread_la_OBJECTS) $(libwppthread_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -369,6 +389,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpstack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpstdc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wptreenode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpunix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wpunix_rio.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -396,26 +418,26 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-includeHEADERS: $(include_HEADERS)
+install-libwp_includeHEADERS: $(libwp_include_HEADERS)
 	@$(NORMAL_INSTALL)
-	test -z "$(includedir)" || $(MKDIR_P) "$(DESTDIR)$(includedir)"
-	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
+	test -z "$(libwp_includedir)" || $(MKDIR_P) "$(DESTDIR)$(libwp_includedir)"
+	@list='$(libwp_include_HEADERS)'; test -n "$(libwp_includedir)" || list=; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includedir)" || exit $$?; \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libwp_includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libwp_includedir)" || exit $$?; \
 	done
 
-uninstall-includeHEADERS:
+uninstall-libwp_includeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
+	@list='$(libwp_include_HEADERS)'; test -n "$(libwp_includedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(includedir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(includedir)" && rm -f $$files
+	echo " ( cd '$(DESTDIR)$(libwp_includedir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(libwp_includedir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -503,7 +525,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS) config.h
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libwpdir)" "$(DESTDIR)$(libwp_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -533,7 +555,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+clean-am: clean-generic clean-libtool clean-libwpLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -554,13 +576,13 @@ info: info-am
 
 info-am:
 
-install-data-am: install-includeHEADERS
+install-data-am: install-libwpLTLIBRARIES install-libwp_includeHEADERS
 
 install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am:
 
 install-html: install-html-am
 
@@ -600,37 +622,27 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES
+uninstall-am: uninstall-libwpLTLIBRARIES \
+	uninstall-libwp_includeHEADERS
 
 .MAKE: all install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool ctags distclean \
+	clean-libtool clean-libwpLTLIBRARIES ctags distclean \
 	distclean-compile distclean-generic distclean-hdr \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am \
-	install-includeHEADERS install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-libwpLTLIBRARIES \
+	install-libwp_includeHEADERS install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-includeHEADERS \
-	uninstall-libLTLIBRARIES
+	tags uninstall uninstall-am uninstall-libwpLTLIBRARIES \
+	uninstall-libwp_includeHEADERS
 
-				  _wpbintree.h \
-				  wpbintree.h \
-				  wplist.h \
-				  wplistnode.h \
-				  wpqueue.h \
-				  wprbtree.h \
-				  wpstack.h \
-				  wptreenode.h \
-				  wphash.h \
-				  womacros.h \
-				  wptypes.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -2,13 +2,14 @@
 #define _WPDS_H
 
 #include <wpbase.h>
-#include <_bintree.h>
-#include <bintree.h>
-#include <list.h>
-#include <listnode.h>
-#include <queue.h>
-#include <rbtree.h>
-#include <stack.h>
-#include <treenode.h>
+#include <_wpbintree.h>
+#include <wpbintree.h>
+#include <wplist.h>
+#include <wplistnode.h>
+#include <wpqueue.h>
+#include <wprbtree.h>
+#include <wpstack.h>
+#include <wptreenode.h>
+#include <wphash.h>
 
 #endif /* _WPDS_H */

@@ -2,7 +2,8 @@ AM_CFLAGS = -Wall
 
 ACLOCAL_AMFLAGS = -I m4
 
-lib_LTLIBRARIES = libwp.la \
+libwpdir = ${libdir}/libwp
+libwp_LTLIBRARIES = libwp.la \
 				  libwppthread.la
 
 libwp_la_SOURCES = wpbase.c \
@@ -12,6 +13,10 @@ libwp_la_SOURCES = wpbase.c \
 				   wpbase.h \
 				   wpsocket.h \
 				   wpstdc.h \
+				   wpunix.c \
+				   wpunix.h \
+				   wpunix_rio.c \
+				   wpunix_rio.h \
 				   _wpbintree.c \
 				   wpbintree.c \
 				   _wpbintree.h \
@@ -36,13 +41,15 @@ libwp_la_LDFLAGS = -version-info @LT_VERSION@
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
 
-include_HEADERS = libwp.h \
+libwp_includedir=$(includedir)/libwp
+libwp_include_HEADERS = libwp.h \
 				  wpbase.h \
 				  wppthread.h \
 				  wpsocket.h \
 				  wpstdc.h \
 				  wpunix.h \
-				  wpds.h
+				  wpunix_rio.h \
+				  wpds.h \
 				  _wpbintree.h \
 				  wpbintree.h \
 				  wplist.h \
@@ -52,5 +59,5 @@ include_HEADERS = libwp.h \
 				  wpstack.h \
 				  wptreenode.h \
 				  wphash.h \
-				  womacros.h \
+				  wpmacros.h \
 				  wptypes.h

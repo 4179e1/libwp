@@ -1,8 +1,8 @@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src
 
-instdir = ${libdir}/pkgconfig
-inst_DATA = libwp.pc wppthread.pc
+pkgconfigdir = ${libdir}/pkgconfig
+pkgconfig_DATA = libwp.pc wppthread.pc
 
 EXTRA_DIST = libwp.spec.in libwp.pc.in wppthread.pc.in
 

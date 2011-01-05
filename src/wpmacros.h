@@ -1,6 +1,8 @@
 #ifndef _WPMACROS_H
 #define _WPMACROS_H
 
+#include <wpbase.h>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -9,6 +11,7 @@ extern "C"
 #define wp_return_if_fail(expr) do {\
 	if (expr) {} else \
 	{\
+		wp_warning ("assertion `%s' failed", #expr);\
 		return;\
 	}\
 } while(0);
@@ -16,6 +19,7 @@ extern "C"
 #define wp_return_val_if_fail(expr,val) do {\
 	if (expr) {} else \
 	{\
+		wp_warning ("assertion `%s' failed", #expr);\
 		return (val);\
 	}\
 } while(0);
