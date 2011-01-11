@@ -16,6 +16,8 @@
 #
 # norootforbuild
 
+%define libwp_header_dir libwp-@PKG_VERSION@
+
 Name:           @PACKAGE@
 Version:        @VERSION@
 Release:        @RELEASE@
@@ -36,7 +38,7 @@ BuildRequires:  automake pkgconfig
 # BuildArch:      noarch
 
 %description
-libwp is library that warps commmon functions in standard C, Linux system, POSIX, and BSD socket.
+libwp is library that warps common functions in standard C, Linux system, POSIX, and BSD socket.
 
 Authors:
 	Lyre <lyre@poetpalace.org>
@@ -44,10 +46,10 @@ Authors:
 %package devel
 Group:          Development/Libraries/C and C++
 Summary:        The wrapper library for Linux
-Requires:		libwp = @VERSION@
+Requires:		@PACKAGE@ = @VERSION@
 
 %description devel
-libwp is library that warps commmon functions in standard C, Linux system, POSIX, and BSD socket
+libwp is library that warps common functions in standard C, Linux system, POSIX, and BSD socket
 
 %debug_package %{nil}
 
@@ -62,7 +64,7 @@ make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot}
-rm -f %{buildroot}%{_libdir}/libwp/*.la
+rm -f %{buildroot}%{_libdir}/*.la
 
 %postun -p /sbin/ldconfig
 
@@ -72,14 +74,15 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 #%doc README
-%{_libdir}/libwp/*.so.*
+%{_libdir}/*.so.*
 
 %files devel
 %defattr(-,root,root,-)
 #%doc README
-%{_includedir}/libwp/*.h
-%{_libdir}/libwp/*.a
-%{_libdir}/libwp/*.so
+%dir %{_includedir}/%{libwp_header_dir}
+%{_includedir}/%{libwp_header_dir}/*.h
+%{_libdir}/*.a
+%{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
 
 

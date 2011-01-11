@@ -144,7 +144,6 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
-LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
@@ -161,6 +160,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_VERSION = @PKG_VERSION@
 RANLIB = @RANLIB@
 RELEASE = @RELEASE@
 SED = @SED@
@@ -222,7 +222,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -Wall
 ACLOCAL_AMFLAGS = -I m4
-libwpdir = ${libdir}/libwp
+libwpdir = ${libdir}
 libwp_LTLIBRARIES = libwp.la \
 				  libwppthread.la
 
@@ -258,10 +258,10 @@ libwp_la_SOURCES = wpbase.c \
 				   wpmacros.h \
 				   wptypes.h
 
-libwp_la_LDFLAGS = -version-info @LT_VERSION@
+libwp_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 libwppthread_la_SOURCES = wppthread.c wppthread.h
-libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
-libwp_includedir = $(includedir)/libwp
+libwppthread_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
+libwp_includedir = $(includedir)/libwp-@PKG_VERSION@
 libwp_include_HEADERS = libwp.h \
 				  wpbase.h \
 				  wppthread.h \

@@ -2,9 +2,9 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src
 
 pkgconfigdir = ${libdir}/pkgconfig
-pkgconfig_DATA = libwp.pc wppthread.pc
+pkgconfig_DATA = libwp-@PKG_VERSION@.pc wppthread-@PKG_VERSION@.pc
 
-EXTRA_DIST = libwp.spec.in libwp.pc.in wppthread.pc.in
+EXTRA_DIST = libwp-@PKG_VERSION@.spec.in libwp-@PKG_VERSION@.pc.in wppthread-@PKG_VERSION@.pc.in
 
 rpm: dist-bzip2
 	mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.65)
-AC_INIT([libwp],[0.1.0],[4179e1@gmail.com])
+AC_INIT([libwp-0_0],[0.1.0],[4179e1@gmail.com])
 AC_CONFIG_SRCDIR([src/wpbase.c])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -10,8 +10,8 @@ AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([gnu -Wall -Werror])
 LT_INIT
 
-LT_VERSION="0:0:0"
-AC_SUBST(LT_VERSION)
+PKG_VERSION="0.0"
+AC_SUBST(PKG_VERSION)
 
 RELEASE="1.1"
 AC_SUBST(RELEASE)
@@ -48,5 +48,5 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strerror uname utime gethostbyaddr gethostbyname memset select])
 
-AC_CONFIG_FILES([libwp.spec libwp.pc wppthread.pc Makefile src/Makefile])
+AC_CONFIG_FILES([libwp-$PKG_VERSION.spec libwp-$PKG_VERSION.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile])
 AC_OUTPUT

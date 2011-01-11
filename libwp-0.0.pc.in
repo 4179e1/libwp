@@ -3,8 +3,8 @@ exec_prefix=${prefix}
 includedir=${prefix}/include
 libdir=${exec_prefix}/lib
 
-Name: @PACKAGE@
+Name: libwp-@PKG_VERSION@
 Description: C Utility Functions
 Version: @VERSION@
-Cflags: -I${includedir}/libwp
-Libs: -L${libdir}/libwp -lwp
+Cflags: -I${includedir}/libwp-@PKG_VERSION@
+Libs: -L${libdir} -lwp

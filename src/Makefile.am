@@ -2,7 +2,7 @@ AM_CFLAGS = -Wall
 
 ACLOCAL_AMFLAGS = -I m4
 
-libwpdir = ${libdir}/libwp
+libwpdir = ${libdir}
 libwp_LTLIBRARIES = libwp.la \
 				  libwppthread.la
 
@@ -37,11 +37,11 @@ libwp_la_SOURCES = wpbase.c \
 				   wphash.h \
 				   wpmacros.h \
 				   wptypes.h
-libwp_la_LDFLAGS = -version-info @LT_VERSION@
+libwp_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 libwppthread_la_SOURCES = wppthread.c wppthread.h
-libwppthread_la_LDFLAGS = -version-info @LT_VERSION@
+libwppthread_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 
-libwp_includedir=$(includedir)/libwp
+libwp_includedir=$(includedir)/libwp-@PKG_VERSION@
 libwp_include_HEADERS = libwp.h \
 				  wpbase.h \
 				  wppthread.h \
