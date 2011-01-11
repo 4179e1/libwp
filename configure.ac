@@ -48,5 +48,5 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strerror uname utime gethostbyaddr gethostbyname memset select])
 
-AC_CONFIG_FILES([libwp-$PKG_VERSION.spec libwp-$PKG_VERSION.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile])
+AC_CONFIG_FILES([$PACKAGE.spec libwp-$PKG_VERSION.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile])
 AC_OUTPUT

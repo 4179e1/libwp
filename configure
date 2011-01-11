@@ -12632,7 +12632,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files libwp-$PKG_VERSION.spec libwp-$PKG_VERSION.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile"
+ac_config_files="$ac_config_files $PACKAGE.spec libwp-$PKG_VERSION.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -13606,7 +13606,7 @@ do
     "src/config.h") CONFIG_HEADERS="$CONFIG_HEADERS src/config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
-    "libwp-$PKG_VERSION.spec") CONFIG_FILES="$CONFIG_FILES libwp-$PKG_VERSION.spec" ;;
+    "$PACKAGE.spec") CONFIG_FILES="$CONFIG_FILES $PACKAGE.spec" ;;
     "libwp-$PKG_VERSION.pc") CONFIG_FILES="$CONFIG_FILES libwp-$PKG_VERSION.pc" ;;
     "wppthread-$PKG_VERSION.pc") CONFIG_FILES="$CONFIG_FILES wppthread-$PKG_VERSION.pc" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
