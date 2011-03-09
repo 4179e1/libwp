@@ -5,6 +5,13 @@
 #include <sys/select.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <net/if.h>
+#include <stdbool.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
 
 int wp_socket (int domain, int type, int protocol);
 int wp_shutdown (int sockfd, int how);
@@ -59,4 +66,39 @@ int _wp_open_clientfd (char *address, int port);
 int _wp_open_listenfd (int port);
 int wp_open_clientfd (char *address, int port);
 int wp_open_listenfd (int port);
+
+
+/* interface info */
+
+#define IF_NAME 	IFNAMSIZ /* 16 */
+#define IF_HADDR	8	/* allow for 64-bit EUI-64 in future */
+
+typedef struct _wp_interface_t wp_interface_t;
+
+struct _wp_interface_t
+{
+	char 			if_name[IF_NAME];	/* interface name, null-terminated */
+	short			if_index;			/* interface index */
+	short			if_mtu;				/* interface MTU */
+	unsigned char	if_haddr[IF_HADDR];	/* hardware address */
+	unsigned short	if_hlen;			/* bytes in hardware address: 0, 6, 8 */
+	short			if_flags;			/* IFF_xxx constants from <net/if.h> */
+	short			if_myflags;			/* our own IF_xxx flags */
+	struct sockaddr *if_addr; 			/* primary address */
+	struct sockaddr *if_brdaddr;		/* broadcast address */
+	struct sockaddr *if_dstaddr;		/* destination address */
+	wp_interface_t* if_next;		/* next of these structures */
+};
+
+#define IF_ALIAS	1
+
+wp_interface_t *get_interface_info (int family, bool doalias);
+wp_interface_t *wp_get_interface_info (int family, bool doalias);
+void wp_free_interface_info (wp_interface_t *interface);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 #endif /* _WPSOCKET_H */
