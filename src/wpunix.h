@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <dirent.h>
 #include <utime.h>
+#include <wpunix_rio.h>
 
 #ifdef __cplusplus
 extern "C"

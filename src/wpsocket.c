@@ -638,17 +638,6 @@ ERROR_OUT:
 	return NULL;
 }
 
-wp_interface_info_t *wp_get_interface_info (int family, bool doaliases)
-{
-	wp_interface_info_t *i;
-	
-	if ((i = get_interface_info (family, doaliases)) == NULL)
-	{
-		wp_sys_func_warning ();
-	}
-	return i;
-}
-
 void wp_free_interface_info (wp_interface_info_t *head)
 {
 	wp_interface_info_t *i, *next;
