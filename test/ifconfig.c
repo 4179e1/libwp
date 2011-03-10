@@ -39,7 +39,7 @@ int main (int argc, char *argv[])
 		printf ("%s:", interface->name);
 		if (interface->index != 0)
 		{
-			printf ("(%d) ", interface->if_index);
+			printf ("(%d) ", interface->index);
 		}
 		printf ("<");
 		if (interface->flags & IFF_UP)	printf ("UP ");
@@ -61,18 +61,18 @@ int main (int argc, char *argv[])
 
 		if (interface->mtu != 0)
 		{
-			printf ("MTU: %d\n", interface->if_mtu);
+			printf ("MTU: %d\n", interface->mtu);
 		}
 
 		if ((sa = interface->address) !=NULL)
 		{
 			printf ("IP addr: %s\n", wp_inet_ntop (family, &(sa->sin_addr), address, sizeof (address)));
 		}
-		if ((sa = interface->broadcast_addres) !=NULL)
+		if ((sa = interface->broadcast_address) !=NULL)
 		{
 			printf ("broadcast addr: %s\n", wp_inet_ntop (family, &sa->sin_addr, address, sizeof (address)));
 		}
-		if ((sa = interface->if_dstaddr) !=NULL)
+		if ((sa = interface->destination_address) !=NULL)
 		{
 			printf ("destination addr: %s\n", wp_inet_ntop (family, &sa->sin_addr, address, sizeof (address)));
 		}
