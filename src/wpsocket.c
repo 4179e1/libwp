@@ -387,11 +387,11 @@ int wp_open_listenfd (int port)
 	return n;
 }
 
-wp_interface_t *get_interface_info (int family, bool doaliases)
+wp_interface_info_t *get_interface_info (int family, bool doaliases)
 {
-	wp_interface_t *interface;
-	wp_interface_t *ifhead = NULL;
-	wp_interface_t **ifnext;
+	wp_interface_info_t *interface;
+	wp_interface_info_t *ifhead = NULL;
+	wp_interface_info_t **ifnext;
 	int sockfd, len, save_size, flags, myflags, idx = 0, hlen = 0;
 	char *ptr, *buf = NULL, lastname[IFNAMSIZ], *cptr, *haddr = NULL, *sdlname;
 	struct ifconf ifc;
@@ -509,53 +509,53 @@ wp_interface_t *get_interface_info (int family, bool doaliases)
 			continue;	/* ignore if interface not up */
 		}
 
-		interface = wp_calloc (1, sizeof (wp_interface_t));
+		interface = wp_calloc (1, sizeof (wp_interface_info_t));
 		if (interface == NULL)
 		{
 			goto ERROR_OUT;
 		}
 
 		*ifnext = interface;
-		ifnext = &interface->if_next;
-		interface->if_flags = flags;
-		interface->if_myflags = myflags;
+		ifnext = &interface->next;
+		interface->flags = flags;
+		interface->myflags = myflags;
 #if defined(SIOCGIFMTU) && defined (HAVE_STRUCT_IFREQ_IFR_MTU)
 		if (wp_ioctl(sockfd, SIOCGIFMTU, &ifrcopy) == -1)
 		{
 			goto ERROR_OUT;
 		}
-		interface->if_mtu = ifrcopy.ifr_mtu;
+		interface->mtu = ifrcopy.ifr_mtu;
 #else
-		interface->if_mtu = 0;
+		interface->mtu = 0;
 #endif /* defined(SIOCGIFMTU) && defined (HAVE_STRUCT_IFREQ_IFR_MTU) */
-		memcpy (interface->if_name, ifr->ifr_name, IF_NAME);
-		interface->if_name[IF_NAME - 1] = '\0';
+		memcpy (interface->name, ifr->ifr_name, IF_NAME);
+		interface->name[IF_NAME - 1] = '\0';
 		/* If the sockaddr_dl is from a different interface, ignore it */
 		if (sdlname == NULL || strcmp (sdlname, ifr->ifr_name) != 0)
 		{
 			idx = hlen = 0;
 		}
-		interface->if_index = idx;
-		interface->if_hlen = hlen;
-		if (interface->if_hlen > IF_HADDR)
+		interface->index = idx;
+		interface->mac_len = hlen;
+		if (interface->mac_len > IF_HADDR)
 		{
-			interface->if_hlen = IF_HADDR;
+			interface->mac_len = IF_HADDR;
 		}
 		if (hlen)
 		{
-			memcpy (interface->if_haddr, haddr, interface->if_hlen);
+			memcpy (interface->mac, haddr, interface->mac_len);
 		}
 
 		switch (ifr->ifr_addr.sa_family)
 		{
 		case AF_INET:
 			sinptr = (struct sockaddr_in *)&ifr->ifr_addr;
-			interface->if_addr = wp_calloc (1, sizeof (struct sockaddr_in));
-			if (interface->if_addr == NULL)
+			interface->address = wp_calloc (1, sizeof (struct sockaddr_in));
+			if (interface->address == NULL)
 			{
 				goto ERROR_OUT;
 			}
-			memcpy (interface->if_addr, sinptr, sizeof (struct sockaddr_in));
+			memcpy (interface->address, sinptr, sizeof (struct sockaddr_in));
 
 #ifdef SIOCGIFBRDADDR
 			if (flags & IFF_BROADCAST)
@@ -565,12 +565,12 @@ wp_interface_t *get_interface_info (int family, bool doaliases)
 					goto ERROR_OUT;
 				}
 				sinptr = (struct sockaddr_in *)&ifrcopy.ifr_broadaddr;
-				interface->if_brdaddr = wp_calloc (1, sizeof (struct sockaddr_in));
-				if (interface->if_brdaddr == NULL)
+				interface->broadcast_address = wp_calloc (1, sizeof (struct sockaddr_in));
+				if (interface->broadcast_address == NULL)
 				{
 					goto ERROR_OUT;
 				}
-				memcpy (interface->if_brdaddr, sinptr, sizeof (struct sockaddr_in));
+				memcpy (interface->broadcast_address, sinptr, sizeof (struct sockaddr_in));
 			}
 #endif /* SIOCGIFBRDADDR */
 
@@ -582,24 +582,24 @@ wp_interface_t *get_interface_info (int family, bool doaliases)
 					goto ERROR_OUT;
 				}
 				sinptr = (struct sockaddr_in *) &ifrcopy.ifr_dstaddr;
-				interface->if_dstaddr = wp_calloc (1, sizeof (struct sockaddr_in));
-				if (interface->if_dstaddr == NULL)
+				interface->destination_address = wp_calloc (1, sizeof (struct sockaddr_in));
+				if (interface->destination_address == NULL)
 				{
 					goto ERROR_OUT;
 				}
-				memcpy (interface->if_dstaddr, sinptr, sizeof (struct sockaddr_in));
+				memcpy (interface->destination_address, sinptr, sizeof (struct sockaddr_in));
 			}
 #endif /* SIOCGIFDSTADDR */
 			break;
 
 		case AF_INET6:
 			sin6ptr = (struct sockaddr_in6 *)&ifr->ifr_addr;
-			interface->if_addr = wp_calloc (1, sizeof (struct sockaddr_in6));
-			if (interface->if_addr == NULL)
+			interface->address = wp_calloc (1, sizeof (struct sockaddr_in6));
+			if (interface->address == NULL)
 			{
 				goto ERROR_OUT;
 			}
-			memcpy (interface->if_addr, sin6ptr, sizeof (struct sockaddr_in6));
+			memcpy (interface->address, sin6ptr, sizeof (struct sockaddr_in6));
 
 #ifdef SIOCGIFDSTADDR
 			if (flags & IFF_POINTOPOINT)
@@ -609,12 +609,12 @@ wp_interface_t *get_interface_info (int family, bool doaliases)
 					goto ERROR_OUT;
 				}
 				sin6ptr = (struct sockaddr_in6 *)&ifrcopy.ifr_dstaddr;
-				interface->if_dstaddr = wp_calloc (1, sizeof (struct sockaddr_in6));
-				if (interface->if_dstaddr == NULL)
+				interface->destination_address = wp_calloc (1, sizeof (struct sockaddr_in6));
+				if (interface->destination_address == NULL)
 				{
 					goto ERROR_OUT;
 				}
-				memcpy (interface->if_dstaddr, sin6ptr, sizeof (struct sockaddr_in6));
+				memcpy (interface->destination_address, sin6ptr, sizeof (struct sockaddr_in6));
 			}
 #endif /* SIOCGIFDSTADDR */
 			break;
@@ -638,9 +638,9 @@ ERROR_OUT:
 	return NULL;
 }
 
-wp_interface_t *wp_get_interface_info (int family, bool doaliases)
+wp_interface_info_t *wp_get_interface_info (int family, bool doaliases)
 {
-	wp_interface_t *i;
+	wp_interface_info_t *i;
 	
 	if ((i = get_interface_info (family, doaliases)) == NULL)
 	{
@@ -649,25 +649,25 @@ wp_interface_t *wp_get_interface_info (int family, bool doaliases)
 	return i;
 }
 
-void wp_free_interface_info (wp_interface_t *head)
+void wp_free_interface_info (wp_interface_info_t *head)
 {
-	wp_interface_t *i, *next;
+	wp_interface_info_t *i, *next;
 
 	for (i = head; i != NULL; i = next)
 	{
-		if (i->if_addr != NULL)
+		if (i->address != NULL)
 		{
-			free (i->if_addr);
+			free (i->address);
 		}
-		if (i->if_brdaddr != NULL)
+		if (i->broadcast_address != NULL)
 		{
-			free (i->if_brdaddr);
+			free (i->broadcast_address);
 		}
-		if (i->if_dstaddr != NULL)
+		if (i->destination_address != NULL)
 		{
-			free (i->if_dstaddr);
+			free (i->destination_address);
 		}
-		next = i->if_next;
+		next = i->next;
 		free (i);
 	}
 }

@@ -73,28 +73,28 @@ int wp_open_listenfd (int port);
 #define IF_NAME 	IFNAMSIZ /* 16 */
 #define IF_HADDR	8	/* allow for 64-bit EUI-64 in future */
 
-typedef struct _wp_interface_t wp_interface_t;
+typedef struct _wp_interface_info_t wp_interface_info_t;
 
-struct _wp_interface_t
+struct _wp_interface_info_t
 {
-	char 			if_name[IF_NAME];	/* interface name, null-terminated */
-	short			if_index;			/* interface index */
-	short			if_mtu;				/* interface MTU */
-	unsigned char	if_haddr[IF_HADDR];	/* hardware address */
-	unsigned short	if_hlen;			/* bytes in hardware address: 0, 6, 8 */
-	short			if_flags;			/* IFF_xxx constants from <net/if.h> */
-	short			if_myflags;			/* our own IF_xxx flags */
-	struct sockaddr *if_addr; 			/* primary address */
-	struct sockaddr *if_brdaddr;		/* broadcast address */
-	struct sockaddr *if_dstaddr;		/* destination address */
-	wp_interface_t* if_next;		/* next of these structures */
+	char 			name[IF_NAME];	/* interface name, null-terminated */
+	short			index;			/* interface index */
+	short			mtu;				/* interface MTU */
+	unsigned char	mac[IF_HADDR];	/* hardware address */
+	unsigned short	mac_len;			/* bytes in hardware address: 0, 6, 8 */
+	short			flags;			/* IFF_xxx constants from <net/if.h> */
+	short			myflags;			/* our own IF_xxx flags */
+	struct sockaddr *address; 			/* primary address */
+	struct sockaddr *broadcast_address;		/* broadcast address */
+	struct sockaddr *destination_address;		/* destination address */
+	wp_interface_info_t* next;		/* next of these structures */
 };
 
 #define IF_ALIAS	1
 
-wp_interface_t *get_interface_info (int family, bool doalias);
-wp_interface_t *wp_get_interface_info (int family, bool doalias);
-void wp_free_interface_info (wp_interface_t *interface);
+wp_interface_info_t *get_interface_info (int family, bool doalias);
+wp_interface_info_t *wp_get_interface_info (int family, bool doalias);
+void wp_free_interface_info (wp_interface_info_t *interface);
 
 
 #ifdef __cplusplus
