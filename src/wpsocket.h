@@ -92,7 +92,6 @@ struct _wp_interface_info_t
 
 #define IF_ALIAS	1
 
-wp_interface_info_t *get_interface_info (int family, bool doalias);
 wp_interface_info_t *wp_get_interface_info (int family, bool doalias);
 void wp_free_interface_info (wp_interface_info_t *interface);
 

@@ -387,7 +387,7 @@ int wp_open_listenfd (int port)
 	return n;
 }
 
-wp_interface_info_t *get_interface_info (int family, bool doaliases)
+wp_interface_info_t *wp_get_interface_info (int family, bool doaliases)
 {
 	wp_interface_info_t *interface;
 	wp_interface_info_t *ifhead = NULL;
