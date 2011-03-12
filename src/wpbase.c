@@ -27,99 +27,97 @@ static FILE *wp_error_of = NULL;
 static bool wp_syslog_status = false;
 static int wp_exit_level = LOG_CRIT;
 
-static void error_do (bool errnoflag, int level, const char *fmt, va_list ap);
+static void error_do (FILE *output, bool errnoflag, int level, const char *fmt, va_list ap);
 
-void wp_debug (const char *fmt, ...)
+void wp_debug_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 	va_start (ap, fmt);
-	error_do (false, LOG_DEBUG, fmt, ap);
+	error_do (of, false, LOG_DEBUG, fmt, ap);
 	va_end (ap);
 }
 
-void wp_message (const char *fmt, ...)
+void wp_message_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (false, LOG_INFO, fmt, ap);
+	error_do (of, false, LOG_INFO, fmt, ap);
 	va_end (ap);
 }
 
-void wp_warning (const char *fmt, ...)
+void wp_warning_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 	
 	va_start (ap, fmt);
-	error_do (false, LOG_WARNING, fmt, ap);
+	error_do (of, false, LOG_WARNING, fmt, ap);
 	va_end (ap);
 }
 
-void wp_error (const char *fmt, ...)
+void wp_error_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (false, LOG_ERR, fmt, ap);
+	error_do (of, false, LOG_ERR, fmt, ap);
 	va_end (ap);
 
 	return;
 }
 
-void wp_critical (const char *fmt, ...)
+void wp_critical_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (false, LOG_CRIT, fmt, ap);
+	error_do (of, false, LOG_CRIT, fmt, ap);
 	va_end (ap);
 }
 
-void wp_sys_debug (const char *fmt, ...)
+void wp_sys_debug_full (FILE *of, const char *fmt, ...)
 {
-#ifndef NDEBUG
 	va_list ap;
 	va_start (ap, fmt);
-	error_do (true, LOG_DEBUG, fmt, ap);
+	error_do (of, true, LOG_DEBUG, fmt, ap);
 	va_end (ap);
-#endif /* NDEBUG */
 }
 
-void wp_sys_message (const char *fmt, ...)
+void wp_sys_message_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (true, LOG_INFO, fmt, ap);
+	error_do (of, true, LOG_INFO, fmt, ap);
 	va_end (ap);
 }
 
-void wp_sys_warning (const char *fmt, ...)
+void wp_sys_warning_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 	
 	va_start (ap, fmt);
-	error_do (true, LOG_WARNING, fmt, ap);
+	error_do (of, true, LOG_WARNING, fmt, ap);
 	va_end (ap);
 }
 
-void wp_sys_error (const char *fmt, ...)
+void wp_sys_error_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (true, LOG_ERR, fmt, ap);
+	error_do (of, true, LOG_ERR, fmt, ap);
 	va_end (ap);
 
 	return;
 }
 
-void wp_sys_critical (const char *fmt, ...)
+void wp_sys_critical_full (FILE *of, const char *fmt, ...)
 {
 	va_list ap;
 
 	va_start (ap, fmt);
-	error_do (true, LOG_CRIT, fmt, ap);
+	error_do (of, true, LOG_CRIT, fmt, ap);
 	va_end (ap);
 }
 
@@ -156,9 +154,9 @@ void wp_set_name (const char *name)
 
 int wp_set_exit_level (int level)
 {
-	if (level < WP_LOG_CRITICAL)
+	if (level < WP_LOG_EMERG)
 	{
-		level = WP_LOG_CRITICAL;
+		level = WP_LOG_EMERG;
 	}
 
 	if (level > WP_LOG_MESSAGE)
@@ -176,13 +174,15 @@ int wp_get_exit_level (void)
 	return wp_exit_level;
 }
 
-static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
+static void error_do (FILE *output, bool errnoflag, int level, const char *fmt, va_list ap)
 {
 	int errno_save;
 	int n;
+	FILE *of;
 	char buf[WP_BUF_SIZE + 1];
 
 	errno_save = errno;
+	of = output ? output : ((wp_error_of == NULL) ? stderr : wp_error_of);
 
 	if (wp_syslog_status)
 	{
@@ -218,7 +218,7 @@ static void error_do (bool errnoflag, int level, const char *fmt, va_list ap)
 			strcat (buf, "\n");
 		}
 		fflush (stdout);
-		fputs (buf, ((wp_error_of == NULL) ? stderr : wp_error_of));
+		fputs (buf, of);
 		fflush (stderr);
 	}
 
