@@ -8,6 +8,7 @@ libwp_LTLIBRARIES = libwp.la \
 
 libwp_la_SOURCES = wpbase.c \
 				   wpsocket.c \
+				   wpsocket_interface.c \
 				   wpstdc.c \
 				   libwp.h \
 				   wpbase.h \
@@ -16,7 +17,6 @@ libwp_la_SOURCES = wpbase.c \
 				   wpunix.c \
 				   wpunix.h \
 				   wpunix_rio.c \
-				   wpunix_rio.h \
 				   _wpbintree.c \
 				   wpbintree.c \
 				   _wpbintree.h \
@@ -48,7 +48,6 @@ libwp_include_HEADERS = libwp.h \
 				  wpsocket.h \
 				  wpstdc.h \
 				  wpunix.h \
-				  wpunix_rio.h \
 				  wpds.h \
 				  _wpbintree.h \
 				  wpbintree.h \

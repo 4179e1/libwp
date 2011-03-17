@@ -4,7 +4,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include "wpunix.h"
-#include "wpunix_rio.h"
 #include "wpbase.h"
 #include "wpstdc.h"
 

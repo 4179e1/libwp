@@ -25,7 +25,6 @@
 #include <stdbool.h>
 #include <dirent.h>
 #include <utime.h>
-#include <wpunix_rio.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -211,6 +210,37 @@ WpTimer *wp_timer_new ();
 void wp_timer_free (WpTimer *t);
 void wp_timer_start (WpTimer *t);
 double wp_timer_elapse (WpTimer *t);
+
+ssize_t _wp_readn (int fd, void *ptr, size_t n);
+ssize_t _wp_writen (int fd, void *ptr, size_t n);
+
+/*************************************
+ * wp timer utilities
+ ************************************/
+typedef struct _rio wp_rio_t;
+
+wp_rio_t *_wp_rio_new (int fd);
+void _wp_rio_free (wp_rio_t* rp);
+
+ssize_t _wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen);
+ssize_t _wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n);
+ssize_t _wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
+#define _wp_rio_readline _wp_rio_readlineb
+#define _wp_rio_readnb _wp_rio_readnb
+
+ssize_t wp_readn (int fd, void *ptr, size_t n);
+ssize_t wp_writen (int fd, void *ptr, size_t n);
+
+wp_rio_t *wp_rio_new (int fd);
+void wp_rio_free (wp_rio_t* rp);
+
+ssize_t wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen);
+ssize_t wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n);
+ssize_t wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
+#define wp_rio_readline wp_rio_readlineb
+#define wp_rio_readnb wp_rio_readnb
+
+int wp_rio_getfd (wp_rio_t *rp);
 
 #ifdef __cplusplus
 }
