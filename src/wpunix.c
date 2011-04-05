@@ -860,6 +860,36 @@ int wp_poll (struct pollfd *fds, unsigned int nfds, int timeout)
 	return n;
 }
 
+int wp_epoll_create (int size)
+{
+	int n;
+	if ((n = epoll_create (size)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
+int wp_epoll_ctl (int epfd, int op, int fd, struct epoll_event *event)
+{
+	int n;
+	if ((n = epoll_ctl (epfd, op, fd, event)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
+int wp_epoll_wait (int epfd, struct epoll_event *events, int maxevents, int timeout)
+{
+	int n;
+	if ((n = epoll_wait (epfd, events, maxevents, timeout)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
 void wp_check_exit_status (int status)
 {
 	if (WIFEXITED (status))
