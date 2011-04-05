@@ -1,8 +1,11 @@
 #ifndef _WPSOCKET_H
 #define _WPSOCKET_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <sys/socket.h>
-#include <sys/select.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <net/if.h>
@@ -59,8 +62,6 @@ int wp_sockatmark (int sockfd);
 struct hostent *wp_gethostbyname (const char *name);
 #endif
 struct hostent *wp_gethostbyaddr (const char *addr, int len, int type);
-
-int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
 
 int _wp_open_clientfd (char *address, int port);
 int _wp_open_listenfd (int port);

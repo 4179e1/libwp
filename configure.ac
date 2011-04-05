@@ -7,6 +7,7 @@ AC_CONFIG_SRCDIR([src/wpbase.c])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
+AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE([gnu -Wall -Werror])
 LT_INIT
 
@@ -20,6 +21,8 @@ AC_SUBST(RELEASE)
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_LANG([C])
+AC_C_INLINE
+AC_PROG_CXX
 
 # Checks for libraries.
 
@@ -46,7 +49,7 @@ AC_FUNC_MALLOC
 AC_FUNC_MKTIME
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strerror uname utime gethostbyaddr gethostbyname memset select])
+AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strchr strerror uname utime gethostbyaddr gethostbyname memset select])
 
 AC_CONFIG_FILES([$PACKAGE.spec libwp-$PKG_VERSION.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile])
 AC_OUTPUT

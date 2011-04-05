@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
@@ -6,6 +10,7 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <assert.h>
+#include <errno.h>
 #include "wpunix.h"
 #include "wpbase.h"
 #include "wpstdc.h"
@@ -174,11 +179,27 @@ int wp_fsync (int filedes)
 {
 	int n;
 	if ((n = fsync (filedes)) == -1)
-		wp_sys_func_warning();
+	{
+		/*
+		* we prefer fsync(), but let's try fdatasync()
+		* if fsync() fails, just in case
+		*/
+		if (errno == EINVAL)
+		{
+			if (fdatasync (filedes) == -1)
+			{
+				wp_sys_func_warning();
+			}
+		}
+		else
+		{
+			wp_sys_func_warning();
+		}
+	}
 	return n;
 }
 
-int ftruncate (int filedes, off_t length)
+int wp_ftruncate (int filedes, off_t length)
 {
 	int n;
 	if ((n = ftruncate (filedes, length)) == -1)
@@ -807,6 +828,37 @@ int wp_shmdt (void *addr)
 	return n;
 }
 
+int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout)
+{
+	int n;
+	if ((n = select (nfds, readfds, writefds, errorfds, timeout)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
+#ifdef __USE_XOPEN2k
+int wp_pselect (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const struct timespec *timeout, const sigset_t *sigmask)
+{
+	int n;
+	if ((n = pselect (n, readfds, writefds, exceptfds, timeout, sigmask)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+#endif /* __USE_XOPEN2k */
+
+int wp_poll (struct pollfd *fds, unsigned int nfds, int timeout)
+{
+	int n;
+	if ((n = poll (fds, nfds, timeout)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
 
 void wp_check_exit_status (int status)
 {

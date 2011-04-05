@@ -1,6 +1,10 @@
 #ifndef _WPUNIX_H
 #define _WPUNIX_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <pwd.h>
 #include <shadow.h>
 #include <grp.h>
@@ -25,6 +29,8 @@
 #include <stdbool.h>
 #include <dirent.h>
 #include <utime.h>
+#include <sys/select.h>
+#include <sys/poll.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -121,14 +127,11 @@ int wp_shmctl (int shmid, int cmd, struct shmid_ds *buf);
 void *wp_shmat (int shmid, const void *addr, int flag);
 int wp_shmdt (void *addr);
 
-/* utilities */
-void wp_check_exit_status (int status);
-ssize_t wp_readn (int fd, void *ptr, size_t n);
-ssize_t wp_writen (int fd, void *ptr, size_t n);
-
-/************************************
- * wpfileio
- ***********************************/
+int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
+#ifdef __USE_XOPEN2k
+int wp_pselect (int n, fd_set *readfds, fd_set *writefds, fd_set *execptfds, const struct timespec *timeout, const sigset_t *sigmask);
+#endif /* __USE_XOPEN2k */
+int wp_poll (struct pollfd *fds, unsigned int nfds, int timeout);
 
 #ifdef __USE_UNIX98
 /* aton operate, lseek and read/write */
@@ -136,6 +139,10 @@ ssize_t wp_pread (int filedes, void *buf, size_t nbytes, off_t offset);
 ssize_t wp_pwrite (int filedes, void *but, size_t nbytes, off_t offset);
 #endif /* __USE_UNIX98 */
 
+/* utilities */
+void wp_check_exit_status (int status);
+ssize_t wp_readn (int fd, void *ptr, size_t n);
+ssize_t wp_writen (int fd, void *ptr, size_t n);
 
 /***************************************
  * wp file io

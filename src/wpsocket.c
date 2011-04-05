@@ -1,3 +1,7 @@
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <string.h>
 #include "wpsocket.h"
 #include "wpbase.h"
@@ -268,16 +272,6 @@ struct hostent *wp_gethostbyname (const char *name)
 	return p;
 }
 #endif
-
-int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout)
-{
-	int n;
-	if ((n = select (nfds, readfds, writefds, errorfds, timeout)) == -1)
-	{
-		wp_sys_func_warning ();
-	}
-	return n;
-}
 
 struct hostent *wp_gethostbyaddr (const char *addr, int len, int type)
 {
