@@ -435,6 +435,36 @@ int wp_setrlimit (int resource, const struct rlimit *rlptr)
 	return n;
 }
 
+int wp_execv (const char *path, char *const argv[])
+{
+	int n;
+	if ((n = execv (path, argv)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
+int wp_execvp (const char *file, char *const argv[])
+{
+	int n;
+	if ((n = execvp (file, argv)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
+int wp_execve (const char *path, char *const argv[], char *const envp[])
+{
+	int n;
+	if ((n = execve (path, argv, envp)) == -1)
+	{
+		wp_sys_func_warning ();
+	}
+	return n;
+}
+
 pid_t wp_fork (void)
 {
 	pid_t p;

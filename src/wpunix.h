@@ -52,6 +52,10 @@ int wp_gethostname (char *name, int namelen);
 int wp_getrlimit (int resource, struct rlimit *rlptr);
 int wp_setrlimit (int resource, const struct rlimit *rlptr);
 
+int wp_execv (const char *path, char *const argv[]);
+int wp_execvp (const char *file, char *const argv[]);
+int wp_execve (const char *path, char *const argv[], char *const envp[]);
+
 pid_t wp_fork (void);
 pid_t wp_wait (int *statloc);
 pid_t wp_waitpid (pid_t pid, int *statloc, int options);
