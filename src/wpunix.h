@@ -1,6 +1,10 @@
 #ifndef _WPUNIX_H
 #define _WPUNIX_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <pwd.h>
 #include <shadow.h>
 #include <grp.h>
@@ -25,6 +29,9 @@
 #include <stdbool.h>
 #include <dirent.h>
 #include <utime.h>
+#include <sys/select.h>
+#include <sys/poll.h>
+#include <sys/epoll.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -125,14 +132,15 @@ int wp_shmctl (int shmid, int cmd, struct shmid_ds *buf);
 void *wp_shmat (int shmid, const void *addr, int flag);
 int wp_shmdt (void *addr);
 
-/* utilities */
-void wp_check_exit_status (int status);
-ssize_t wp_readn (int fd, void *ptr, size_t n);
-ssize_t wp_writen (int fd, void *ptr, size_t n);
+int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout);
+#ifdef __USE_XOPEN2k
+int wp_pselect (int n, fd_set *readfds, fd_set *writefds, fd_set *execptfds, const struct timespec *timeout, const sigset_t *sigmask);
+#endif /* __USE_XOPEN2k */
+int wp_poll (struct pollfd *fds, unsigned int nfds, int timeout);
 
-/************************************
- * wpfileio
- ***********************************/
+int wp_epoll_create (int size);
+int wp_epoll_ctl (int epfd, int op, int fd, struct epoll_event *event);
+int wp_epoll_wait (int epfd, struct epoll_event *events, int maxevents, int timeout);
 
 #ifdef __USE_UNIX98
 /* aton operate, lseek and read/write */
@@ -140,6 +148,10 @@ ssize_t wp_pread (int filedes, void *buf, size_t nbytes, off_t offset);
 ssize_t wp_pwrite (int filedes, void *but, size_t nbytes, off_t offset);
 #endif /* __USE_UNIX98 */
 
+/* utilities */
+void wp_check_exit_status (int status);
+ssize_t wp_readn (int fd, void *ptr, size_t n);
+ssize_t wp_writen (int fd, void *ptr, size_t n);
 
 /***************************************
  * wp file io
@@ -233,6 +245,37 @@ WpTimer *wp_timer_new ();
 void wp_timer_free (WpTimer *t);
 void wp_timer_start (WpTimer *t);
 double wp_timer_elapse (WpTimer *t);
+
+ssize_t _wp_readn (int fd, void *ptr, size_t n);
+ssize_t _wp_writen (int fd, void *ptr, size_t n);
+
+/*************************************
+ * wp timer utilities
+ ************************************/
+typedef struct _rio wp_rio_t;
+
+wp_rio_t *_wp_rio_new (int fd);
+void _wp_rio_free (wp_rio_t* rp);
+
+ssize_t _wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen);
+ssize_t _wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n);
+ssize_t _wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
+#define _wp_rio_readline _wp_rio_readlineb
+#define _wp_rio_readnb _wp_rio_readnb
+
+ssize_t wp_readn (int fd, void *ptr, size_t n);
+ssize_t wp_writen (int fd, void *ptr, size_t n);
+
+wp_rio_t *wp_rio_new (int fd);
+void wp_rio_free (wp_rio_t* rp);
+
+ssize_t wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen);
+ssize_t wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n);
+ssize_t wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
+#define wp_rio_readline wp_rio_readlineb
+#define wp_rio_readnb wp_rio_readnb
+
+int wp_rio_getfd (wp_rio_t *rp);
 
 #ifdef __cplusplus
 }

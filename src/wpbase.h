@@ -1,6 +1,10 @@
 #ifndef _WPBASE_H
 #define _WPBASE_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #define WP_BUF_SIZE 1024
 
 #include <stdio.h>
@@ -27,32 +31,51 @@ extern "C"
 #define	LOG_DEBUG	7	/* debug-level messages */
 #endif
 
-#define WP_LOG_CRITICAL 2
-#define WP_LOG_ERROR	3
-#define WP_LOG_WARNING	4
-#define WP_LOG_MESSAGE	6
-#define WP_LOG_DEBUG	7
+#define WP_LOG_EMERG	0
+#define WP_LOG_ALERT	1
+#define WP_LOG_CRITICAL 2	/* wp_critical* */
+#define WP_LOG_ERROR	3	/* wp_error* */
+#define WP_LOG_WARNING	4	/* wp_warning* */
+#define WP_LOG_NOTICE	5
+#define WP_LOG_MESSAGE	6	/* wp_message* */
+#define WP_LOG_DEBUG	7	/* wp_debug* */
 
 /* error process */
 #ifndef NDEBUG
-void wp_debug (const char *fmt, ...);
+void wp_debug_full (FILE *of, const char *fmt, ...);
 #else
-#define wp_debug(...) ((void)0)
+#define wp_debug_full(...) ((void)0)
 #endif /* NDEBUG */
-void wp_message (const char *fmt, ...);
-void wp_warning (const char *fmt, ...);
-void wp_error (const char *fmt, ...);
-void wp_critical (const char *fmt, ...);
+void wp_message_full (FILE *of, const char *fmt, ...);
+void wp_warning_full (FILE *of, const char *fmt, ...);
+void wp_error_full (FILE *of, const char *fmt, ...);
+void wp_critical_full (FILE *of, const char *fmt, ...);
+
+#define wp_debug(MSG, ...) 		wp_debug_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_message(MSG, ...) 	wp_message_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_warning(MSG, ...) 	wp_warning_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_error(MSG, ...) 		wp_error_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_critical(MSG, ...) 	wp_critical_full(NULL, (MSG), ##__VA_ARGS__)
 
 #define wp_func_warning() wp_warning("%s() error", __func__)
 #define wp_pthread_warning(N) wp_warning("%s() error: %s", __func__, strerror(N))
 
 /* error process for system call, check errno */
-void wp_sys_debug (const char *fmt, ...);
-void wp_sys_message (const char *fmt, ...);
-void wp_sys_warning (const char *fmt, ...);
-void wp_sys_error (const char *fmt, ...);
-void wp_sys_critical (const char *fmt, ...);
+#ifndef NDEBUG
+void wp_sys_debug_full (FILE *of, const char *fmt, ...);
+#else
+#define wp_sys_debug_full(...) ((void)0)
+#endif /* NDEBUG */
+void wp_sys_message_full (FILE *of, const char *fmt, ...);
+void wp_sys_warning_full (FILE *of, const char *fmt, ...);
+void wp_sys_error_full (FILE *of, const char *fmt, ...);
+void wp_sys_critical_full (FILE *of, const char *fmt, ...);
+
+#define wp_sys_debug(MSG, ...)		wp_sys_debug_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_sys_message(MSG, ...)	wp_sys_message_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_sys_warning(MSG, ...)	wp_sys_warning_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_sys_error(MSG, ...)		wp_sys_error_full(NULL, (MSG), ##__VA_ARGS__)
+#define wp_sys_critical(MSG, ...)	wp_sys_critical_full(NULL, (MSG), ##__VA_ARGS__)
 
 #define wp_sys_func_warning() wp_sys_warning("%s() error", __func__)
 

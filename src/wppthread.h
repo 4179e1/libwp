@@ -1,6 +1,10 @@
 #ifndef _WPPTHREAD_H
 #define _WPPTHREAD_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #include <pthread.h>
 #include <signal.h>
 #include <semaphore.h>
