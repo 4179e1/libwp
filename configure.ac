@@ -22,11 +22,6 @@ AC_LANG([C])
 AC_C_INLINE
 AC_PROG_CC
 AC_PROG_INSTALL
-<<<<<<< HEAD
-=======
-AC_LANG([C])
-AC_C_INLINE
->>>>>>> 8983692400f922bd169b377248d19300422eebaa
 AC_PROG_CXX
 
 # Checks for libraries.
