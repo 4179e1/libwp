@@ -174,6 +174,25 @@ int wp_unlink (const char *pathname);
 int wp_utime (const char *pathname, const struct utimbuf *times);
 ssize_t wp_write (int filedes, const void *buf, size_t nbytes);
 
+#ifdef HAVE_ATTR_XATTR_H
+ssize_t wp_getxattr (const char *path, const char *key, void *value, size_t size);
+ssize_t wp_lgetxattr (const char *path, const char *key, void *value, size_t size);
+ssize_t wp_fgetxattr (int fd, const char *key, void *value, size_t size);
+
+int wp_setxattr (const char *path, const char *key, const void *value, size_t size, int flags);
+int wp_lsetxattr (const char *path, const char *key, const void *value, size_t size, int flags);
+int wp_fsetxattr (int fd, const char *key, const void *value, size_t size, int flags);
+
+ssize_t wp_listxattr (const char *path, char *list, size_t size);
+ssize_t wp_llistxattr (const char *path, char *list, size_t size);
+ssize_t wp_flistxattr (int fd, char *list, size_t size);
+
+int wp_removexattr (const char *path, const char *key);
+int wp_lremovexattr (const char *path, const char *key);
+int wp_femovexattr (int fd, const char *key);
+
+#endif /* HAVE_ATTR_XATTR_H */
+
 /**************************************
  * wp io utilities
  *************************************/

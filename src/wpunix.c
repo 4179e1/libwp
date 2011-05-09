@@ -5,6 +5,8 @@
 #include <utime.h>
 #include <sys/wait.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <attr/xattr.h>
 #include <assert.h>
 #include "wpunix.h"
 #include "wpbase.h"
@@ -837,6 +839,103 @@ int wp_shmdt (void *addr)
 	return n;
 }
 
+#ifdef HAVE_ATTR_XATTR_H
+ssize_t wp_getxattr (const char *path, const char *key, void *value, size_t size)
+{
+	ssize_t n;
+	if ((n = getxattr (path, key, value, size)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+ssize_t wp_lgetxattr (const char *path, const char *key, void *value, size_t size)
+{
+	ssize_t n;
+	if ((n = lgetxattr (path, key, value, size)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+ssize_t wp_fgetxattr (int fd, const char *key, void *value, size_t size)
+{
+	ssize_t n;
+	if ((n = fgetxattr (fd, key, value, size)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_setxattr (const char *path, const char *key, const void *value, size_t size, int flags)
+{
+	int n;
+	if ((n = setxattr (path, key, value, size, flags)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_lsetxattr (const char *path, const char *key, const void *value, size_t size, int flags)
+{
+	int n;
+	if ((n = lsetxattr (path, key, value, size, flags)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_fsetxattr (int fd, const char *key, const void *value, size_t size, int flags)
+{
+	int n;
+	if ((n = fsetxattr (fd, key, value, size, flags)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+ssize_t wp_listxattr (const char *path, char *list, size_t size)
+{
+	ssize_t n;
+	if ((n = listxattr (path, list, size)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+ssize_t wp_llistxattr (const char *path, char *list, size_t size)
+{
+	ssize_t n;
+	if ((n = llistxattr (path, list, size)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+ssize_t wp_flistxattr (int fd, char *list, size_t size)
+{
+	ssize_t n;
+	if ((n = flistattr (fd, list, size)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_removexattr (const char *path, const char *key)
+{
+	int n;
+	if ((n = removexattr (path, key)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_lremovexattr (const char *path, const char *key)
+{
+	int n;
+	if ((n = lremovexattr (path, key)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_femovexattr (int fd, const char *key)
+{
+	int n;
+	if ((n = fremovexattr (fd, key)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+#endif /* HAVE_ATTR_XATTR_H */
 
 void wp_check_exit_status (int status)
 {
