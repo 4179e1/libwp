@@ -27,7 +27,7 @@ AC_PROG_CXX
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h netdb.h shadow.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h syslog.h unistd.h utime.h attr/xattr.h])
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h netdb.h shadow.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h syslog.h unistd.h utime.h attr/xattr.h sys/epoll.h sys/inotify.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL

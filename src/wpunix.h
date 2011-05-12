@@ -31,7 +31,10 @@
 #include <utime.h>
 #include <sys/select.h>
 #include <sys/poll.h>
+
+#ifdef HAVE_SYS_EPOLL_H
 #include <sys/epoll.h>
+#endif /* HAVE_SYS_EPOLL_H */
 
 #ifdef __cplusplus
 extern "C"
@@ -138,9 +141,17 @@ int wp_pselect (int n, fd_set *readfds, fd_set *writefds, fd_set *execptfds, con
 #endif /* __USE_XOPEN2k */
 int wp_poll (struct pollfd *fds, unsigned int nfds, int timeout);
 
+#ifdef HAVE_SYS_EPOLL_H
 int wp_epoll_create (int size);
 int wp_epoll_ctl (int epfd, int op, int fd, struct epoll_event *event);
 int wp_epoll_wait (int epfd, struct epoll_event *events, int maxevents, int timeout);
+#endif /* HAVE_SYS_EPOLL_H */
+
+#ifdef HAVE_SYS_INOTIFY_H
+int wp_inotify_init (void);
+int wp_inotify_add_watch (int fd, const char *path, uint32_t mask);
+int wp_inotify_rm_watch (int fd, uint32_t wd);
+#endif /* HAVE_SYS_INOTIFY_H */
 
 #ifdef __USE_UNIX98
 /* aton operate, lseek and read/write */

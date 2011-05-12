@@ -17,6 +17,10 @@
 #include "wpbase.h"
 #include "wpstdc.h"
 
+#ifdef HAVE_SYS_INOTIFY_H
+#include <sys/inotify.h>
+#endif /* HAVE_SYS_INOTIFY_H */
+
 int wp_chdir (const char *pathname)
 {
 	int n;
@@ -68,8 +72,14 @@ DIR *wp_opendir (const char *pathname)
 struct dirent *wp_readdir (DIR *dp)
 {
 	struct dirent *dir;
+	errno = 0;
 	if ((dir = readdir (dp)) == NULL)
-		wp_sys_func_warning();
+	{
+		if (errno != 0)
+		{
+			wp_sys_func_warning();
+		}
+	}
 	return dir;
 }
 
@@ -958,6 +968,32 @@ int wp_femovexattr (int fd, const char *key)
 }
 #endif /* HAVE_ATTR_XATTR_H */
 
+#ifdef HAVE_SYS_INOTIFY_H
+int wp_inotify_init (void)
+{
+	int n;
+	if ((n = inotify_init ()) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_inotify_add_watch (int fd, const char *path, uint32_t mask)
+{
+	int n;
+	if ((n = inotify_add_watch (fd, path, mask)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_inotify_rm_watch (int fd, uint32_t wd)
+{
+	int n;
+	if ((n = inotify_rm_watch (fd, wd)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+#endif /* HAVE_SYS_INOTIFY_H */
+
 int wp_select (int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, struct timeval *timeout)
 {
 	int n;
@@ -990,6 +1026,7 @@ int wp_poll (struct pollfd *fds, unsigned int nfds, int timeout)
 	return n;
 }
 
+#ifdef HAVE_SYS_EPOLL_H
 int wp_epoll_create (int size)
 {
 	int n;
@@ -1019,6 +1056,7 @@ int wp_epoll_wait (int epfd, struct epoll_event *events, int maxevents, int time
 	}
 	return n;
 }
+#endif /* HAVE_SYS_EPOLL_H */
 
 void wp_check_exit_status (int status)
 {
