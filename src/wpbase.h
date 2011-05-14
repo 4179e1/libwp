@@ -58,7 +58,7 @@ void wp_critical_full (FILE *of, const char *fmt, ...);
 #define wp_critical(MSG, ...) 	wp_critical_full(NULL, (MSG), ##__VA_ARGS__)
 
 #define wp_func_warning() wp_warning("%s() error", __func__)
-#define wp_pthread_warning(N) wp_warning("%s() error: %s", __func__, strerror(N))
+#define wp_posix_warning(N) wp_warning("%s() error: %s", __func__, strerror(N))
 
 /* error process for system call, check errno */
 #ifndef NDEBUG

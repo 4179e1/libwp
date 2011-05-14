@@ -357,6 +357,14 @@ void *wp_realloc (void *ptr, size_t newsize)
 	return p;
 }
 
+int wp_posix_memalign (void **memptr, size_t alignment, size_t size)
+{
+	int n;
+	if ((n = posix_memalign (memptr, alignment, size)) != 0)
+		wp_posix_warning (n);
+	return n;
+}
+
 char *wp_getenv (const char *name)
 {
 	char *str;
