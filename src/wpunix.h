@@ -84,6 +84,7 @@ pid_t wp_getsid (pid_t pid);
 void (*wp_signal (int signo, void (*func)(int)))(int);
 
 int wp_kill (pid_t pid, int signo);
+int wp_killpg (pid_t pid, int signo);
 int wp_raise (int signo);
 
 int wp_sigemptyset (sigset_t *set);
@@ -106,6 +107,10 @@ void *wp_mmap (void *addr, size_t len, int prot, int flag, int filedes, off_t of
 int wp_mprotect (void *addr, size_t len, int prot);
 int wp_msync (void *addr, size_t len, int flags);
 int wp_munmap (caddr_t addr, size_t len);
+#ifdef _GUN_SOURCE
+void *wp_mremap (void *old_address, size_t old_size, size_t new_size, int flags, void *new_address);
+#endif /* _GUN_SOURCE */
+int wp_posix_fadvise (int fd, off_t offset, off_t len, int advice);
 
 int wp_pipe (int filedes[2]);
 

@@ -587,6 +587,14 @@ int wp_kill (pid_t pid, int signo)
 	return n;
 }
 
+int wp_killpg (pid_t pid, int signo)
+{
+	int n;
+	if ((n = killpg (pid, signo)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
 int wp_raise (int signo)
 {
 	int n;
@@ -720,6 +728,28 @@ int wp_munmap (caddr_t addr, size_t len)
 	int n;
 	if ((n = munmap (addr, len)) == -1)
 		wp_sys_func_warning();
+	return n;
+}
+
+#ifdef _GUN_SOURCE
+void *wp_mremap (void *old_address, size_t old_size, size_t new_size, int flags, void *new_address)
+{
+	void *p;
+	if ((p = mremap (old_address, old_size, new_size, flags, new_address)) == MAP_FAILED)
+	{
+		wp_sys_func_warning ();
+	}
+	return p;
+}
+#endif /* _GUN_SOURCE */
+
+int wp_posix_fadvise (int fd, off_t offset, off_t len, int advice)
+{
+	int n;
+	if ((n = posix_fadvise (fd, offset, len, advice)) != 0)
+	{
+		wp_sys_func_warning ();
+	}
 	return n;
 }
 
