@@ -29,6 +29,7 @@ URL:            http://dev.poetpalace.org
 Source0:        %{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
+BuildRequires:  libattr-devel
 %if 0%{?suse_version} || 0%{?sles_version}
 BuildRequires:  automake >= 1.10 pkg-config
 %else

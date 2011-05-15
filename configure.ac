@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.65)
+AC_PREREQ([2.68])
 AC_INIT([libwp-0_0],[0.1.0],[4179e1@gmail.com])
 AC_CONFIG_SRCDIR([src/wpbase.c])
 AC_CONFIG_HEADERS([src/config.h])
@@ -18,16 +18,16 @@ RELEASE="1.1"
 AC_SUBST(RELEASE)
 
 # Checks for programs.
-AC_PROG_CC
-AC_PROG_INSTALL
 AC_LANG([C])
 AC_C_INLINE
+AC_PROG_CC
+AC_PROG_INSTALL
 AC_PROG_CXX
 
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h netdb.h shadow.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h syslog.h unistd.h utime.h])
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h netdb.h shadow.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h syslog.h unistd.h utime.h attr/xattr.h sys/epoll.h sys/inotify.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL

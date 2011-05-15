@@ -65,6 +65,7 @@ int wp_atexit (void (*func) (void));
 void *wp_malloc (size_t size);
 void *wp_calloc (size_t nobj, size_t size);
 void *wp_realloc (void *ptr, size_t newsize);
+int wp_posix_memalign (void **memptr, size_t alignment, size_t size);
 
 char *wp_getenv (const char *name);
 int wp_putenv (char *str);

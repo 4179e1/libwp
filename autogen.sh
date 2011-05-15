@@ -1,2 +1,1 @@
-aclocal
 autoreconf -fi
