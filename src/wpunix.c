@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/mman.h>
 #include <attr/xattr.h>
 #include <assert.h>
 #include <errno.h>
@@ -328,6 +329,38 @@ ssize_t wp_write (int filedes, const void *buf, size_t nbytes)
 	ssize_t n;
 	if ((n = write (filedes, buf, nbytes)) == -1)
 		wp_sys_func_warning();
+	return n;
+}
+
+int wp_mlock (const void *addr, size_t len)
+{
+	int n;
+	if ((n = mlock (addr, len)) == -1)
+		wp_sys_func_warning();
+	return n;
+}
+
+int wp_mlockall (int flags)
+{
+	int n;
+	if ((n = mlockall (flags)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_munlock (const void *addr, size_t len)
+{
+	int n;
+	if ((n = munlock (addr, len)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_munlockall (void)
+{
+	int n;
+	if ((n = munlockall ()) == -1)
+		wp_sys_func_warning ();
 	return n;
 }
 
@@ -701,6 +734,14 @@ int wp_sigaction (int signo, const struct sigaction *act, struct sigaction *oact
 	return n;
 }
 
+int wp_sigqueue (pid_t pid, int signo, const union sigval value)
+{
+	int n;
+	if ((n = sigqueue (pid, signo, value))  == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
 int wp_sigsuspend (const sigset_t *sigmask)
 {
 	int n;
@@ -938,7 +979,7 @@ ssize_t wp_llistxattr (const char *path, char *list, size_t size)
 ssize_t wp_flistxattr (int fd, char *list, size_t size)
 {
 	ssize_t n;
-	if ((n = flistattr (fd, list, size)) == -1)
+	if ((n = flistxattr (fd, list, size)) == -1)
 		wp_sys_func_warning ();
 	return n;
 }

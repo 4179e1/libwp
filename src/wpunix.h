@@ -101,6 +101,7 @@ int wp_sigismember (const sigset_t *set, int signo);
 int wp_sigprocmask (int how, const sigset_t *set, sigset_t *oset);
 int wp_sigpending (sigset_t *set);
 int wp_sigaction (int signo, const struct sigaction *act, struct sigaction *oact);
+int wp_sigqueue (pid_t pid, int signo, const union sigval value);
 
 int wp_sigsuspend (const sigset_t *sigmask);
 
@@ -196,6 +197,11 @@ int wp_truncate (const char *pathname, off_t length);
 int wp_unlink (const char *pathname);
 int wp_utime (const char *pathname, const struct utimbuf *times);
 ssize_t wp_write (int filedes, const void *buf, size_t nbytes);
+
+int wp_mlock (const void *addr, size_t len);
+int wp_mlockall (int flags);
+int wp_munlock (const void *addr, size_t len);
+int wp_munlockall (void);
 
 #ifdef HAVE_ATTR_XATTR_H
 ssize_t wp_getxattr (const char *path, const char *key, void *value, size_t size);
