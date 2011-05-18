@@ -397,3 +397,26 @@ int wp_unsetenv (const char *name)
 	return n;
 }
 
+int wp_clock_getres (clockid_t clock_id, struct timespec *res)
+{
+	int n;
+	if ((n = clock_getres (clock_id, res)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_clock_gettime (clockid_t clock_id, struct timespec *ts)
+{
+	int n;
+	if ((n = clock_gettime (clock_id, ts)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_clock_settime (clockid_t clock_id, struct timespec *ts)
+{
+	int n;
+	if ((n = clock_settime (clock_id, ts)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}

@@ -31,6 +31,7 @@
 #include <utime.h>
 #include <sys/select.h>
 #include <sys/poll.h>
+#include <sys/time.h>
 
 #ifdef HAVE_SYS_EPOLL_H
 #include <sys/epoll.h>
@@ -256,6 +257,14 @@ int wp_rmdir (const char *pathname);
 
 ssize_t wp_readv (int filedes, const struct iovec *iov, int iovcnt);
 ssize_t wp_writev (int filedes, const struct iovec *iov, int iovcnt);
+
+int wp_gettimeofday (struct timeval *tv, struct timezone *tz);
+int wp_settimeofday (const struct timeval *tv, const struct timezone *tz);
+clock_t times (struct tms *buf);
+
+#ifdef _SVID_SOURCE
+int wp_stime (time_t *t);
+#endif /* _SVID_SOURCE */
 
 /*************************************
  * wp timer utilities

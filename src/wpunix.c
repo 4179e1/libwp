@@ -11,12 +11,15 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/mman.h>
-#include <attr/xattr.h>
 #include <assert.h>
 #include <errno.h>
 #include "wpunix.h"
 #include "wpbase.h"
 #include "wpstdc.h"
+
+#ifdef HAVE_ATTR_XATTR_H
+#include <attr/xattr.h>
+#endif /* HAVE_ATTR_XATTR_H */
 
 #ifdef HAVE_SYS_INOTIFY_H
 #include <sys/inotify.h>
@@ -1128,6 +1131,40 @@ int wp_epoll_wait (int epfd, struct epoll_event *events, int maxevents, int time
 	return n;
 }
 #endif /* HAVE_SYS_EPOLL_H */
+
+int wp_gettimeofday (struct timeval *tv, struct timezone *tz)
+{
+	int n;
+	if ((n = gettimeofday (tv, tz)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_settimeofday (const struct timeval *tv, const struct timezone *tz)
+{
+	int n;
+	if ((n = settimeofday (tv, tz)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+clock_t times (struct tms *buf)
+{
+	clock_t t;
+	if ((t = times (buf)) == (clock_t)-1)
+		wp_sys_func_warning ();
+	return t;
+}
+
+#ifdef _SVID_SOURCE
+int wp_stime (time_t *t)
+{
+	int n;
+	if ((n = stime (t)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+#endif /* _SVID_SOURCE */
 
 void wp_check_exit_status (int status)
 {

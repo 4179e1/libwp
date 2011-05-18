@@ -72,7 +72,9 @@ int wp_putenv (char *str);
 int wp_setenv (const char *name, const char *value, int rewrite);
 int wp_unsetenv (const char *name);
 
-char *wp_strdup (const char *str);
+int wp_clock_getres (clockid_t clock_id, struct timespec *res);
+int wp_clock_gettime (clockid_t clock_id, struct timespec *ts);
+int wp_clock_settime (clockid_t clock_id, struct timespec *ts);
 
 #ifdef __cplusplus
 }
