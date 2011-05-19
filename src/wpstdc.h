@@ -76,6 +76,15 @@ int wp_clock_getres (clockid_t clock_id, struct timespec *res);
 int wp_clock_gettime (clockid_t clock_id, struct timespec *ts);
 int wp_clock_settime (clockid_t clock_id, struct timespec *ts);
 
+char *wp_asctime (const struct tm *tm);
+char *wp_asctime_r (const struct tm *tm, char *buf);
+char *wp_ctime (const time_t *timep);
+char *wp_ctime_r (const time_t *timep, char *buf);
+struct tm *wp_gmtime (const time_t *timep);
+struct tm *wp_gmtime_r (const time_t *timep, struct tm *result);
+struct tm *wp_localtime (const time_t *timep);
+struct tm *wp_localtime_r (const time_t *timep, struct tm *result);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

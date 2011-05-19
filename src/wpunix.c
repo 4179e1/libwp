@@ -1166,6 +1166,14 @@ int wp_stime (time_t *t)
 }
 #endif /* _SVID_SOURCE */
 
+int wp_nanosleep (const struct timespec *req, struct timespec *rem)
+{
+	int n;
+	if ((n = nanosleep (req, rem)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
 void wp_check_exit_status (int status)
 {
 	if (WIFEXITED (status))

@@ -262,6 +262,8 @@ int wp_gettimeofday (struct timeval *tv, struct timezone *tz);
 int wp_settimeofday (const struct timeval *tv, const struct timezone *tz);
 clock_t times (struct tms *buf);
 
+int wp_nanosleep (const struct timespec *req, struct timespec *rem);
+
 #ifdef _SVID_SOURCE
 int wp_stime (time_t *t);
 #endif /* _SVID_SOURCE */

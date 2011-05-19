@@ -420,3 +420,67 @@ int wp_clock_settime (clockid_t clock_id, struct timespec *ts)
 		wp_sys_func_warning ();
 	return n;
 }
+
+char *wp_asctime (const struct tm *tm)
+{
+	char *p;
+	if ((p = asctime (tm)) == NULL)
+		wp_func_warning ();
+	return p;
+}
+
+char *wp_asctime_r (const struct tm *tm, char *buf)
+{
+	char *p;
+	if ((p = asctime_r (tm, buf)) == NULL)
+		wp_func_warning ();
+	return p;
+}
+
+char *wp_ctime (const time_t *timep)
+{
+	char *p;
+	if ((p = ctime (timep)) == NULL)
+		wp_func_warning ();
+	return p;
+}
+
+char *wp_ctime_r (const time_t *timep, char *buf)
+{
+	char *p;
+	if ((p = ctime_r (timep, buf)) == NULL)
+		wp_func_warning ();
+	return p;
+}
+
+struct tm* wp_gmtime (const time_t *timep)
+{
+	struct tm *t;
+	if ((t = gmtime (timep)) == NULL)
+		wp_func_warning ();
+	return t;
+}
+
+struct tm *wp_gmtime_r (const time_t *timep, struct tm *result)
+{
+	struct tm *t;
+	if ((t= gmtime_r (timep, result)) == NULL)
+		wp_func_warning ();
+	return t;
+}
+
+struct tm *wp_localtime (const time_t *timep)
+{
+	struct tm *t;
+	if ((t = localtime (timep)) == NULL)
+		wp_func_warning ();
+	return t;
+}
+
+struct tm *wp_localtime_r (const time_t *timep, struct tm *result)
+{
+	struct tm *t;
+	if ((t = localtime_r (timep, result)) == NULL)
+		wp_func_warning ();
+	return t;
+}
