@@ -420,3 +420,51 @@ int wp_clock_settime (clockid_t clock_id, struct timespec *ts)
 		wp_sys_func_warning ();
 	return n;
 }
+
+void (*wp_signal (int signo, void (*func)(int)))(int)
+{
+	void (*f)(int) ;
+	if ((f = signal (signo, func)) == SIG_ERR)
+		wp_sys_func_warning();
+	return f;
+}
+
+int wp_timer_create (clockid_t clockid, struct sigevent *evp, timer_t *timerid)
+{
+	int n;
+	if ((n = timer_create (clockid, evp, timerid)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_timer_settime (timer_t timerid, int flags, const struct itimerspec *value, struct itimerspec *ovalue)
+{
+	int n;
+	if ((n = timer_settime (timerid, flags, value, ovalue)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_timer_gettime (timer_t timerid, struct itimerspec *value)
+{
+	int n;
+	if ((n = timer_gettime (timerid, value)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_timer_getoverrun (timer_t timerid)
+{
+	int n;
+	if ((n = timer_getoverrun (timerid)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_timer_delete (timer_t timerid)
+{
+	int n;
+	if ((n = timer_delete (timerid)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}

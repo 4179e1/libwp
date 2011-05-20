@@ -89,8 +89,6 @@ int wp_setpgid (pid_t pid, pid_t pgid);
 pid_t wp_setsid (void);
 pid_t wp_getsid (pid_t pid);
 
-void (*wp_signal (int signo, void (*func)(int)))(int);
-
 int wp_kill (pid_t pid, int signo);
 int wp_killpg (pid_t pid, int signo);
 int wp_raise (int signo);
@@ -261,6 +259,9 @@ ssize_t wp_writev (int filedes, const struct iovec *iov, int iovcnt);
 int wp_gettimeofday (struct timeval *tv, struct timezone *tz);
 int wp_settimeofday (const struct timeval *tv, const struct timezone *tz);
 clock_t times (struct tms *buf);
+
+int wp_getitimer (int which, struct itimerval *value);
+int wp_setitimer (int which, struct itimerval *value, struct itimerval *ovalue);
 
 #ifdef _SVID_SOURCE
 int wp_stime (time_t *t);

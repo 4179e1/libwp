@@ -649,14 +649,6 @@ pid_t wp_setsid (void)
 	return n;
 }
 
-void (*wp_signal (int signo, void (*func)(int)))(int)
-{
-	void (*f)(int) ;
-	if ((f = signal (signo, func)) == SIG_ERR)
-		wp_sys_func_warning();
-	return f;
-}
-
 int wp_kill (pid_t pid, int signo)
 {
 	int n;
@@ -1165,6 +1157,22 @@ int wp_stime (time_t *t)
 	return n;
 }
 #endif /* _SVID_SOURCE */
+
+int wp_getitimer (int which, struct itimerval *value)
+{
+	int n;
+	if ((n = getitimer (which, value)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
+int wp_setitimer (int which, struct itimerval *value, struct itimerval *ovalue)
+{
+	int n;
+	if ((n = setitimer (which, value, ovalue)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
 
 void wp_check_exit_status (int status)
 {
