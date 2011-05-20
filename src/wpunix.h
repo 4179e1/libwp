@@ -263,6 +263,8 @@ clock_t times (struct tms *buf);
 int wp_getitimer (int which, struct itimerval *value);
 int wp_setitimer (int which, struct itimerval *value, struct itimerval *ovalue);
 
+int wp_nanosleep (const struct timespec *req, struct timespec *rem);
+
 #ifdef _SVID_SOURCE
 int wp_stime (time_t *t);
 #endif /* _SVID_SOURCE */

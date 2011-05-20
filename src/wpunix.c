@@ -1174,6 +1174,14 @@ int wp_setitimer (int which, struct itimerval *value, struct itimerval *ovalue)
 	return n;
 }
 
+int wp_nanosleep (const struct timespec *req, struct timespec *rem)
+{
+	int n;
+	if ((n = nanosleep (req, rem)) == -1)
+		wp_sys_func_warning ();
+	return n;
+}
+
 void wp_check_exit_status (int status)
 {
 	if (WIFEXITED (status))

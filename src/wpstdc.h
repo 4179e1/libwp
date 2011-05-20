@@ -85,6 +85,15 @@ int wp_timer_gettime (timer_t timerid, struct itimerspec *value);
 int wp_timer_getoverrun (timer_t timerid);
 int wp_timer_delete (timer_t timerid);
 
+char *wp_asctime (const struct tm *tm);
+char *wp_asctime_r (const struct tm *tm, char *buf);
+char *wp_ctime (const time_t *timep);
+char *wp_ctime_r (const time_t *timep, char *buf);
+struct tm *wp_gmtime (const time_t *timep);
+struct tm *wp_gmtime_r (const time_t *timep, struct tm *result);
+struct tm *wp_localtime (const time_t *timep);
+struct tm *wp_localtime_r (const time_t *timep, struct tm *result);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
