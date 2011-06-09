@@ -4,7 +4,7 @@ SUBDIRS = src
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = libwp-@PKG_VERSION@.pc wppthread-@PKG_VERSION@.pc
 
-EXTRA_DIST = @PACKAGE@.spec.in libwp-@PKG_VERSION@.pc.in wppthread-@PKG_VERSION@.pc.in
+EXTRA_DIST = @PACKAGE@.spec.in @PACKAGE@.pc.in wppthread-@PKG_VERSION@.pc.in
 
 rpm: dist-bzip2
 	mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
