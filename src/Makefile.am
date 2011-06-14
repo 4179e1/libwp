@@ -41,7 +41,7 @@ libwp_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 
-libwp_includedir=$(includedir)/libwp-@PKG_VERSION@
+libwp_includedir=$(includedir)/@PACKAGE@
 libwp_include_HEADERS = libwp.h \
 				  wpbase.h \
 				  wppthread.h \

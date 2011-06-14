@@ -1,5 +1,5 @@
 TAR = ifconfig message
-CFLAGS = -g -Wall `pkg-config --libs --cflags libwp-0.0`
+CFLAGS = -g -Wall `pkg-config --libs --cflags libwp0`
 
 all: $(TAR)
 
