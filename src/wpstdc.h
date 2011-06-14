@@ -73,17 +73,18 @@ int wp_putenv (char *str);
 int wp_setenv (const char *name, const char *value, int rewrite);
 int wp_unsetenv (const char *name);
 
+void (*wp_signal (int signo, void (*func)(int)))(int);
+
+#if 0
 int wp_clock_getres (clockid_t clock_id, struct timespec *res);
 int wp_clock_gettime (clockid_t clock_id, struct timespec *ts);
 int wp_clock_settime (clockid_t clock_id, struct timespec *ts);
-
-void (*wp_signal (int signo, void (*func)(int)))(int);
-
 int wp_timer_create (clockid_t clockid, struct sigevent *evp, timer_t *timerid);
 int wp_timer_settime (timer_t timerid, int flags, const struct itimerspec *value, struct itimerspec *ovalue);
 int wp_timer_gettime (timer_t timerid, struct itimerspec *value);
 int wp_timer_getoverrun (timer_t timerid);
 int wp_timer_delete (timer_t timerid);
+#endif
 
 char *wp_asctime (const struct tm *tm);
 char *wp_asctime_r (const struct tm *tm, char *buf);

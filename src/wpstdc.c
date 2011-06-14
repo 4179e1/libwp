@@ -397,6 +397,15 @@ int wp_unsetenv (const char *name)
 	return n;
 }
 
+void (*wp_signal (int signo, void (*func)(int)))(int)
+{
+	void (*f)(int) ;
+	if ((f = signal (signo, func)) == SIG_ERR)
+		wp_sys_func_warning();
+	return f;
+}
+
+#if 0
 int wp_clock_getres (clockid_t clock_id, struct timespec *res)
 {
 	int n;
@@ -419,14 +428,6 @@ int wp_clock_settime (clockid_t clock_id, struct timespec *ts)
 	if ((n = clock_settime (clock_id, ts)) == -1)
 		wp_sys_func_warning ();
 	return n;
-}
-
-void (*wp_signal (int signo, void (*func)(int)))(int)
-{
-	void (*f)(int) ;
-	if ((f = signal (signo, func)) == SIG_ERR)
-		wp_sys_func_warning();
-	return f;
 }
 
 int wp_timer_create (clockid_t clockid, struct sigevent *evp, timer_t *timerid)
@@ -468,6 +469,7 @@ int wp_timer_delete (timer_t timerid)
 		wp_sys_func_warning ();
 	return n;
 }
+#endif
 
 char *wp_asctime (const struct tm *tm)
 {
