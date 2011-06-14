@@ -3,7 +3,7 @@ exec_prefix=${prefix}
 includedir=${prefix}/include
 libdir=${exec_prefix}/lib
 
-Name: wppthread-@PKG_VERSION@
+Name: @WPPTHREAD@
 Description: thread support for libwp
 Requires: @PACKAGE@
 Version: @VERSION@

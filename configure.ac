@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.50])
-AC_INIT([libwp-0],[0.1.0],[lyre@poetpalace.org])
+AC_INIT([libwp0],[0.1.0],[lyre@poetpalace.org])
 AC_CONFIG_SRCDIR([src/wpbase.c])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,8 +11,11 @@ AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE([gnu -Wall -Werror])
 LT_INIT
 
-PKG_VERSION=${PACKAGE#*-}
+PKG_VERSION="0"
 AC_SUBST(PKG_VERSION)
+
+WPPTHREAD="wppthread$PKG_VERSION"
+AC_SUBST(WPPTHREAD)
 
 RELEASE="1.1"
 AC_SUBST(RELEASE)
@@ -51,5 +54,5 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strchr strerror uname utime gethostbyaddr gethostbyname memset select])
 
-AC_CONFIG_FILES([$PACKAGE.spec $PACKAGE.pc wppthread-$PKG_VERSION.pc Makefile src/Makefile])
+AC_CONFIG_FILES([$PACKAGE.spec $PACKAGE.pc $WPPTHREAD.pc Makefile src/Makefile])
 AC_OUTPUT

@@ -16,7 +16,7 @@
 #
 # norootforbuild
 
-%define libwp_header_dir libwp-@PKG_VERSION@
+%define libwp_header_dir @PACKAGE@
 
 Name:           @PACKAGE@
 Version:        @VERSION@
