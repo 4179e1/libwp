@@ -1,0 +1,31 @@
+Source: libwp0
+Priority: extra
+Maintainer: Lyre Li <lyre@poetpalace.org>
+Build-Depends: debhelper (>= 7.0.50~), autotools-dev
+Standards-Version: 3.8.4
+Section: libs
+Homepage: http://dev.poetpalace.org/
+#Vcs-Git: git://git.debian.org/collab-maint/libwp0.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/libwp0.git;a=summary
+
+Package: libwp0-dev
+Section: libdevel
+Architecture: any
+Depends: libwp0 (= ${binary:Version}), ${misc:Depends} 
+Description: devel package of libwp version 0
+ libwp is library that warps common functions in
+ standard C, Linux system, POSIX, and BSD socket.
+ .
+ Authors:
+ Lyre <lyre@poetpalace.org>
+
+Package: libwp0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: libwp version 0
+ libwp is library that warps common functions in
+ standard C, Linux system, POSIX, and BSD socket.
+ .
+ Authors:
+ Lyre <lyre@poetpalace.org>
