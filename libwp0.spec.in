@@ -89,4 +89,4 @@ rm -rf %{buildroot}
 
 %changelog
 *Sun Nov 28 2010 Lyre <lyre@poetpalace.org> 0.1.0
-–Initial Release
+-Initial Release
