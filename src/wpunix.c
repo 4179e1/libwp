@@ -29,7 +29,7 @@ int wp_chdir (const char *pathname)
 {
 	int n;
 	if ((n = chdir (pathname)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -61,7 +61,7 @@ int wp_mkdir (const char *pathname, mode_t mode)
 {
 	int n;
 	if ((n = mkdir (pathname, mode)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -69,7 +69,7 @@ DIR *wp_opendir (const char *pathname)
 {
 	DIR *dp;
 	if ((dp = opendir (pathname)) == NULL)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return dp;
 }
 
@@ -91,7 +91,7 @@ int wp_rmdir (const char *pathname)
 {
 	int n;
 	if ((n = rmdir (pathname)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -99,7 +99,7 @@ int wp_access (const char *pathname, int mode)
 {
 	int n;
 	if ((n = access (pathname, mode)) == -1)
-		wp_sys_message ("access error");
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -107,7 +107,7 @@ int wp_chmod (const char *pathname, mode_t mode)
 {
 	int n;
 	if ((n = chmod (pathname, mode)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -115,7 +115,7 @@ int wp_chown (const char *pathname, uid_t owner, gid_t group)
 {
 	int n;
 	if ((n = chown (pathname, owner, group)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -131,7 +131,7 @@ int wp_creat (const char *pathname, mode_t mode)
 {
 	int fd;
 	if ( (fd = creat (pathname, mode)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return fd;
 }
 
@@ -235,7 +235,7 @@ int wp_lchown (const char *pathname, uid_t owner, gid_t group)
 {
 	int n;
 	if ((n = lchown (pathname, owner, group)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -251,7 +251,7 @@ int wp_lstat (const char *pathname, struct stat *buf)
 {
 	int n;
 	if ((n = lstat (pathname, buf)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -283,7 +283,7 @@ ssize_t wp_readlink (const char *pathname, char *buf, size_t bufsize)
 {
 	ssize_t n;
 	if ((n = readlink (pathname, buf, bufsize)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -291,7 +291,7 @@ int wp_stat (const char *pathname, struct stat *buf)
 {
 	int n;
 	if ((n = stat (pathname, buf)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -307,7 +307,7 @@ int wp_truncate (const char *pathname, off_t length)
 {
 	int n;
 	if ((n = truncate (pathname, length)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -315,7 +315,7 @@ int wp_unlink (const char *pathname)
 {
 	int n;
 	if ((n = unlink (pathname)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -323,7 +323,7 @@ int wp_utime (const char *pathname, const struct utimbuf *times)
 {
 	int n;
 	if ((n = utime (pathname, times)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
@@ -843,7 +843,7 @@ int wp_mkfifo (const char *pathname, mode_t mode)
 {
 	int n;
 	if ((n = mkfifo (pathname, mode)) == -1)
-		wp_sys_func_warning();
+		wp_sys_warning("%s() error for %s", __func__, pathname);
 	return n;
 }
 
