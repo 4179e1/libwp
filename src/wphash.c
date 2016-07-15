@@ -368,7 +368,7 @@ wp_hash_table_lookup_node_for_insertion (wp_hash_table_t *hash_table, const void
 	wp_hash_node_t *node;
 	unsigned int node_index;
 	unsigned int hash_value;
-	unsigned int first_tombstone;
+	unsigned int first_tombstone = 0;
 	bool have_tombstone = false;
 	unsigned int step = 0;
 

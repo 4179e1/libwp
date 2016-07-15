@@ -8,7 +8,8 @@ AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_USE_SYSTEM_EXTENSIONS
-AM_INIT_AUTOMAKE([gnu -Wall -Werror])
+# I dont' know what does no-extra-portability do, but it just work after adding it
+AM_INIT_AUTOMAKE([gnu -Wall -Werror -Wno-extra-portability])
 LT_INIT
 
 PKG_VERSION="0"
@@ -52,7 +53,7 @@ AC_FUNC_MALLOC
 AC_FUNC_MKTIME
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
-AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strchr strerror uname utime gethostbyaddr gethostbyname memset select])
+AC_CHECK_FUNCS([atexit dup2 fchdir fdatasync ftruncate getcwd gethostname getspnam gettimeofday lchown mkdir mkfifo munmap pathconf putenv rmdir setenv socket strchr strerror uname utime gethostbyaddr gethostbyname memset select epoll])
 
 AC_CONFIG_FILES([$PACKAGE.spec $PACKAGE.pc $WPPTHREAD.pc Makefile src/Makefile])
 AC_OUTPUT
