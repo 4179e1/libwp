@@ -97,6 +97,7 @@ static ssize_t wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n)
 {
 	int cnt;
 
+	/* the buffer is empty */
 	while (rp->wp_rio_cnt <= 0)
 	{
 		rp->wp_rio_cnt = wp_read (rp->wp_rio_fd, rp->wp_rio_buf, sizeof (rp->wp_rio_buf));
@@ -117,9 +118,7 @@ static ssize_t wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n)
 		}
 	}
 
-	cnt = n;
-	if (rp->wp_rio_cnt < n)
-		cnt = rp->wp_rio_cnt;
+	cnt = rp->wp_rio_cnt < n ? rp->wp_rio_cnt : n;
 
 	memcpy (usrbuf, rp->wp_rio_bufptr, cnt);
 	rp->wp_rio_bufptr += cnt;

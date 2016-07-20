@@ -295,7 +295,7 @@ ssize_t _wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen);
 ssize_t _wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n);
 ssize_t _wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
 #define _wp_rio_readline _wp_rio_readlineb
-#define _wp_rio_readnb _wp_rio_readnb
+#define _wp_rio_readn _wp_rio_readnb
 
 ssize_t wp_readn (int fd, void *ptr, size_t n);
 ssize_t wp_writen (int fd, void *ptr, size_t n);
@@ -307,7 +307,7 @@ ssize_t wp_rio_readlineb (wp_rio_t *rp, void *usrbuf, size_t maxlen);
 ssize_t wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n);
 ssize_t wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
 #define wp_rio_readline wp_rio_readlineb
-#define wp_rio_readnb wp_rio_readnb
+#define wp_rio_readn wp_rio_readnb
 
 int wp_rio_getfd (wp_rio_t *rp);
 
