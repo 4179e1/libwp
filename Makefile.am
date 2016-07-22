@@ -3,7 +3,6 @@ SUBDIRS = src
 
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = @PACKAGE@.pc @WPPTHREAD@.pc
-
 EXTRA_DIST = @PACKAGE@.spec.in @PACKAGE@.pc.in @WPPTHREAD@.pc.in
 
 rpm: dist-bzip2
@@ -15,4 +14,4 @@ rpm: dist-bzip2
 	mv `find ~/rpmbuild/ -name "@PACKAGE@-*@VERSION@-@RELEASE@.*.rpm"` .
 
 clean-local:
-	rm -rf *.rpm @PACKAGE@.spec @PACKAGE@.pc @WPPTHREAD@.pc
+	rm -rf *.rpm *.bz2 @PACKAGE@.spec @PACKAGE@.pc @WPPTHREAD@.pc 

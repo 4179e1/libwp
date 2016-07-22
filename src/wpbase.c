@@ -208,7 +208,7 @@ static void error_do (FILE *output, bool errnoflag, int level, const char *fmt, 
 
 	if (level <= wp_exit_level)
 	{
-		strncat (buf, " <will exit now>", WP_BUF_SIZE - strlen (buf));
+		strncat (buf, " <will exit>", WP_BUF_SIZE - strlen (buf));
 	}
 
 	if (wp_syslog_status) 

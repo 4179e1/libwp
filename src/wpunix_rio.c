@@ -28,15 +28,8 @@ ssize_t _wp_readn (int fd, void *ptr, size_t n)
 	{
 		if ((nread = read (fd, ptr, nleft)) < 0)
 		{
-			if (errno == EINTR)
-			{
-				nread = 0;
-			}
-			else
-			{
-				wp_sys_func_warning ();
-				return -1;
-			}
+			wp_sys_func_warning ();
+			return nread;
 		}
 		else if (nread == 0)
 		{
@@ -58,14 +51,7 @@ ssize_t _wp_writen (int fd, void *ptr, size_t n)
 	{
 		if ((nwritten = write (fd, ptr, nleft)) < 0)
 		{
-			if (errno == EINTR)
-			{
-				nwritten = 0;
-			}
-			else
-			{
-				return -1;
-			}
+			return nwritten;
 		}
 		nleft -= nwritten;
 		ptr += nwritten;
@@ -103,10 +89,7 @@ static ssize_t wp_rio_read (wp_rio_t *rp, char *usrbuf, size_t n)
 		rp->wp_rio_cnt = wp_read (rp->wp_rio_fd, rp->wp_rio_buf, sizeof (rp->wp_rio_buf));
 		if (rp->wp_rio_cnt < 0)
 		{
-			if (errno != EINTR)
-			{
-				return -1;
-			}
+			return rp->wp_rio_cnt;
 		}
 		else if (rp->wp_rio_cnt == 0)
 		{
@@ -166,10 +149,7 @@ ssize_t _wp_rio_readnb (wp_rio_t *rp, void *usrbuf, size_t n)
 	{
 		if ((nread = wp_rio_read (rp, bufp, nleft)) < 0)
 		{
-			if (errno == EINTR)
-				nread = 0;
-			else
-				return -1;
+			return nread;
 		}
 		else if (nread == 0)
 			break;
