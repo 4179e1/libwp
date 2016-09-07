@@ -299,6 +299,7 @@ ssize_t _wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
 
 ssize_t wp_readn (int fd, void *ptr, size_t n);
 ssize_t wp_writen (int fd, void *ptr, size_t n);
+ssize_t wp_readline(int fd, void *vptr, size_t maxlen);
 
 wp_rio_t *wp_rio_new (int fd);
 void wp_rio_free (wp_rio_t* rp);
@@ -310,6 +311,8 @@ ssize_t wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
 #define wp_rio_readn wp_rio_readnb
 
 int wp_rio_getfd (wp_rio_t *rp);
+
+
 
 #ifdef __cplusplus
 }
