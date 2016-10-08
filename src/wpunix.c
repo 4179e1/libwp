@@ -29,7 +29,7 @@ int wp_chdir (const char *pathname)
 {
 	int n;
 	if ((n = chdir (pathname)) == -1)
-		wp_sys_warning("%s() error for %s", __func__, pathname);
+		wp_sys_path_warning(pathname);
 	return n;
 }
 
@@ -267,7 +267,7 @@ int wp_open (const char *pathname, int oflag, mode_t mode)
 {
 	int fd;
 	if ((fd = open (pathname, oflag, mode)) == -1)
-		wp_sys_func_warning();
+		wp_sys_path_warning (pathname);
 	return fd;
 }
 

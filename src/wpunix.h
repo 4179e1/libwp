@@ -312,8 +312,6 @@ ssize_t wp_rio_writen (wp_rio_t *rp, void *ptr, size_t n);
 
 int wp_rio_getfd (wp_rio_t *rp);
 
-
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

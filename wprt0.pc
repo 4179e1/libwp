@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: wprt0
+Description: thread support for libwp
+Requires: libwp0
+Version: 1.0.0
+Cflags: -I${includedir}/libwp0 -pthread
+Libs: -L${libdir} -lwprt -lrt

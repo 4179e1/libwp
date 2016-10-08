@@ -78,6 +78,7 @@ void wp_sys_critical_full (FILE *of, const char *fmt, ...);
 #define wp_sys_critical(MSG, ...)	wp_sys_critical_full(NULL, (MSG), ##__VA_ARGS__)
 
 #define wp_sys_func_warning() wp_sys_warning("%s() error", __func__)
+#define wp_sys_path_warning(PATH) wp_sys_warning("%s() error for %s", __func__, PATH)
 
 void wp_syslog_on (void);
 void wp_syslog_off (void);

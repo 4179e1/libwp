@@ -4,7 +4,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 libwpdir = ${libdir}
 libwp_LTLIBRARIES = libwp.la \
-				  libwppthread.la
+				  libwppthread.la \
+				  libwprt.la 
 
 libwp_la_SOURCES = wpbase.c \
 				   wpsocket.c \
@@ -40,11 +41,14 @@ libwp_la_SOURCES = wpbase.c \
 libwp_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 libwppthread_la_SOURCES = wppthread.c wppthread.h
 libwppthread_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
+libwprt_la_SOURCES = wprt.c wprt.h
+libwprt_la_LDFLAGS = -version-info `echo $(VERSION) | tr . :`
 
 libwp_includedir=$(includedir)/@PACKAGE@
 libwp_include_HEADERS = libwp.h \
 				  wpbase.h \
 				  wppthread.h \
+				  wprt.h \
 				  wpsocket.h \
 				  wpstdc.h \
 				  wpunix.h \
