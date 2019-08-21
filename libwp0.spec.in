@@ -52,7 +52,8 @@ Requires:		@PACKAGE@ = @VERSION@
 %description devel
 libwp is library that warps common functions in standard C, Linux system, POSIX, and BSD socket
 
-%debug_package %{nil}
+#%debug_package %{nil}
+%define debug_package %{nil}
 
 %post -p /sbin/ldconfig
 
